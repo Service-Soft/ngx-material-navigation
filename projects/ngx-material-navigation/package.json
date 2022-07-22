@@ -1,6 +1,7 @@
 {
     "name": "ngx-material-navigation",
     "version": "0.0.1",
+    "license": "MIT",
     "peerDependencies": {
         "@angular/animations": "~13.3.0",
         "@angular/cdk": "^13.3.9",
