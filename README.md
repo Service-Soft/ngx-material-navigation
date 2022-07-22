@@ -1,27 +1,119 @@
 # NgxMaterialNavigation
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
+Builds material navigation elements like a combined navbar and sidenav or footers based on the supplied configuration data. Will automatically move elements from the navbar to the sidenav at the provided breakpoints.
 
-## Development server
+Supports nested menus and brings functionality which allow you to extract angular routes from an Configuration if you want to define the routes directly there.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Table of Contents
+- [NgxMaterialNavigation](#ngxmaterialnavigation)
+- [Table of Contents](#table-of-contents)
+- [Requirements](#requirements)
+- [Basic Usage](#basic-usage)
+  - [Define your configuration:](#define-your-configuration)
+  - [Extract the angular routes](#extract-the-angular-routes)
+  - [Use the elements](#use-the-elements)
 
-## Code scaffolding
+# Requirements
+This package relies on the [angular material library](https://material.angular.io/guide/getting-started) to render its components.
+<br>
+It also uses [bootstrap](https://getbootstrap.com/) for responsive design.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Basic Usage
+## Define your configuration:
+```typescript
+import { NavbarRow } from 'ngx-material-navigation';
 
-## Build
+/**
+ * The configuration consists of multiple NavbarRows.
+ * This is needed if you want to have a toolbar with multiple rows.
+ * 
+ * In most cases you probably only define one NavbarRow in this array.
+*/
+export const navbarRows: NavbarRow[] = [
+    {
+        elements: [
+            {
+                type: 'imageWithInternalLink',
+                url: 'https://www.my-great-website.de/my-great-picture.png',
+                link: {
+                    route: 'home',
+                },
+                collapse: 'never'
+            },
+            {
+                type: 'titleWithInternalLink',
+                title: 'Showcase Project',
+                link: {
+                    route: 'home'
+                },
+                collapse: 'sm'
+            },
+            {
+                type: 'internalLink',
+                name: 'Home',
+                route: { // This can also just be a string.
+                    path: 'home',
+                    loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
+                },
+                collapse: 'md'
+            },
+            {
+                type: 'menu',
+                name: 'Menu',
+                elements: [
+                    {
+                        type: 'internalLink',
+                        name: 'menu item #1',
+                        route: 'menu-item/1'
+                    },
+                    {
+                        type: 'internalLink',
+                        name: 'menu item #2',
+                        route: 'menu-item/2'
+                    }
+                ],
+                position: 'center',
+                collapse: 'md'
+            },
+            {
+                type: 'button',
+                name: 'Reload the page',
+                action: () => location.reload(),
+                position: 'right',
+                collapse: 'sm'
+            }
+        ]
+    }
+];
+```
+## Extract the angular routes
+> :warning: Optional:
+> <br>
+> You only need this if you want to define your angular routes inside the NavbarRows.
+```typescript
+/**
+ * Define any additional routes that are not defined in the NavbarRows.
+*/
+export const additionalRoutes: Routes = [
+    {
+        path: 'menu-item/:number',
+        loadChildren: () => import('./components/showcase-inputs/showcase-inputs.module').then(m => m.ShowcaseInputsModule)
+    }
+]
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+// Extract the angular routes from the given configuration. This can be used in the app.routing.module.ts
+export const routes: Routes = NavUtilities.getAngularRoutes(navbarRows, additionalRoutes);
+```
+## Use the elements
+In app.component.html:
+```html
+<ngx-mat-navigation-navbar [minHeight]="70" [minSidenavWidth]="'30%'" [minHeightOtherElements]="70" [navbarRows]="navbarRows">
+    <!-- The content of your app needs to be put inside the navbar -->
+    <router-outlet></router-outlet>
+</ngx-mat-navigation-navbar>
 
-## Running unit tests
+<app-footer [minHeight]="70"></app-footer>
+```
+Please note that all of your content needs to be put inside the navbar. This is needed to put it inside the mat-sidenav-content.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The minHeight and minHeightOtherElements is needed internally to set the min-height of the content accordingly.

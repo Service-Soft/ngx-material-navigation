@@ -1,0 +1,103 @@
+{
+    "root": true,
+    "extends": "eslint-config-service-soft",
+    "overrides": [
+        {
+            "files": [
+                "*.ts"
+            ],
+            "excludedFiles": [
+                "*.test.ts",
+                "*.module.ts",
+                "*.component.ts",
+                "*.service.ts"
+            ],
+            "parserOptions": {
+                "project": [
+                    "tsconfig.json"
+                ],
+                "createDefaultProgram": true
+            },
+            "rules": {
+                "@angular-eslint/component-selector": [
+                    "warn",
+                    {
+                        "style": "kebab-case",
+                        "type": "element",
+                        "prefix": "ngx-mat-navigation"
+                    }
+                ]
+            }
+        },
+        {
+            "files": [
+                "*.module.ts",
+                "*.component.ts",
+                "*.service.ts"
+            ],
+            "parserOptions": {
+                "project": [
+                    "tsconfig.json"
+                ],
+                "createDefaultProgram": true
+            },
+            "rules": {
+                "@angular-eslint/component-selector": [
+                    "warn",
+                    {
+                        "style": "kebab-case",
+                        "type": "element",
+                        "prefix": "ngx-mat-navigation"
+                    }
+                ],
+                "jsdoc/require-jsdoc": [
+                    "warn",
+                    {
+                        "contexts": [
+                            "ClassDeclaration[decorators.0.expression.callee.name!='NgModule']",
+                            "TSPropertySignature",
+                            "PropertyDefinition[accessibility!='private'][decorators.0.expression.callee.name='Input']",
+                            "MethodDefinition[accessibility!='private'][key.name!='constructor'][key.name!='ngOnChanges'][key.name!='ngOnInit'][key.name!='ngDoCheck'][key.name!='ngAfterContentInit'][key.name!='ngAfterContentChecked'][key.name!='ngAfterViewInit'][key.name!='ngAfterViewChecked'][key.name!='ngOnDestroy']",
+                            "FunctionDeclaration",
+                            "TSInterfaceDeclaration",
+                            "TSEnumDeclaration",
+                            "TSTypeAliasDeclaration",
+                            "TSDeclareFunction"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "files": [
+                "*.test.ts"
+            ],
+            "parserOptions": {
+                "project": [
+                    "tsconfig.json"
+                ],
+                "createDefaultProgram": true
+            },
+            "rules": {
+                "@angular-eslint/component-selector": [
+                    "warn",
+                    {
+                        "style": "kebab-case",
+                        "type": "element",
+                        "prefix": "ngx-mat-navigation"
+                    }
+                ],
+                "jsdoc/require-jsdoc": "off"
+            }
+        },
+        {
+            "files": [
+                "*.html"
+            ],
+            "rules": {
+                // TODO enable and fix code
+                "@angular-eslint/template/cyclomatic-complexity": "off"
+            }
+        }
+    ]
+}
