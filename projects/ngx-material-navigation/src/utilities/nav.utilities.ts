@@ -6,16 +6,13 @@ import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from '..
 import { NavElement } from '../models/nav.model';
 import { NavExternalLink, NavInternalLink } from '../models/nav-link.model';
 import { NavbarRow } from '../models/navbar.model';
+import { FooterRow, NavFooterElement, NavTextElement } from '../models/footer.model';
+import { NavHtml } from '../models/nav-html.model';
 
 /**
  * Contains HelperMethods around handling Navigation.
  */
 export abstract class NavUtilities {
-
-    // eslint-disable-next-line jsdoc/require-jsdoc
-    static asTitle(element: NavElement): NavTitle {
-        return element as NavTitle;
-    }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
     static asAngularRoute(route: Route | string): Route {
@@ -28,48 +25,63 @@ export abstract class NavUtilities {
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asInternalLink(element: NavElement | NavMenuElement): NavInternalLink {
+    static asTitle(element: NavElement | NavMenuElement | NavFooterElement): NavTitle {
+        return element as NavTitle;
+    }
+
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    static asText(element: NavElement | NavMenuElement | NavFooterElement): NavTextElement {
+        return element as NavTextElement;
+    }
+
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    static asInternalLink(element: NavElement | NavMenuElement | NavFooterElement): NavInternalLink {
         return element as NavInternalLink;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asExternalLink(element: NavElement | NavMenuElement): NavExternalLink {
+    static asExternalLink(element: NavElement | NavMenuElement | NavFooterElement): NavExternalLink {
         return element as NavExternalLink;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asMenu(element: NavElement | NavMenuElement): NavMenu {
+    static asMenu(element: NavElement | NavMenuElement | NavFooterElement): NavMenu {
         return element as NavMenu;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asButton(element: NavElement): NavButton {
+    static asButton(element: NavElement | NavMenuElement | NavFooterElement): NavButton {
         return element as NavButton;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asImage(element: NavElement): NavImage {
+    static asImage(element: NavElement | NavMenuElement | NavFooterElement): NavImage {
         return element as NavImage;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asImageWithInternalLink(element: NavElement): NavImageWithInternalLink {
+    static asImageWithInternalLink(element: NavElement | NavMenuElement | NavFooterElement): NavImageWithInternalLink {
         return element as NavImageWithInternalLink;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asImageWithExternalLink(element: NavElement): NavImageWithExternalLink {
+    static asImageWithExternalLink(element: NavElement | NavMenuElement | NavFooterElement): NavImageWithExternalLink {
         return element as NavImageWithExternalLink;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asTitleWithInternalLink(element: NavElement): NavTitleWithInternalLink {
+    static asTitleWithInternalLink(element: NavElement | NavMenuElement | NavFooterElement): NavTitleWithInternalLink {
         return element as NavTitleWithInternalLink;
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asTitleWithExternalLink(element: NavElement): NavTitleWithExternalLink {
+    static asTitleWithExternalLink(element: NavElement | NavMenuElement | NavFooterElement): NavTitleWithExternalLink {
         return element as NavTitleWithExternalLink;
+    }
+
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    static asHtml(element: NavElement | NavMenuElement | NavFooterElement): NavHtml {
+        return element as NavHtml;
     }
 
     /**
@@ -125,6 +137,19 @@ export abstract class NavUtilities {
     }
 
     /**
+     * Checks if the provided element is a NavHtml.
+     *
+     * @param value - The element to check.
+     * @returns Whether or not the given element is a NavHtml.
+     */
+    static isNavHtml(value: NavElement | NavFooterElement): value is NavHtml {
+        if ((value as NavHtml).html) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Gets the angular routes.
      * Extracts them from the navbarRows and adds any additional routes provided in additionalRoutes.
      *
@@ -168,25 +193,39 @@ export abstract class NavUtilities {
     }
 
     /**
+     * Gets the rows that are really displayed in the navbar and not collapsed to the sidenav.
+     *
+     * @param navbarRows - All navbar rows, including the ones collapsed to the sidenav.
+     * @param screenWidthName - The current width of the screen.
+     * @returns All rows that are displayed inside the navbar.
+     */
+    static getNavbarRows(navbarRows: NavbarRow[], screenWidthName: 'lg' | 'md' | 'sm'): NavbarRow[] {
+        const emptyRows: NavbarRow[] = navbarRows.filter(r =>
+            !NavUtilities.getNavbarElementsForRow('left', screenWidthName, r).length
+            && !NavUtilities.getNavbarElementsForRow('center', screenWidthName, r).length
+            && !NavUtilities.getNavbarElementsForRow('right', screenWidthName, r).length
+        );
+        return navbarRows.filter(r => !emptyRows.includes(r));
+    }
+
+    /**
      * Get all elements at the provided position with the provided screenWidth from the given elements.
      *
      * @param position - The position for which to get the elements.
      * @param screenWidth - The current screen width. Is needed to hide elements that are already collapsed into the sidenav.
-     * @param rows - The rows to get the elements from.
+     * @param row - The row to get the elements from.
      * @returns All Elements for the provided input.
      */
-    static getNavbarElements(
+    static getNavbarElementsForRow(
         position: 'left' | 'center' | 'right',
         screenWidth: 'lg' | 'md' | 'sm',
-        rows?: NavbarRow[]
+        row?: NavbarRow
     ): NavElement[] {
-        if (!rows || !rows.length) {
+        if (!row) {
             return [];
         }
         let res: NavElement[] = [];
-        for (const row of rows ) {
-            res = res.concat(row.elements);
-        }
+        res = res.concat(row.elements);
 
         if (position === 'left') {
             res = res.filter(e => !e.position || e.position === position);
@@ -227,5 +266,28 @@ export abstract class NavUtilities {
             case 'sm':
                 return res.filter(e => e.collapse === 'always' || e.collapse === 'lg' || e.collapse === 'md' || e.collapse === 'sm');
         }
+    }
+
+    /**
+     * Get all elements at the provided position from the given elements.
+     *
+     * @param position - The position for which to get the elements.
+     * @param row - The row to get the elements from.
+     * @returns All Elements for the provided input.
+     */
+    static getFooterElementsForRow(position: 'left' | 'center' | 'right', row?: FooterRow): NavFooterElement[] {
+        if (!row) {
+            return [];
+        }
+        let res: NavFooterElement[] = [];
+        res = res.concat(row.elements);
+
+        if (position === 'left') {
+            res = res.filter(e => !e.position || e.position === position);
+        }
+        else {
+            res = res.filter(e => e.position === position);
+        }
+        return res;
     }
 }

@@ -1,7 +1,9 @@
 /*
  * Public API Surface of ngx-material-navigation
  */
+export * from './models/footer.model';
 export * from './models/nav-button.model';
+export * from './models/nav-html.model';
 export * from './models/nav-image.model';
 export * from './models/nav-link.model';
 export * from './models/nav-menu.model';

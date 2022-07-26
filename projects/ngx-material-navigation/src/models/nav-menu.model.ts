@@ -3,6 +3,7 @@ import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from './
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
 import { NavButton } from './nav-button.model';
 import { NavInternalLink, NavExternalLink } from './nav-link.model';
+import { NavHtml } from './nav-html.model';
 
 /**
  * One of the NavElements for the menu.
@@ -11,7 +12,8 @@ import { NavInternalLink, NavExternalLink } from './nav-link.model';
 export type NavMenuElement =
     Omit<NavTitle, 'collapse'> | Omit<NavTitleWithInternalLink, 'collapse'> | Omit<NavTitleWithExternalLink, 'collapse'> |
     Omit<NavImage, 'collapse'> | Omit<NavImageWithExternalLink, 'collapse'> | Omit<NavImageWithInternalLink, 'collapse'> |
-    Omit<NavButton, 'collapse'> | Omit<NavInternalLink, 'collapse'> | Omit<NavExternalLink, 'collapse'> | Omit<NavMenu, 'collapse'>;
+    Omit<NavButton, 'collapse'> | Omit<NavInternalLink, 'collapse'> | Omit<NavExternalLink, 'collapse'> | Omit<NavMenu, 'collapse'> |
+    Omit<NavHtml, 'collapse'>;
 
 /**
  * An Menu used to display multiple elements under a single element.

@@ -26,8 +26,11 @@
                     {{NavUtilities.asExternalLink(element).name}}
                 </a>
             </span>
+            <!-- Custom HTML -->
+            <span *ngSwitchCase="'html'" [innerHtml]="getSanitizedHtmlFor(element)">
+            </span>
             <!-- Nested Menu -->
-            <button #nestedMenuButton id="menu-button" *ngSwitchCase="'menu'" mat-menu-item [matMenuTriggerFor]="internalMenu.menu">
+            <button #nestedMenuButton *ngSwitchCase="'menu'" mat-menu-item [matMenuTriggerFor]="internalMenu.menu">
                 <i *ngIf="NavUtilities.asMenu(element).icon" [class]="NavUtilities.asMenu(element).icon"></i>
                 {{NavUtilities.asMenu(element).name}}
             </button>

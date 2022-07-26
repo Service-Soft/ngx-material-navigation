@@ -1,20 +1,19 @@
 import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { NavElement } from '../../../models/nav.model';
 import { NavUtilities } from '../../../utilities/nav.utilities';
-import { MatSidenav } from '@angular/material/sidenav';
 import { MatButton } from '@angular/material/button';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { NavFooterElement } from '../../../models/footer.model';
 import * as DOMPurify from 'dompurify';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 /**
  * Displays a single Navigation Element.
  */
 @Component({
-    selector: 'ngx-mat-navigation-element',
-    templateUrl: './nav-element.component.html',
-    styleUrls: ['./nav-element.component.scss']
+    selector: 'ngx-mat-navigation-footer-element',
+    templateUrl: './footer-element.component.html',
+    styleUrls: ['./footer-element.component.scss']
 })
-export class NavElementComponent implements AfterContentChecked, OnInit {
+export class FooterElementComponent implements AfterContentChecked, OnInit {
 
     NavUtilities = NavUtilities;
 
@@ -22,22 +21,9 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
      * The element to display.
      */
     @Input()
-    element!: NavElement;
+    element!: NavFooterElement;
 
     sanitizedHtml?: SafeHtml;
-
-    /**
-     * A reference to the sidenav. Is needed for the menu to close the sidenav.
-     */
-    @Input()
-    sidenav?: MatSidenav;
-
-    /**
-     * Whether or not this element should be displayed inside the sidenav.
-     * Used to apply different styling.
-     */
-    @Input()
-    sidenavElement?: boolean;
 
     @ViewChild('menuButton')
     menuButton!: MatButton;

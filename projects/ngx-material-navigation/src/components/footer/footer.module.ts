@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from './footer.component';
+import { NgxMatNavigationFooterComponent } from './footer.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { FooterElementModule } from './footer-element/footer-element.module';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        MatToolbarModule,
+        FooterElementModule
     ],
-    declarations: [FooterComponent],
-    exports: [FooterComponent]
+    declarations: [NgxMatNavigationFooterComponent],
+    exports: [NgxMatNavigationFooterComponent]
 })
 export class NgxMatNavigationFooterModule { }

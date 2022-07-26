@@ -44,7 +44,8 @@ export const navbarRows: NavbarRow[] = [
                         }
                     },
                 ],
-                collapse: 'md'
+                collapse: 'md',
+                position: 'center'
             },
             {
                 type: 'button',
@@ -53,6 +54,15 @@ export const navbarRows: NavbarRow[] = [
                 action: () => location.reload(),
                 position: 'right',
                 collapse: 'sm'
+            }
+        ]
+    },
+    {
+        elements: [
+            {
+                type: 'html',
+                html: '<h1 class="sanitizedClass">Test</h1>',
+                collapse: 'md'
             }
         ]
     }

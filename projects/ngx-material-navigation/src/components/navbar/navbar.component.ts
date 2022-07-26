@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NavElement } from '../../models/nav.model';
@@ -15,7 +15,7 @@ import { NavUtilities } from '../../utilities/nav.utilities';
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChecked {
 
     NavUtilities = NavUtilities;
 
@@ -29,13 +29,13 @@ export class NavbarComponent implements OnInit {
      * The minimum height of the navbar.
      */
     @Input()
-    minHeight!: number;
+    minHeight?: number;
 
     /**
      * The minimum height of all other elements that are on the same level as the navbar component.
      */
     @Input()
-    minHeightOtherElements!: number;
+    minHeightOtherElements?: number;
 
     /**
      * The minimum width of the sidenav.
@@ -45,6 +45,9 @@ export class NavbarComponent implements OnInit {
 
     @ViewChild('sidenav')
     sidenav!: MatSidenav;
+
+    @ViewChild('navbar', { read: ElementRef })
+    navbar!: ElementRef<HTMLElement>;
 
     sidenavElements: NavElement[] = [];
 
@@ -61,30 +64,49 @@ export class NavbarComponent implements OnInit {
     screenWidth!: number;
     screenWidthName!: 'lg' | 'md' | 'sm';
 
-    constructor(public sanitizer: DomSanitizer) {}
+    constructor(private readonly sanitizer: DomSanitizer) {}
 
     ngOnInit(): void {
+        this.screenWidth = window.innerWidth;
+        this.screenWidthName = this.getCurrentScreenWidth();
+        this.sidenavElements = NavUtilities.getSidenavElements(this.screenWidthName, this.navbarRows);
+    }
+
+    ngAfterContentChecked(): void {
+        this.updateHeights();
+    }
+
+    private updateHeights(): void {
         if (
-            !this.minHeight || typeof this.minHeight !== 'number'
-            || !this.minHeightOtherElements || typeof this.minHeightOtherElements !== 'number'
+            (this.minHeight && typeof this.minHeight !== 'number')
+            || (this.minHeightOtherElements && typeof this.minHeightOtherElements !== 'number')
         ) {
             throw new Error('Incorrect input data');
         }
-        else {
-            this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
-                `calc(100vh - ${this.minHeight + this.minHeightOtherElements}px)`
-            );
-            this.screenWidth = window.innerWidth;
-            this.screenWidthName = this.getCurrentScreenWidth();
-            this.sidenavElements = NavUtilities.getSidenavElements(this.screenWidthName, this.navbarRows);
+        else if (this.navbar) {
+            if (!this.minHeight || this.navbar.nativeElement.offsetHeight > this.minHeight) {
+                this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
+                    // eslint-disable-next-line max-len
+                    `calc(100vh - ${this.navbar.nativeElement.offsetHeight + (this.minHeightOtherElements ? this.minHeightOtherElements : 0)}px)`
+                );
+            }
+            else {
+                this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
+                    // eslint-disable-next-line max-len
+                    `calc(100vh - ${(this.minHeight ? this.minHeight : 0) + (this.minHeightOtherElements ? this.minHeightOtherElements : 0)}px)`
+                );
+            }
         }
     }
 
     /**
      * Updates the current screen width and filters the sidenav elements accordingly.
+     *
+     * @throws When no height data is provided or the data is invalid.
      */
     @HostListener('window:resize', ['$event'])
     onResize(): void {
+        this.updateHeights();
         this.screenWidth = window.innerWidth;
         this.screenWidthName = this.getCurrentScreenWidth();
         this.sidenavElements = NavUtilities.getSidenavElements(this.screenWidthName, this.navbarRows);
@@ -103,6 +125,7 @@ export class NavbarComponent implements OnInit {
             case 'image':
             case 'title':
             case 'menu':
+            case 'html':
                 return;
             default:
                 this.sidenav.close();

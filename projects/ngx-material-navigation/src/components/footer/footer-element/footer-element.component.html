@@ -1,30 +1,28 @@
 <span [ngSwitch]="element.type">
     <!-- Title -->
-    <h1 mat-menu-item disabled *ngSwitchCase="'title'" [class.sidenavElement]="sidenavElement">
+    <b *ngSwitchCase="'title'">
         <i *ngIf="NavUtilities.asTitle(element).icon" [class]="NavUtilities.asTitle(element).icon"></i>
         {{NavUtilities.asTitle(element).title}}
-    </h1>
+    </b>
     <!-- Title with internal link -->
-    <a id="title-link" disableRipple mat-menu-item *ngSwitchCase="'titleWithInternalLink'"
-        [routerLink]="      
+    <a id="title-link" *ngSwitchCase="'titleWithInternalLink'"
+        [routerLink]="
             NavUtilities.asAngularRoute(NavUtilities.asTitleWithInternalLink(element).link.route).path !== undefined
             ? NavUtilities.asAngularRoute(NavUtilities.asTitleWithInternalLink(element).link.route).path
             : NavUtilities.asStringRoute(NavUtilities.asTitleWithInternalLink(element).link.route)"
         [target]="NavUtilities.asTitleWithInternalLink(element).link.openInNewTab ? '_blank' : '_self'"
         [rel]="NavUtilities.asTitleWithInternalLink(element).link.openInNewTab ? 'noreferrer noopener' : undefined"
-        [class.sidenavElement]="sidenavElement"
     >
-        <h1>
+        <b>
             <i *ngIf="NavUtilities.asTitle(element).icon" [class]="NavUtilities.asTitle(element).icon"></i>
             {{NavUtilities.asTitle(element).title}}
-        </h1>
+        </b>
     </a>
     <!-- Title with external link -->
-    <a class="title-link" disableRipple mat-menu-item *ngSwitchCase="'titleWithExternalLink'"
+    <a class="title-link" *ngSwitchCase="'titleWithExternalLink'"
         [href]="NavUtilities.asTitleWithExternalLink(element).link.url"
         [target]="NavUtilities.asTitleWithExternalLink(element).link.openInNewTab ? '_blank' : '_self'"
         [rel]="NavUtilities.asTitleWithExternalLink(element).link.openInNewTab ? 'noreferrer noopener' : undefined"
-        [class.sidenavElement]="sidenavElement"
     >
         <h1>
             <i *ngIf="NavUtilities.asTitle(element).icon" [class]="NavUtilities.asTitle(element).icon"></i>
@@ -32,28 +30,25 @@
         </h1>
     </a>
     <!-- Image -->
-    <img mat-menu-item disabled *ngSwitchCase="'image'"
-        [class.sidenavElement]="sidenavElement"
+    <img mat-menu-item *ngSwitchCase="'image'"
         [src]="NavUtilities.asImage(element).url"
     >
     <!-- Image with internal link -->
-    <a id="image-link" disableRipple mat-menu-item *ngSwitchCase="'imageWithInternalLink'"
+    <a mat-menu-item disabled id="image-link" *ngSwitchCase="'imageWithInternalLink'"
         [routerLink]="
             NavUtilities.asAngularRoute(NavUtilities.asImageWithInternalLink(element).link.route).path !== undefined
             ? NavUtilities.asAngularRoute(NavUtilities.asImageWithInternalLink(element).link.route).path
             : NavUtilities.asStringRoute(NavUtilities.asImageWithInternalLink(element).link.route)"
         [target]="NavUtilities.asImageWithInternalLink(element).link.openInNewTab ? '_blank' : '_self'"
         [rel]="NavUtilities.asImageWithInternalLink(element).link.openInNewTab ? 'noreferrer noopener' : undefined"
-        [class.sidenavElement]="sidenavElement"
     >
         <img [src]="NavUtilities.asImageWithInternalLink(element).url">
     </a>
     <!-- Image with external link -->
-    <a id="image-link" disableRipple mat-menu-item *ngSwitchCase="'imageWithExternalLink'"
+    <a mat-menu-item disabled id="image-link" *ngSwitchCase="'imageWithExternalLink'"
         [href]="NavUtilities.asImageWithExternalLink(element).link.url"
         [target]="NavUtilities.asImageWithExternalLink(element).link.openInNewTab ? '_blank' : '_self'"
         [rel]="NavUtilities.asImageWithExternalLink(element).link.openInNewTab ? 'noreferrer noopener' : undefined"
-        [class.sidenavElement]="sidenavElement"
     >
         <img [src]="NavUtilities.asImageWithExternalLink(element).url">
     </a>
@@ -61,7 +56,6 @@
     <button *ngSwitchCase="'button'"
         mat-raised-button
         (click)="NavUtilities.asButton(element).action()"
-        [class.sidenavElementButton]="sidenavElement"
     >
         <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
         {{NavUtilities.asButton(element).name}}
@@ -74,7 +68,6 @@
             : NavUtilities.asStringRoute(NavUtilities.asInternalLink(element).route)"
         [target]="NavUtilities.asInternalLink(element).openInNewTab ? '_blank' : '_self'"
         [rel]="NavUtilities.asInternalLink(element).openInNewTab ? 'noreferrer noopener' : undefined"
-        [class.sidenavElement]="sidenavElement"
     >
         <i *ngIf="NavUtilities.asInternalLink(element).icon" [class]="NavUtilities.asInternalLink(element).icon"></i> 
         {{NavUtilities.asInternalLink(element).name}}
@@ -85,24 +78,23 @@
             [href]="NavUtilities.asExternalLink(element).url"
             [target]="NavUtilities.asExternalLink(element).openInNewTab ? '_blank' : '_self'"
             [rel]="NavUtilities.asExternalLink(element).openInNewTab ? 'noreferrer noopener' : undefined"
-            [class.sidenavElement]="sidenavElement"
         >
             <i *ngIf="NavUtilities.asExternalLink(element).icon" [class]="NavUtilities.asExternalLink(element).icon"></i>
             {{NavUtilities.asExternalLink(element).name}}
         </a>
     </span>
+    <!-- Text -->
+    <span *ngSwitchCase="'text'">
+        {{NavUtilities.asText(element).text}}
+    </span>
     <!-- Custom HTML -->
     <span *ngSwitchCase="'html'" [innerHtml]="sanitizedHtml">
     </span>
     <!-- Menu -->
-    <button #menuButton *ngSwitchCase="'menu'" mat-button [matMenuTriggerFor]="menu.menu" [class.sidenavElement]="sidenavElement">
+    <button #menuButton *ngSwitchCase="'menu'" mat-button [matMenuTriggerFor]="menu.menu">
         <i *ngIf="NavUtilities.asMenu(element).icon" [class]="NavUtilities.asMenu(element).icon"></i>
         {{NavUtilities.asMenu(element).name}}
     </button>
-    <ngx-mat-navigation-menu #menu
-        [navMenu]="NavUtilities.asMenu(element)"
-        [sidenav]="sidenav"
-        [menuWidth]="menuWidth">
+    <ngx-mat-navigation-menu #menu [navMenu]="NavUtilities.asMenu(element)" [menuWidth]="menuWidth">
     </ngx-mat-navigation-menu>
-    
 </span>

@@ -1,9 +1,11 @@
 import { AfterContentChecked, Component, HostListener, Input, ViewChild } from '@angular/core';
 import { MatMenu } from '@angular/material/menu';
-import { NavMenu, NavMenuElement } from "../../../models/nav-menu.model";
+import { NavMenu, NavMenuElement } from '../../../models/nav-menu.model';
 import { NavUtilities } from '../../../utilities/nav.utilities';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatButton } from '@angular/material/button';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import * as DOMPurify from 'dompurify';
 
 /**
  * Displays a menu based on the provided NavMenu data.
@@ -43,6 +45,8 @@ export class NavMenuComponent implements AfterContentChecked {
 
     nestedMenuWidth!: number;
 
+    constructor(private readonly sanitizer: DomSanitizer) {}
+
     ngAfterContentChecked(): void {
         if (this.nestedMenuButton) {
             this.nestedMenuWidth = this.getMenuWidth();
@@ -64,6 +68,22 @@ export class NavMenuComponent implements AfterContentChecked {
     }
 
     /**
+     * Gets the sanitized HTML for the given element.
+     *
+     * @param element - The NavHtml element.
+     * @returns The safe html.
+     * @throws When the given element is not html.
+     */
+    getSanitizedHtmlFor(element: NavMenuElement): SafeHtml {
+        if (NavUtilities.isNavHtml(element)) {
+            return this.sanitizer.bypassSecurityTrustHtml(DOMPurify.sanitize(NavUtilities.asHtml(element).html));
+        }
+        else {
+            throw new Error('The passed HTML is not valid.');
+        }
+    }
+
+    /**
      * Defines if the sidenav should be closed when the given element is clicked.
      *
      * @param element - The element that has been clicked.
@@ -74,6 +94,7 @@ export class NavMenuComponent implements AfterContentChecked {
                 case 'image':
                 case 'title':
                 case 'menu':
+                case 'html':
                     return;
                 default:
                     this.sidenav.close();

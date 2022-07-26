@@ -1,4 +1,5 @@
 import { NavButton } from './nav-button.model';
+import { NavHtml } from './nav-html.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
 import { NavInternalLink, NavExternalLink } from './nav-link.model';
 import { NavMenu } from './nav-menu.model';
@@ -11,7 +12,7 @@ export abstract class BaseNavElement {
      */
     type!: 'title' | 'titleWithInternalLink' | 'titleWithExternalLink' |
         'image' | 'imageWithInternalLink' | 'imageWithExternalLink' |
-        'internalLink' | 'button' | 'externalLink' | 'menu';
+        'internalLink' | 'button' | 'externalLink' | 'menu' | 'html';
     /**
      * The position of the element.
      */
@@ -28,4 +29,4 @@ export abstract class BaseNavElement {
 export type NavElement =
     NavTitle | NavTitleWithInternalLink | NavTitleWithExternalLink
     | NavImage | NavImageWithExternalLink | NavImageWithInternalLink
-    | NavButton | NavInternalLink | NavExternalLink | NavMenu;
+    | NavButton | NavInternalLink | NavExternalLink | NavMenu | NavHtml;

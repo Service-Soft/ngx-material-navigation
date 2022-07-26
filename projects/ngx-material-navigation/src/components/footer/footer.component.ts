@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { FooterRow } from '../../models/footer.model';
+import { NavUtilities } from '../../utilities/nav.utilities';
 
 /**
  * Displays a footer based on the provided input data.
@@ -8,7 +10,9 @@ import { Component, Input } from '@angular/core';
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent {
+export class NgxMatNavigationFooterComponent {
+
+    NavUtilities = NavUtilities;
 
     /**
      * The minimum height of the footer.
@@ -16,5 +20,9 @@ export class FooterComponent {
     @Input()
     minHeight!: number;
 
-    constructor() { }
+    /**
+     * The footer rows to build the footer from.
+     */
+    @Input()
+    footerRows!: FooterRow[];
 }
