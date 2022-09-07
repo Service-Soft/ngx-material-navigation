@@ -12,7 +12,7 @@ export abstract class BaseNavElement {
      */
     type!: 'title' | 'titleWithInternalLink' | 'titleWithExternalLink' |
         'image' | 'imageWithInternalLink' | 'imageWithExternalLink' |
-        'internalLink' | 'button' | 'externalLink' | 'menu' | 'html';
+        'internalLink' | 'button' | 'buttonFlat' | 'externalLink' | 'menu' | 'html';
     /**
      * The position of the element.
      */

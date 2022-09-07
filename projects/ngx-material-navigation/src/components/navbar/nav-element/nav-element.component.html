@@ -66,6 +66,11 @@
         <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
         {{NavUtilities.asButton(element).name}}
     </button>
+    <!-- Flat Button -->
+    <button *ngSwitchCase="'buttonFlat'" mat-button (click)="NavUtilities.asButton(element).action()">
+        <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
+        {{NavUtilities.asButton(element).name}}
+    </button>
     <!-- Internal Link -->
     <a mat-button *ngSwitchCase="'internalLink'"
         [routerLink]="

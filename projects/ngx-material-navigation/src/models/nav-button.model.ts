@@ -5,7 +5,7 @@ import { NavLink } from './nav-link.model';
  */
 export interface NavButton extends NavLink {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'button',
+    type: 'button' | 'buttonFlat',
     /**
      * What to do when the button is clicked.
      */

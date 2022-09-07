@@ -52,7 +52,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
     sidenavElements: NavElement[] = [];
 
     burgerMenu: NavElement = {
-        type: 'button',
+        type: 'buttonFlat',
         name: '',
         icon: 'fas fa-bars',
         action: () => this.sidenav.toggle(),
