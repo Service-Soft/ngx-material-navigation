@@ -26,6 +26,16 @@
                     {{NavUtilities.asExternalLink(element).name}}
                 </a>
             </span>
+            <!-- Button -->
+            <button *ngSwitchCase="'button'" class="sidenavElementButton" mat-raised-button (click)="NavUtilities.asButton(element).action()">
+                <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
+                {{NavUtilities.asButton(element).name}}
+            </button>
+            <!-- Flat Button -->
+            <button *ngSwitchCase="'buttonFlat'" class="sidenavElementButton" mat-button (click)="NavUtilities.asButton(element).action()">
+                <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
+                {{NavUtilities.asButton(element).name}}
+            </button>
             <!-- Custom HTML -->
             <span *ngSwitchCase="'html'" [innerHtml]="getSanitizedHtmlFor(element)">
             </span>

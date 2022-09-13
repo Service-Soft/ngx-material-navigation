@@ -67,7 +67,7 @@
         {{NavUtilities.asButton(element).name}}
     </button>
     <!-- Flat Button -->
-    <button *ngSwitchCase="'buttonFlat'" mat-button (click)="NavUtilities.asButton(element).action()">
+    <button *ngSwitchCase="'buttonFlat'" mat-button (click)="NavUtilities.asButton(element).action()" [class.sidenavElementButton]="sidenavElement">
         <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
         {{NavUtilities.asButton(element).name}}
     </button>

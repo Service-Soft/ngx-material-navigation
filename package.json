@@ -2,6 +2,7 @@
     "name": "ngx-material-navigation",
     "version": "0.0.0",
     "scripts": {
+        "start": "npm run stack",
         "stack": "run-s clear:dist stack:only",
         "showcase": "ng serve ngx-material-navigation-showcase",
         "stack:only": "concurrently --kill-others 'npm run build:watch' 'run-s waitOn:build showcase'",
@@ -51,6 +52,7 @@
         "@types/node": "^12.11.1",
         "@typescript-eslint/eslint-plugin": "5.27.1",
         "@typescript-eslint/parser": "5.27.1",
+        "@types/dompurify": "^2.3.3",
         "concurrently": "^7.2.2",
         "eslint": "^8.17.0",
         "eslint-config-service-soft": "^1.0.2",
