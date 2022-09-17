@@ -5,7 +5,7 @@ import { NavUtilities } from '../../../utilities/nav.utilities';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatButton } from '@angular/material/button';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as DOMPurify from 'dompurify';
+import { PurifyUtilities } from '../../../utilities/purify.utilities';
 
 /**
  * Displays a menu based on the provided NavMenu data.
@@ -41,7 +41,7 @@ export class NavMenuComponent implements AfterContentChecked {
     NavUtilities = NavUtilities;
 
     @ViewChild('nestedMenuButton')
-    nestedMenuButton!: MatButton;
+    nestedMenuButton?: MatButton;
 
     nestedMenuWidth!: number;
 
@@ -64,7 +64,7 @@ export class NavMenuComponent implements AfterContentChecked {
     }
 
     private getMenuWidth(): number {
-        return (this.nestedMenuButton._elementRef.nativeElement as HTMLElement).offsetWidth;
+        return (this.nestedMenuButton?._elementRef.nativeElement as HTMLElement).offsetWidth;
     }
 
     /**
@@ -76,7 +76,7 @@ export class NavMenuComponent implements AfterContentChecked {
      */
     getSanitizedHtmlFor(element: NavMenuElement): SafeHtml {
         if (NavUtilities.isNavHtml(element)) {
-            return this.sanitizer.bypassSecurityTrustHtml(DOMPurify.sanitize(NavUtilities.asHtml(element).html));
+            return this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(NavUtilities.asHtml(element).html));
         }
         else {
             throw new Error('The passed HTML is not valid.');
@@ -97,7 +97,7 @@ export class NavMenuComponent implements AfterContentChecked {
                 case 'html':
                     return;
                 default:
-                    this.sidenav.close();
+                    void this.sidenav.close();
                     return;
             }
         }

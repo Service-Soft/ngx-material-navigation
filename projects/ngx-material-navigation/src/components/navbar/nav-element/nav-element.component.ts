@@ -1,10 +1,10 @@
 import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { NavElement } from '../../../models/nav.model';
 import { NavUtilities } from '../../../utilities/nav.utilities';
+import { PurifyUtilities } from '../../../utilities/purify.utilities';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatButton } from '@angular/material/button';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as DOMPurify from 'dompurify';
 
 /**
  * Displays a single Navigation Element.
@@ -40,7 +40,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     sidenavElement?: boolean;
 
     @ViewChild('menuButton')
-    menuButton!: MatButton;
+    menuButton?: MatButton;
 
     menuWidth!: number;
 
@@ -48,7 +48,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
 
     ngOnInit(): void {
         if (NavUtilities.isNavHtml(this.element)) {
-            this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(DOMPurify.sanitize(NavUtilities.asHtml(this.element).html));
+            this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(NavUtilities.asHtml(this.element).html));
         }
     }
 
@@ -69,6 +69,6 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     }
 
     private getMenuWidth(): number {
-        return (this.menuButton._elementRef.nativeElement as HTMLElement).offsetWidth;
+        return (this.menuButton?._elementRef.nativeElement as HTMLElement).offsetWidth;
     }
 }

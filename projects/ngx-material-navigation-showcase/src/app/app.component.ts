@@ -13,7 +13,7 @@ export class AppComponent implements AfterContentChecked {
     footerRows = footerRows;
 
     @ViewChild('footer', { read: ElementRef })
-    footer!: ElementRef<HTMLElement>;
+    footer?: ElementRef<HTMLElement>;
 
     footerHeight!: number;
 
