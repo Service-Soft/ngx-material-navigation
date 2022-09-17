@@ -21,6 +21,10 @@ export abstract class BaseNavElement {
      * At which breakpoint the element should be moved inside the sidenav.
      */
     collapse?: 'lg' | 'md' | 'sm' | 'never' | 'always';
+    /**
+     * A condition that must be met for the element to be displayed.
+     */
+    condition?: () => boolean;
 }
 
 /**

@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { FooterRow } from '../../models/footer.model';
-import { NavUtilities } from '../../utilities/nav.utilities';
+import { NgxMatNavigationService } from '../../services/nav.service';
 
 /**
  * Displays a footer based on the provided input data.
@@ -10,9 +11,8 @@ import { NavUtilities } from '../../utilities/nav.utilities';
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.scss']
 })
-export class NgxMatNavigationFooterComponent {
-
-    NavUtilities = NavUtilities;
+export class NgxMatNavigationFooterComponent implements OnInit, OnDestroy {
+    private readonly onDestroy: Subject<void> = new Subject();
 
     /**
      * The minimum height of the footer.
@@ -25,4 +25,20 @@ export class NgxMatNavigationFooterComponent {
      */
     @Input()
     footerRows!: FooterRow[];
+
+    internalFooterRows: FooterRow[] = [];
+
+    constructor(public navService: NgxMatNavigationService) { }
+
+    ngOnInit(): void {
+        this.navService.footerRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(footerRows => {
+            this.internalFooterRows = footerRows;
+        });
+        this.navService.footerRowsSubject.next(this.footerRows);
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy.next(undefined);
+        this.onDestroy.complete();
+    }
 }

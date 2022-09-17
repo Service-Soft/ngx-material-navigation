@@ -76,7 +76,7 @@ export class NavMenuComponent implements AfterContentChecked {
      */
     getSanitizedHtmlFor(element: NavMenuElement): SafeHtml {
         if (NavUtilities.isNavHtml(element)) {
-            return this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(NavUtilities.asHtml(element).html));
+            return this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(element.html));
         }
         else {
             throw new Error('The passed HTML is not valid.');

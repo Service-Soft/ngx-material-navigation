@@ -6,7 +6,7 @@ import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from '..
 import { NavElement } from '../models/nav.model';
 import { NavExternalLink, NavInternalLink } from '../models/nav-link.model';
 import { NavbarRow } from '../models/navbar.model';
-import { FooterRow, NavFooterElement, NavTextElement } from '../models/footer.model';
+import { NavFooterElement, NavTextElement } from '../models/footer.model';
 import { NavHtml } from '../models/nav-html.model';
 
 /**
@@ -80,73 +80,23 @@ export abstract class NavUtilities {
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static asHtml(element: NavElement | NavMenuElement | NavFooterElement): NavHtml {
-        return element as NavHtml;
-    }
-
-    /**
-     * Checks if the provided element is a NavInternalLink.
-     *
-     * @param element - The element to check.
-     * @returns Whether or not the given element is a NavInternalLink.
-     */
     static isInternalLink(element: NavElement): element is NavInternalLink {
-        if (Object.keys(element).includes('route')) {
-            return true;
-        }
-        return false;
+        return Object.keys(element).includes('route');
     }
 
-    /**
-     * Checks if the provided element is a NavMenu.
-     *
-     * @param element - The element to check.
-     * @returns Whether or not the given element is a NavMenu.
-     */
+    // eslint-disable-next-line jsdoc/require-jsdoc
     static isMenu(element: NavElement): element is NavMenu {
-        if (Object.keys(element).includes('elements')) {
-            return true;
-        }
-        return false;
+        return Object.keys(element).includes('elements');
     }
 
-    /**
-     * Checks if the provided value is an angular route.
-     *
-     * @param route - The value to check.
-     * @returns Whether or not the given value is an angular route.
-     */
+    // eslint-disable-next-line jsdoc/require-jsdoc
     static isAngularRoute(route: Route | string): route is Route {
-        if ((route as Route).path) {
-            return true;
-        }
-        return false;
+        return Object.keys(route).includes('path');
     }
 
-    /**
-     * Checks if the provided element is a NavElement.
-     *
-     * @param value - The element to check.
-     * @returns Whether or not the given element is a NavElement.
-     */
-    static isNavElement(value: NavElement | NavbarRow): value is NavElement {
-        if ((value as NavElement).type) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Checks if the provided element is a NavHtml.
-     *
-     * @param value - The element to check.
-     * @returns Whether or not the given element is a NavHtml.
-     */
+    // eslint-disable-next-line jsdoc/require-jsdoc
     static isNavHtml(value: NavElement | NavFooterElement): value is NavHtml {
-        if ((value as NavHtml).html) {
-            return true;
-        }
-        return false;
+        return Object.keys(value).includes('html');
     }
 
     /**
@@ -188,105 +138,6 @@ export abstract class NavUtilities {
         const menus: NavMenu[] = elements.filter(e => NavUtilities.isMenu(e)) as NavMenu[];
         for (const menu of menus) {
             res = res.concat(NavUtilities.getRoutesFromElements(menu.elements as NavElement[]));
-        }
-        return res;
-    }
-
-    /**
-     * Gets the rows that are really displayed in the navbar and not collapsed to the sidenav.
-     *
-     * @param navbarRows - All navbar rows, including the ones collapsed to the sidenav.
-     * @param screenWidthName - The current width of the screen.
-     * @returns All rows that are displayed inside the navbar.
-     */
-    static getNavbarRows(navbarRows: NavbarRow[], screenWidthName: 'lg' | 'md' | 'sm'): NavbarRow[] {
-        const emptyRows: NavbarRow[] = navbarRows.filter(r =>
-            !NavUtilities.getNavbarElementsForRow('left', screenWidthName, r).length
-            && !NavUtilities.getNavbarElementsForRow('center', screenWidthName, r).length
-            && !NavUtilities.getNavbarElementsForRow('right', screenWidthName, r).length
-        );
-        return navbarRows.filter(r => !emptyRows.includes(r));
-    }
-
-    /**
-     * Get all elements at the provided position with the provided screenWidth from the given elements.
-     *
-     * @param position - The position for which to get the elements.
-     * @param screenWidth - The current screen width. Is needed to hide elements that are already collapsed into the sidenav.
-     * @param row - The row to get the elements from.
-     * @returns All Elements for the provided input.
-     */
-    static getNavbarElementsForRow(
-        position: 'left' | 'center' | 'right',
-        screenWidth: 'lg' | 'md' | 'sm',
-        row?: NavbarRow
-    ): NavElement[] {
-        if (!row) {
-            return [];
-        }
-        let res: NavElement[] = [];
-        res = res.concat(row.elements);
-
-        if (position === 'left') {
-            res = res.filter(e => !e.position || e.position === position);
-        }
-        else {
-            res = res.filter(e => e.position === position);
-        }
-        switch (screenWidth) {
-            case 'lg':
-                return res.filter(e => e.collapse !== 'always' && e.collapse !== 'lg');
-            case 'md':
-                return res.filter(e => e.collapse !== 'always' && e.collapse !== 'lg' && e.collapse !== 'md');
-            case 'sm':
-                return res.filter(e => e.collapse === 'never');
-        }
-    }
-
-    /**
-     * Gets all the elements to display in the sidenav.
-     *
-     * @param screenWidth - The current screen width.
-     * @param rows - The rows to get the elements from.
-     * @returns The NavElements to display in the sidenav.
-     */
-    static getSidenavElements(screenWidth: 'lg' | 'md' | 'sm', rows?: NavbarRow[]): NavElement[] {
-        if (!rows || !rows.length) {
-            return [];
-        }
-        let res: NavElement[] = [];
-        for (const row of rows) {
-            res = res.concat(row.elements);
-        }
-        switch (screenWidth) {
-            case 'lg':
-                return res.filter(e => e.collapse === 'always' || e.collapse === 'lg');
-            case 'md':
-                return res.filter(e => e.collapse === 'always' || e.collapse === 'lg' || e.collapse === 'md');
-            case 'sm':
-                return res.filter(e => e.collapse === 'always' || e.collapse === 'lg' || e.collapse === 'md' || e.collapse === 'sm');
-        }
-    }
-
-    /**
-     * Get all elements at the provided position from the given elements.
-     *
-     * @param position - The position for which to get the elements.
-     * @param row - The row to get the elements from.
-     * @returns All Elements for the provided input.
-     */
-    static getFooterElementsForRow(position: 'left' | 'center' | 'right', row?: FooterRow): NavFooterElement[] {
-        if (!row) {
-            return [];
-        }
-        let res: NavFooterElement[] = [];
-        res = res.concat(row.elements);
-
-        if (position === 'left') {
-            res = res.filter(e => !e.position || e.position === position);
-        }
-        else {
-            res = res.filter(e => e.position === position);
         }
         return res;
     }

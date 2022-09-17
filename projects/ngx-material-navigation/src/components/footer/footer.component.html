@@ -1,18 +1,18 @@
 <footer [style.minHeight.px]="minHeight">
     <div class="container">
-        <div class="footer-row row gy-2" *ngFor="let row of footerRows">
+        <div class="footer-row row gy-2" *ngFor="let row of internalFooterRows">
             <div class="col-md-4 col-sm-6">
-                <div *ngFor="let element of NavUtilities.getFooterElementsForRow('left', row)">
+                <div *ngFor="let element of navService.getFooterElementsForRow('left', row)">
                     <ngx-mat-navigation-footer-element [element]="element"></ngx-mat-navigation-footer-element>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
-                <div *ngFor="let element of NavUtilities.getFooterElementsForRow('center', row)">
+                <div *ngFor="let element of navService.getFooterElementsForRow('center', row)">
                     <ngx-mat-navigation-footer-element [element]="element"></ngx-mat-navigation-footer-element>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
-                <div *ngFor="let element of NavUtilities.getFooterElementsForRow('right', row)">
+                <div *ngFor="let element of navService.getFooterElementsForRow('right', row)">
                     <ngx-mat-navigation-footer-element [element]="element"></ngx-mat-navigation-footer-element>
                 </div>
             </div>

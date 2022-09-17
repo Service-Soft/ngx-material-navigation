@@ -1,4 +1,7 @@
-import { Routes } from '@angular/router';
+/* eslint-disable no-console */
+/* eslint-disable jsdoc/require-jsdoc */
+import { inject } from '@angular/core';
+import { Router, Routes } from '@angular/router';
 import { NavbarRow, NavUtilities } from 'ngx-material-navigation';
 
 export const navbarRows: NavbarRow[] = [
@@ -10,7 +13,8 @@ export const navbarRows: NavbarRow[] = [
                 link: {
                     route: 'home',
                 },
-                collapse: 'never'
+                collapse: 'never',
+                condition: conditionWithInjection
             },
             {
                 type: 'titleWithInternalLink',
@@ -69,3 +73,9 @@ export const navbarRows: NavbarRow[] = [
 ];
 
 export const routes: Routes = NavUtilities.getAngularRoutes(navbarRows);
+
+function conditionWithInjection(): boolean {
+    const router = inject(Router);
+    console.log(router.url);
+    return true;
+}

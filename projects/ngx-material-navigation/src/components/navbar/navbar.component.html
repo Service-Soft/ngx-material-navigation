@@ -1,20 +1,20 @@
-<mat-toolbar #navbar *ngIf="NavUtilities.getNavbarRows(navbarRows, screenWidthName).length>1" class="mat-elevation-z8" [style.min-height.px]="minHeight">
-    <mat-toolbar-row *ngFor="let row of NavUtilities.getNavbarRows(navbarRows, screenWidthName)">
+<mat-toolbar #navbar *ngIf="navService.getNavbarRows(navbarRows, screenWidthName).length>1" class="mat-elevation-z8" [style.min-height.px]="minHeight">
+    <mat-toolbar-row *ngFor="let row of navService.getNavbarRows(navbarRows, screenWidthName)">
         <div class="container">
             <span class="toolbar-row">
-                <span *ngFor="let element of NavUtilities.getNavbarElementsForRow('left', screenWidthName, row)">
+                <span *ngFor="let element of navService.getNavbarElementsForRow('left', screenWidthName, row)">
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 </span>
                 <span class="center">
-                    <span *ngFor="let element of NavUtilities.getNavbarElementsForRow('center', screenWidthName, row)">
+                    <span *ngFor="let element of navService.getNavbarElementsForRow('center', screenWidthName, row)">
                         <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                     </span>
                 </span>
                 <span class="right">
-                    <span *ngFor="let element of NavUtilities.getNavbarElementsForRow('right', screenWidthName, row)">
+                    <span *ngFor="let element of navService.getNavbarElementsForRow('right', screenWidthName, row)">
                         <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                     </span>
-                    <span *ngIf="sidenavElements.length && (navbarRows.indexOf(row) === 0)" style="margin-left: 10px;">
+                    <span *ngIf="internalSidenavElements.length && (navbarRows.indexOf(row) === 0)" style="margin-left: 10px;">
                         <ngx-mat-navigation-element [element]="burgerMenu"></ngx-mat-navigation-element>
                     </span>
                 </span>
@@ -23,22 +23,22 @@
     </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-toolbar #navbar *ngIf="!(NavUtilities.getNavbarRows(navbarRows, screenWidthName).length>1)" class="mat-elevation-z8" [style.min-height.px]="minHeight">
+<mat-toolbar #navbar *ngIf="!(navService.getNavbarRows(navbarRows, screenWidthName).length>1)" class="mat-elevation-z8" [style.min-height.px]="minHeight">
     <div class="container">
         <span class="toolbar-row">
-            <span *ngFor="let element of NavUtilities.getNavbarElementsForRow('left', screenWidthName, navbarRows[0])">
+            <span *ngFor="let element of navService.getNavbarElementsForRow('left', screenWidthName, navbarRows[0])">
                 <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
             </span>
             <span class="center">
-                <span *ngFor="let element of NavUtilities.getNavbarElementsForRow('center', screenWidthName, navbarRows[0])">
+                <span *ngFor="let element of navService.getNavbarElementsForRow('center', screenWidthName, navbarRows[0])">
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 </span>
             </span>
             <span class="right">
-                <span *ngFor="let element of NavUtilities.getNavbarElementsForRow('right', screenWidthName, navbarRows[0])">
+                <span *ngFor="let element of navService.getNavbarElementsForRow('right', screenWidthName, navbarRows[0])">
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 </span>
-                <span *ngIf="sidenavElements.length" style="margin-left: 10px;">
+                <span *ngIf="internalSidenavElements.length" style="margin-left: 10px;">
                     <ngx-mat-navigation-element [element]="burgerMenu"></ngx-mat-navigation-element>
                 </span>
             </span>
@@ -49,7 +49,7 @@
 <mat-sidenav-container style="background-color: transparent; padding-top: 40px;"
     [style.min-height]="sanitizedMinHeight">
     <mat-sidenav #sidenav position="end" style="padding: 20px;" [style.min-width]="minSidenavWidth" [autoFocus]="false">
-        <p *ngFor="let element of sidenavElements">
+        <p *ngFor="let element of internalSidenavElements">
             <ngx-mat-navigation-element (click)="clickSidenavElement(element)" style="display: inline-block; width: 100%;" [sidenav]="sidenav" [sidenavElement]="true" [element]="element"></ngx-mat-navigation-element>
         </p>
     </mat-sidenav>

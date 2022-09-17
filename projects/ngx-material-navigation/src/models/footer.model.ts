@@ -13,6 +13,10 @@ export interface NavTextElement {
      */
     position?: 'left' | 'center' | 'right',
     /**
+     * A condition that must be met for the element to be displayed.
+     */
+    condition?: () => boolean,
+    /**
      * The text content to display.
      */
     text: string
