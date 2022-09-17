@@ -1,9 +1,10 @@
-import { AfterContentChecked, Component, ElementRef, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { Subject, takeUntil } from 'rxjs';
 import { NavElement } from '../../models/nav.model';
 import { NavbarRow } from '../../models/navbar.model';
-import { NavUtilities } from '../../utilities/nav.utilities';
+import { NgxMatNavigationService } from '../../services/nav.service';
 
 /**
  * The navbar component.
@@ -15,9 +16,8 @@ import { NavUtilities } from '../../utilities/nav.utilities';
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss']
 })
-export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChecked {
-
-    NavUtilities = NavUtilities;
+export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, AfterContentChecked {
+    private readonly onDestroy: Subject<void> = new Subject();
 
     /**
      * The navbar rows to build the navbar from.
@@ -44,32 +44,43 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
     minSidenavWidth?: string;
 
     @ViewChild('sidenav')
-    sidenav!: MatSidenav;
+    sidenav?: MatSidenav;
 
     @ViewChild('navbar', { read: ElementRef })
     navbar?: ElementRef<HTMLElement>;
-
-    sidenavElements: NavElement[] = [];
 
     burgerMenu: NavElement = {
         type: 'buttonFlat',
         name: '',
         icon: 'fas fa-bars',
-        action: () => this.sidenav.toggle(),
+        action: () => this.sidenav?.toggle(),
         collapse: 'never'
     };
 
     sanitizedMinHeight!: SafeStyle;
 
-    screenWidth!: number;
-    screenWidthName!: 'lg' | 'md' | 'sm';
+    screenWidthName: 'lg' | 'md' | 'sm' = this.getCurrentScreenWidthName();
 
-    constructor(private readonly sanitizer: DomSanitizer) {}
+    internalNavbarRows: NavbarRow[] = [];
+
+    internalSidenavElements: NavElement[] = [];
+
+    constructor(private readonly sanitizer: DomSanitizer, public navService: NgxMatNavigationService) {}
 
     ngOnInit(): void {
-        this.screenWidth = window.innerWidth;
-        this.screenWidthName = this.getCurrentScreenWidth();
-        this.sidenavElements = NavUtilities.getSidenavElements(this.screenWidthName, this.navbarRows);
+        this.navService.navbarRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(navbarRows => {
+            this.internalNavbarRows = navbarRows;
+            this.internalSidenavElements = this.navService.getSidenavElements(navbarRows, this.screenWidthName);
+            if (!this.internalSidenavElements.length && this.sidenav && this.sidenav.opened) {
+                void this.sidenav.close();
+            }
+        });
+        this.navService.navbarRowsSubject.next(this.navbarRows);
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy.next(undefined);
+        this.onDestroy.complete();
     }
 
     ngAfterContentChecked(): void {
@@ -107,11 +118,19 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
     @HostListener('window:resize', ['$event'])
     onResize(): void {
         this.updateHeights();
-        this.screenWidth = window.innerWidth;
-        this.screenWidthName = this.getCurrentScreenWidth();
-        this.sidenavElements = NavUtilities.getSidenavElements(this.screenWidthName, this.navbarRows);
-        if (!this.sidenavElements.length && this.sidenav.opened) {
-            void this.sidenav.close();
+        this.screenWidthName = this.getCurrentScreenWidthName();
+        this.navService.navbarRowsSubject.next(this.navService.navbarRowsSubject.value);
+    }
+
+    private getCurrentScreenWidthName(): 'lg' | 'md' | 'sm' {
+        if (window.innerWidth < 768) {
+            return 'sm';
+        }
+        else if (window.innerWidth < 992) {
+            return 'md';
+        }
+        else {
+            return 'lg';
         }
     }
 
@@ -128,19 +147,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
             case 'html':
                 return;
             default:
-                void this.sidenav.close();
-        }
-    }
-
-    private getCurrentScreenWidth(): 'lg' | 'md' | 'sm' {
-        if (this.screenWidth < 768) {
-            return 'sm';
-        }
-        else if (this.screenWidth < 992) {
-            return 'md';
-        }
-        else {
-            return 'lg';
+                void this.sidenav?.close();
         }
     }
 }

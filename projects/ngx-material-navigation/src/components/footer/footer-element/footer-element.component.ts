@@ -34,7 +34,7 @@ export class FooterElementComponent implements AfterContentChecked, OnInit {
 
     ngOnInit(): void {
         if (NavUtilities.isNavHtml(this.element)) {
-            this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(NavUtilities.asHtml(this.element).html));
+            this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(this.element.html));
         }
     }
 
