@@ -20,7 +20,7 @@ export abstract class BaseNavElement {
     /**
      * At which breakpoint the element should be moved inside the sidenav.
      */
-    collapse!: 'lg' | 'md' | 'sm' | 'never' | 'always';
+    collapse?: 'lg' | 'md' | 'sm' | 'never' | 'always';
 }
 
 /**

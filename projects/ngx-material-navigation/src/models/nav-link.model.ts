@@ -41,4 +41,4 @@ export interface NavExternalLink extends NavLink {
      * The url of the link.
      */
     url: string
-};
+}

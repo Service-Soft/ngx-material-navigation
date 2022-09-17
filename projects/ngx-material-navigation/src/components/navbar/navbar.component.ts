@@ -47,7 +47,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
     sidenav!: MatSidenav;
 
     @ViewChild('navbar', { read: ElementRef })
-    navbar!: ElementRef<HTMLElement>;
+    navbar?: ElementRef<HTMLElement>;
 
     sidenavElements: NavElement[] = [];
 
@@ -77,13 +77,13 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
     }
 
     private updateHeights(): void {
-        if (
-            (this.minHeight && typeof this.minHeight !== 'number')
-            || (this.minHeightOtherElements && typeof this.minHeightOtherElements !== 'number')
-        ) {
+        if (this.minHeight && typeof this.minHeight !== 'number') {
             throw new Error('Incorrect input data');
         }
-        else if (this.navbar) {
+        if (this.minHeightOtherElements && typeof this.minHeightOtherElements !== 'number') {
+            throw new Error('Incorrect input data');
+        }
+        if (this.navbar) {
             if (!this.minHeight || this.navbar.nativeElement.offsetHeight > this.minHeight) {
                 this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
                     // eslint-disable-next-line max-len
@@ -111,7 +111,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
         this.screenWidthName = this.getCurrentScreenWidth();
         this.sidenavElements = NavUtilities.getSidenavElements(this.screenWidthName, this.navbarRows);
         if (!this.sidenavElements.length && this.sidenav.opened) {
-            this.sidenav.close();
+            void this.sidenav.close();
         }
     }
 
@@ -128,7 +128,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, AfterContentChec
             case 'html':
                 return;
             default:
-                this.sidenav.close();
+                void this.sidenav.close();
         }
     }
 

@@ -2,8 +2,8 @@ import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild 
 import { NavUtilities } from '../../../utilities/nav.utilities';
 import { MatButton } from '@angular/material/button';
 import { NavFooterElement } from '../../../models/footer.model';
-import * as DOMPurify from 'dompurify';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { PurifyUtilities } from '../../../utilities/purify.utilities';
 
 /**
  * Displays a single Navigation Element.
@@ -26,7 +26,7 @@ export class FooterElementComponent implements AfterContentChecked, OnInit {
     sanitizedHtml?: SafeHtml;
 
     @ViewChild('menuButton')
-    menuButton!: MatButton;
+    menuButton?: MatButton;
 
     menuWidth!: number;
 
@@ -34,7 +34,7 @@ export class FooterElementComponent implements AfterContentChecked, OnInit {
 
     ngOnInit(): void {
         if (NavUtilities.isNavHtml(this.element)) {
-            this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(DOMPurify.sanitize(NavUtilities.asHtml(this.element).html));
+            this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(NavUtilities.asHtml(this.element).html));
         }
     }
 
@@ -55,6 +55,6 @@ export class FooterElementComponent implements AfterContentChecked, OnInit {
     }
 
     private getMenuWidth(): number {
-        return (this.menuButton._elementRef.nativeElement as HTMLElement).offsetWidth;
+        return (this.menuButton?._elementRef.nativeElement as HTMLElement).offsetWidth;
     }
 }

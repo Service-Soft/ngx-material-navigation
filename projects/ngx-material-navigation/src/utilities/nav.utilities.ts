@@ -91,7 +91,7 @@ export abstract class NavUtilities {
      * @returns Whether or not the given element is a NavInternalLink.
      */
     static isInternalLink(element: NavElement): element is NavInternalLink {
-        if ((element as NavInternalLink).route) {
+        if (Object.keys(element).includes('route')) {
             return true;
         }
         return false;
@@ -104,7 +104,7 @@ export abstract class NavUtilities {
      * @returns Whether or not the given element is a NavMenu.
      */
     static isMenu(element: NavElement): element is NavMenu {
-        if ((element as NavMenu).elements) {
+        if (Object.keys(element).includes('elements')) {
             return true;
         }
         return false;
@@ -176,7 +176,7 @@ export abstract class NavUtilities {
         let res: Routes = [];
         for (const row of navbarRows) {
             res = res.concat(NavUtilities.getRoutesFromElements(row.elements));
-        };
+        }
         return res;
     }
 
@@ -239,7 +239,7 @@ export abstract class NavUtilities {
             case 'md':
                 return res.filter(e => e.collapse !== 'always' && e.collapse !== 'lg' && e.collapse !== 'md');
             case 'sm':
-                return res.filter(e => e.collapse !== 'always' && e.collapse !== 'lg' && e.collapse !== 'md' && e.collapse !== 'sm');
+                return res.filter(e => e.collapse === 'never');
         }
     }
 
