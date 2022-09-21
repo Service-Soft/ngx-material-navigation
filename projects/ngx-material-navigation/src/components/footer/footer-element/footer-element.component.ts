@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, EnvironmentInjector, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { NavUtilities } from '../../../utilities/nav.utilities';
 import { MatButton } from '@angular/material/button';
 import { NavFooterElement } from '../../../models/footer.model';
@@ -30,7 +30,7 @@ export class FooterElementComponent implements AfterContentChecked, OnInit {
 
     menuWidth!: number;
 
-    constructor(private readonly sanitizer: DomSanitizer) {}
+    constructor(private readonly sanitizer: DomSanitizer, private readonly injector: EnvironmentInjector) {}
 
     ngOnInit(): void {
         if (NavUtilities.isNavHtml(this.element)) {
@@ -42,6 +42,14 @@ export class FooterElementComponent implements AfterContentChecked, OnInit {
         if (this.menuButton) {
             this.menuWidth = this.getMenuWidth();
         }
+    }
+
+    /**
+     * Runs the action of the element.
+     * This wrapper is needed to enable the user to use injections in his action functions.
+     */
+    runAction(): void {
+        this.injector.runInContext(() => this.NavUtilities.asButton(this.element).action());
     }
 
     /**
