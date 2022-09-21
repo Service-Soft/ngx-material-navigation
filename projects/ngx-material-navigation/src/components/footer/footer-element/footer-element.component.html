@@ -55,13 +55,13 @@
     <!-- Button -->
     <button *ngSwitchCase="'button'"
         mat-raised-button
-        (click)="NavUtilities.asButton(element).action()"
+        (click)="runAction()"
     >
         <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
         {{NavUtilities.asButton(element).name}}
     </button>
     <!-- Flat Button -->
-    <button *ngSwitchCase="'buttonFlat'" mat-button (click)="NavUtilities.asButton(element).action()">
+    <button *ngSwitchCase="'buttonFlat'" mat-button (click)="runAction()">
         <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
         {{NavUtilities.asButton(element).name}}
     </button>

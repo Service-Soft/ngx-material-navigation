@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, HostListener, Input, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, EnvironmentInjector, HostListener, Input, ViewChild } from '@angular/core';
 import { MatMenu } from '@angular/material/menu';
 import { NavMenu, NavMenuElement } from '../../../models/nav-menu.model';
 import { NavUtilities } from '../../../utilities/nav.utilities';
@@ -45,12 +45,22 @@ export class NavMenuComponent implements AfterContentChecked {
 
     nestedMenuWidth!: number;
 
-    constructor(private readonly sanitizer: DomSanitizer) {}
+    constructor(private readonly sanitizer: DomSanitizer, private readonly injector: EnvironmentInjector) {}
 
     ngAfterContentChecked(): void {
         if (this.nestedMenuButton) {
             this.nestedMenuWidth = this.getMenuWidth();
         }
+    }
+
+    /**
+     * Runs the action of the element.
+     * This wrapper is needed to enable the user to use injections in his action functions.
+     *
+     * @param element - The element which action should be invoked.
+     */
+    runAction(element: NavMenuElement): void {
+        this.injector.runInContext(() => this.NavUtilities.asButton(element).action());
     }
 
     /**
