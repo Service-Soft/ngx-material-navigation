@@ -1,4 +1,6 @@
+import { Route } from '@angular/router';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
+import { NavRoute } from './nav-route.model';
 import { BaseNavElement } from './nav.model';
 
 /**
@@ -20,7 +22,7 @@ export interface NavTitle extends BaseNavElement {
 /**
  * A h1 title that links to an internal angular route.
  */
-export interface NavTitleWithInternalLink extends BaseNavElement {
+export interface NavTitleWithInternalLink<RouteType extends Route = NavRoute> extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
     type: 'titleWithInternalLink',
     /**
@@ -34,7 +36,7 @@ export interface NavTitleWithInternalLink extends BaseNavElement {
     /**
      * The link object. Contains the route and whether or not it should be opened in a new tab.
      */
-    link: Omit<NavInternalLink, 'name' | 'icon' | 'type' | 'collapse' | 'position'>
+    link: Omit<NavInternalLink<RouteType>, 'name' | 'icon' | 'type' | 'collapse' | 'position'>
 }
 
 /**

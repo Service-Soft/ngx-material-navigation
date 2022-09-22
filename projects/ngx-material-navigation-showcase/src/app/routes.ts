@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable jsdoc/require-jsdoc */
 import { inject } from '@angular/core';
-import { Router, Routes } from '@angular/router';
-import { NavbarRow, NavUtilities } from 'ngx-material-navigation';
+import { Router } from '@angular/router';
+import { NavbarRow, NavUtilities, NgxMatNavigationNotFoundComponent } from 'ngx-material-navigation';
+import { NavRoute } from 'projects/ngx-material-navigation/src/models/nav-route.model';
 
-export const navbarRows: NavbarRow[] = [
+export const navbarRows: NavbarRow<NavRoute>[] = [
     {
         elements: [
             {
@@ -29,6 +30,7 @@ export const navbarRows: NavbarRow[] = [
                 name: 'Home',
                 icon: 'fas fa-home',
                 route: {
+                    title: 'Home',
                     path: 'home',
                     loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
                 },
@@ -43,6 +45,7 @@ export const navbarRows: NavbarRow[] = [
                         name: 'Home',
                         icon: 'fas fa-home',
                         route: {
+                            title: 'Home',
                             path: 'home',
                             loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
                         }
@@ -72,7 +75,19 @@ export const navbarRows: NavbarRow[] = [
     }
 ];
 
-export const routes: Routes = NavUtilities.getAngularRoutes(navbarRows);
+// Define any additional routes that are not defined in the NavbarRows.
+const extraRoute: NavRoute = {
+    title: '404 Page not found',
+    path: '**',
+    component: NgxMatNavigationNotFoundComponent,
+    data: {
+        pageNotFoundConfig: {
+            homeRoute: '/home'
+        }
+    }
+};
+// Extract the angular routes from the given configuration. This can be used in the app.routing.module.ts
+export const routes: NavRoute[] = NavUtilities.getAngularRoutes(navbarRows, [extraRoute]);
 
 function conditionWithInjection(): boolean {
     const router = inject(Router);

@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { NavRoute } from './nav-route.model';
 import { BaseNavElement } from './nav.model';
 
 /**
@@ -22,13 +23,13 @@ export abstract class NavLink extends BaseNavElement {
 /**
  * The definition for an internal route.
  */
-export interface NavInternalLink extends NavLink {
+export interface NavInternalLink<RouteType extends Route = NavRoute> extends NavLink {
     // eslint-disable-next-line jsdoc/require-jsdoc
     type: 'internalLink',
     /**
      * The route of the Link. Can be either an angular route or a simple string.
      */
-    route: Route | string
+    route: RouteType | string
 }
 
 /**
