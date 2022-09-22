@@ -1,4 +1,4 @@
-import { Route, Routes } from '@angular/router';
+import { Route } from '@angular/router';
 import { NavButton } from '../models/nav-button.model';
 import { NavMenu, NavMenuElement } from '../models/nav-menu.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from '../models/nav-image.model';
@@ -8,6 +8,7 @@ import { NavExternalLink, NavInternalLink } from '../models/nav-link.model';
 import { NavbarRow } from '../models/navbar.model';
 import { NavFooterElement, NavTextElement } from '../models/footer.model';
 import { NavHtml } from '../models/nav-html.model';
+import { NavRoute } from '../models/nav-route.model';
 
 /**
  * Contains HelperMethods around handling Navigation.
@@ -107,13 +108,16 @@ export abstract class NavUtilities {
      * @param additionalRoutes - Any additional routes that aren't included in the NavbarRows.
      * @returns All found angular routes.
      */
-    static getAngularRoutes(navbarRows: NavbarRow[] = [], additionalRoutes: Routes = []): Routes {
-        let allRoutes: Routes = [];
-        allRoutes = allRoutes.concat(NavUtilities.getRoutesFromNavbar(navbarRows));
+    static getAngularRoutes<RouteType extends Route = NavRoute>(
+        navbarRows: NavbarRow[] = [],
+        additionalRoutes: RouteType[] = []
+    ): RouteType[] {
+        let allRoutes: RouteType[] = [];
+        allRoutes = allRoutes.concat(NavUtilities.getRoutesFromNavbar<RouteType>(navbarRows));
         allRoutes = allRoutes.concat(additionalRoutes);
         // Filters to only contain unique paths
         const uniquePaths: string[] = [];
-        const res: Routes = [];
+        const res: RouteType[] = [];
         for (const route of allRoutes) {
             if (!uniquePaths.find(r => r === route.path)) {
                 res.push(route);
@@ -122,22 +126,22 @@ export abstract class NavUtilities {
         return res;
     }
 
-    private static getRoutesFromNavbar(navbarRows: NavbarRow[]): Routes {
-        let res: Routes = [];
+    private static getRoutesFromNavbar<RouteType extends Route>(navbarRows: NavbarRow[]): RouteType[] {
+        let res: RouteType[] = [];
         for (const row of navbarRows) {
-            res = res.concat(NavUtilities.getRoutesFromElements(row.elements));
+            res = res.concat(NavUtilities.getRoutesFromElements<RouteType>(row.elements));
         }
         return res;
     }
 
-    private static getRoutesFromElements(elements: NavElement[]): Routes {
-        let res: Routes = [];
+    private static getRoutesFromElements<RouteType extends Route>(elements: NavElement[]): RouteType[] {
+        let res: RouteType[] = [];
         const internalLinks: NavInternalLink[] = elements.filter(e => NavUtilities.isInternalLink(e)) as NavInternalLink[];
-        const angularRoutes: Routes = internalLinks.filter(l => NavUtilities.isAngularRoute(l.route)).map(l => l.route) as Routes;
+        const angularRoutes: RouteType[] = internalLinks.filter(l => NavUtilities.isAngularRoute(l.route)).map(l => l.route) as RouteType[];
         res = res.concat(angularRoutes);
         const menus: NavMenu[] = elements.filter(e => NavUtilities.isMenu(e)) as NavMenu[];
         for (const menu of menus) {
-            res = res.concat(NavUtilities.getRoutesFromElements(menu.elements as NavElement[]));
+            res = res.concat(NavUtilities.getRoutesFromElements<RouteType>(menu.elements as NavElement[]));
         }
         return res;
     }

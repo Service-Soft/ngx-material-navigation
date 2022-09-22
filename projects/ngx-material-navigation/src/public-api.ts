@@ -7,14 +7,19 @@ export * from './models/nav-html.model';
 export * from './models/nav-image.model';
 export * from './models/nav-link.model';
 export * from './models/nav-menu.model';
+export * from './models/nav-route.model';
 export * from './models/nav-title.model';
 export * from './models/nav.model';
 export * from './models/navbar.model';
+export * from './models/page-not-found-config.model';
 
 export * from './components/navbar/navbar.component';
 export * from './components/navbar/navbar.module';
 
 export * from './components/footer/footer.component';
 export * from './components/footer/footer.module';
+
+export * from './components/not-found/not-found.component';
+export * from './components/not-found/not-found.module';
 
 export * from './utilities/nav.utilities';
