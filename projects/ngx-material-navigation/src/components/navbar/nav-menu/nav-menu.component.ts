@@ -1,10 +1,10 @@
 import { AfterContentChecked, Component, EnvironmentInjector, HostListener, Input, ViewChild } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import { MatMenu } from '@angular/material/menu';
+import { MatSidenav } from '@angular/material/sidenav';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { NavMenu, NavMenuElement } from '../../../models/nav-menu.model';
 import { NavUtilities } from '../../../utilities/nav.utilities';
-import { MatSidenav } from '@angular/material/sidenav';
-import { MatButton } from '@angular/material/button';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { PurifyUtilities } from '../../../utilities/purify.utilities';
 
 /**
@@ -17,7 +17,7 @@ import { PurifyUtilities } from '../../../utilities/purify.utilities';
 })
 export class NavMenuComponent implements AfterContentChecked {
 
-    @ViewChild('menu', {static: true})
+    @ViewChild('menu', { static: true })
     menu!: MatMenu;
 
     /**

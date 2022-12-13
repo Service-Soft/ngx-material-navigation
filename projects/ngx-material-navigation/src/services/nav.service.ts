@@ -1,13 +1,13 @@
 import { EnvironmentInjector, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { NavbarRow } from '../models/navbar.model';
-import { NavElement } from '../models/nav.model';
 import { FooterRow, NavFooterElement } from '../models/footer.model';
+import { NavElement } from '../models/nav.model';
+import { NavbarRow } from '../models/navbar.model';
 
 /**
  * The service that contains information and functionality about he navigation data.
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class NgxMatNavigationService {
     /**
      * The subject of the currently visible navbar rows.
