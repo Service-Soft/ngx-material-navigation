@@ -7,9 +7,9 @@ export const footerRows: FooterRow[] = [
                 type: 'imageWithInternalLink',
                 url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
                 link: {
-                    route: 'home',
+                    route: 'home'
                 }
-            },
+            }
         ]
     },
     {
@@ -41,7 +41,7 @@ export const footerRows: FooterRow[] = [
                 type: 'title',
                 title: 'Copyright',
                 position: 'center'
-            },
+            }
         ]
     }
 ];
