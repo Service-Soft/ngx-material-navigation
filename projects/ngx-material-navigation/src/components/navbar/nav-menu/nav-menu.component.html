@@ -11,7 +11,7 @@
                 [target]="NavUtilities.asInternalLink(element).openInNewTab ? '_blank' : '_self'"
                 [rel]="NavUtilities.asInternalLink(element).openInNewTab ? 'noreferrer noopener' : undefined"
             >
-                <i *ngIf="NavUtilities.asInternalLink(element).icon" [class]="NavUtilities.asInternalLink(element).icon"></i> 
+                <i *ngIf="NavUtilities.asInternalLink(element).icon" [ngClass]="NavUtilities.asInternalLink(element).icon"></i> 
                 {{NavUtilities.asInternalLink(element).name}}
             </a>
             <!-- External Link -->
@@ -22,18 +22,18 @@
                     [target]="NavUtilities.asExternalLink(element).openInNewTab ? '_blank' : '_self'"
                     [rel]="NavUtilities.asExternalLink(element).openInNewTab ? 'noreferrer noopener' : undefined"
                 >
-                    <i *ngIf="NavUtilities.asExternalLink(element).icon" [class]="NavUtilities.asExternalLink(element).icon"></i>
+                    <i *ngIf="NavUtilities.asExternalLink(element).icon" [ngClass]="NavUtilities.asExternalLink(element).icon"></i>
                     {{NavUtilities.asExternalLink(element).name}}
                 </a>
             </span>
             <!-- Button -->
             <button *ngSwitchCase="'button'" class="sidenavElementButton" mat-raised-button (click)="runAction(element)">
-                <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
+                <i *ngIf="NavUtilities.asButton(element).icon" [ngClass]="NavUtilities.asButton(element).icon"></i>
                 {{NavUtilities.asButton(element).name}}
             </button>
             <!-- Flat Button -->
             <button *ngSwitchCase="'buttonFlat'" class="sidenavElementButton" mat-button (click)="runAction(element)">
-                <i *ngIf="NavUtilities.asButton(element).icon" [class]="NavUtilities.asButton(element).icon"></i>
+                <i *ngIf="NavUtilities.asButton(element).icon" [ngClass]="NavUtilities.asButton(element).icon"></i>
                 {{NavUtilities.asButton(element).name}}
             </button>
             <!-- Custom HTML -->
@@ -41,7 +41,7 @@
             </span>
             <!-- Nested Menu -->
             <button #nestedMenuButton *ngSwitchCase="'menu'" mat-menu-item [matMenuTriggerFor]="internalMenu.menu">
-                <i *ngIf="NavUtilities.asMenu(element).icon" [class]="NavUtilities.asMenu(element).icon"></i>
+                <i *ngIf="NavUtilities.asMenu(element).icon" [ngClass]="NavUtilities.asMenu(element).icon"></i>
                 {{NavUtilities.asMenu(element).name}}
             </button>
             <ngx-mat-navigation-menu #internalMenu [navMenu]="NavUtilities.asMenu(element)" [sidenav]="sidenav" [menuWidth]="nestedMenuWidth">

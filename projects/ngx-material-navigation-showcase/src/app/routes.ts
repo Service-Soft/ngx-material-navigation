@@ -12,7 +12,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 type: 'imageWithInternalLink',
                 url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
                 link: {
-                    route: 'home',
+                    route: 'home'
                 },
                 collapse: 'never',
                 condition: conditionWithInjection
@@ -49,7 +49,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                             path: 'home',
                             loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
                         }
-                    },
+                    }
                 ],
                 collapse: 'md',
                 position: 'center'
@@ -90,7 +90,7 @@ const extraRoute: NavRoute = {
 export const routes: NavRoute[] = NavUtilities.getAngularRoutes(navbarRows, [extraRoute]);
 
 function conditionWithInjection(): boolean {
-    const router = inject(Router);
+    const router: Router = inject(Router);
     console.log(router.url);
     return true;
 }
