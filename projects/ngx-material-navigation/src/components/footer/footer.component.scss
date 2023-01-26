@@ -2,6 +2,42 @@ footer {
     box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.2),
         0px 0px 8px 5px rgba(0, 0, 0, 0.14),
         0px 0px 14px 8px rgba(0, 0, 0, 0.12);
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.footer-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.footer-col {
+    width: 33%;
+}
+
+#left {
+    text-align: left;
+}
+
+#center {
+    text-align: center;
+}
+
+#right {
+    text-align: right;
+}
+
+@media(max-width: 767px) {
+    .footer-col {
+        width: 100%;
+    }
+
+    #left,
+    #center,
+    #right {
+        text-align: center;
+    }
 }

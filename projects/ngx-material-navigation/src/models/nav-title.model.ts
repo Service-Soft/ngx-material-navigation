@@ -1,14 +1,14 @@
 import { Route } from '@angular/router';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
 import { NavRoute } from './nav-route.model';
-import { BaseNavElement } from './nav.model';
+import { BaseNavElement, NavElementTypes } from './nav.model';
 
 /**
  * A h1 Title.
  */
 export interface NavTitle extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'title',
+    type: NavElementTypes.TITLE,
     /**
      * The text to display inside the h1 tag.
      */
@@ -24,7 +24,7 @@ export interface NavTitle extends BaseNavElement {
  */
 export interface NavTitleWithInternalLink<RouteType extends Route = NavRoute> extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'titleWithInternalLink',
+    type: NavElementTypes.TITLE_WITH_INTERNAL_LINK,
     /**
      * The text to display inside the h1 tag.
      */
@@ -44,7 +44,7 @@ export interface NavTitleWithInternalLink<RouteType extends Route = NavRoute> ex
  */
 export interface NavTitleWithExternalLink extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'titleWithExternalLink',
+    type: NavElementTypes.TITLE_WITH_EXTERNAL_LINK,
     /**
      * The text to display inside the h1 tag.
      */

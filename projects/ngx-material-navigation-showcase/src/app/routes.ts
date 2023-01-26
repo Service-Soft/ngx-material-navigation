@@ -2,15 +2,17 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavbarRow, NavUtilities, NgxMatNavigationNotFoundComponent } from 'ngx-material-navigation';
+import { NavbarRow, NavElementTypes, NavUtilities, NgxMatNavigationNotFoundComponent } from 'ngx-material-navigation';
 import { NavRoute } from 'projects/ngx-material-navigation/src/models/nav-route.model';
+import { footerRows } from './footer-rows';
 
 export const navbarRows: NavbarRow<NavRoute>[] = [
     {
         elements: [
             {
-                type: 'imageWithInternalLink',
+                type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
+                height: 50,
                 link: {
                     route: 'home'
                 },
@@ -18,7 +20,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 condition: conditionWithInjection
             },
             {
-                type: 'titleWithInternalLink',
+                type: NavElementTypes.TITLE_WITH_INTERNAL_LINK,
                 title: 'Showcase Project',
                 link: {
                     route: 'home'
@@ -26,7 +28,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'sm'
             },
             {
-                type: 'internalLink',
+                type: NavElementTypes.INTERNAL_LINK,
                 name: 'Home',
                 icon: 'fas fa-home',
                 route: {
@@ -37,11 +39,11 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'md'
             },
             {
-                type: 'menu',
+                type: NavElementTypes.MENU,
                 name: 'Menu',
                 elements: [
                     {
-                        type: 'internalLink',
+                        type: NavElementTypes.INTERNAL_LINK,
                         name: 'Home',
                         icon: 'fas fa-home',
                         route: {
@@ -49,13 +51,49 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                             path: 'home',
                             loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
                         }
+                    },
+                    {
+                        type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
+                        url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
+                        height: 50,
+                        link: {
+                            route: 'home'
+                        }
+                    },
+                    {
+                        type: NavElementTypes.TITLE_WITH_INTERNAL_LINK,
+                        title: 'Showcase Project',
+                        link: {
+                            route: 'home'
+                        }
+                    },
+                    {
+                        type: NavElementTypes.BUTTON,
+                        name: 'Reload Page',
+                        icon: 'fas fa-rotate-right',
+                        action: () => location.reload(),
+                        position: 'right'
+                    },
+                    {
+                        type: NavElementTypes.HTML,
+                        html: '<h1 class="sanitizedClass">Test</h1>'
+                    },
+                    {
+                        type: NavElementTypes.MENU,
+                        name: 'Menu',
+                        elements: [
+                            {
+                                type: NavElementTypes.HTML,
+                                html: '<h1 class="sanitizedClass">Test</h1>'
+                            }
+                        ]
                     }
                 ],
                 collapse: 'md',
                 position: 'center'
             },
             {
-                type: 'button',
+                type: NavElementTypes.BUTTON,
                 name: 'Reload Page',
                 icon: 'fas fa-rotate-right',
                 action: () => location.reload(),
@@ -67,7 +105,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
     {
         elements: [
             {
-                type: 'html',
+                type: NavElementTypes.HTML,
                 html: '<h1 class="sanitizedClass">Test</h1>',
                 collapse: 'md'
             }
@@ -87,7 +125,7 @@ const extraRoute: NavRoute = {
     }
 };
 // Extract the angular routes from the given configuration. This can be used in the app.routing.module.ts
-export const routes: NavRoute[] = NavUtilities.getAngularRoutes(navbarRows, [extraRoute]);
+export const routes: NavRoute[] = NavUtilities.getAngularRoutes(navbarRows, footerRows, [extraRoute]);
 
 function conditionWithInjection(): boolean {
     const router: Router = inject(Router);

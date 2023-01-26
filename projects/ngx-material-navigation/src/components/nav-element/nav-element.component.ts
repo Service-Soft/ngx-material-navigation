@@ -1,10 +1,8 @@
-import { AfterContentChecked, Component, EnvironmentInjector, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { NavElement } from '../../../models/nav.model';
-import { NavUtilities } from '../../../utilities/nav.utilities';
-import { PurifyUtilities } from '../../../utilities/purify.utilities';
-import { MatSidenav } from '@angular/material/sidenav';
+import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { MatSidenav } from '@angular/material/sidenav';
+import { NavElement, NavElementTypes } from '../../models/nav.model';
+import { NavUtilities } from '../../utilities/nav.utilities';
 
 /**
  * Displays a single Navigation Element.
@@ -17,14 +15,13 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class NavElementComponent implements AfterContentChecked, OnInit {
 
     NavUtilities = NavUtilities;
+    NavElementTypes = NavElementTypes;
 
     /**
      * The element to display.
      */
     @Input()
     element!: NavElement;
-
-    sanitizedHtml?: SafeHtml;
 
     /**
      * A reference to the sidenav. Is needed for the menu to close the sidenav.
@@ -37,33 +34,31 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
      * Used to apply different styling.
      */
     @Input()
-    sidenavElement?: boolean;
+    isSidenavElement?: boolean;
+    protected internalIsSidenavElement!: boolean;
+
+    /**
+     * Whether or not this element should be displayed inside a menu.
+     * Used to apply different styling.
+     */
+    @Input()
+    isMenuItem?: boolean;
+    protected internalIsMenuItem!: boolean;
 
     @ViewChild('menuButton')
     menuButton?: MatButton;
 
     menuWidth!: number;
 
-    constructor(private readonly sanitizer: DomSanitizer, private readonly injector: EnvironmentInjector) {}
-
     ngOnInit(): void {
-        if (NavUtilities.isNavHtml(this.element)) {
-            this.sanitizedHtml = this.sanitizer.bypassSecurityTrustHtml(PurifyUtilities.sanitize(this.element.html));
-        }
+        this.internalIsSidenavElement = this.isSidenavElement ?? false;
+        this.internalIsMenuItem = this.isMenuItem ?? false;
     }
 
     ngAfterContentChecked(): void {
         if (this.menuButton) {
             this.menuWidth = this.getMenuWidth();
         }
-    }
-
-    /**
-     * Runs the action of the element.
-     * This wrapper is needed to enable the user to use injections in his action functions.
-     */
-    runAction(): void {
-        this.injector.runInContext(() => this.NavUtilities.asButton(this.element).action());
     }
 
     /**
@@ -78,5 +73,22 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
 
     private getMenuWidth(): number {
         return (this.menuButton?._elementRef.nativeElement as HTMLElement).offsetWidth;
+    }
+
+    /**
+     * Defines if the sidenav should be closed when the given element is clicked.
+     *
+     * @param element - The element that has been clicked.
+     */
+    clickSidenavElement(element: NavElement): void {
+        switch (element.type) {
+            case NavElementTypes.TITLE:
+            case NavElementTypes.IMAGE:
+            case NavElementTypes.MENU:
+            case NavElementTypes.HTML:
+                return;
+            default:
+                void this.sidenav?.close();
+        }
     }
 }
