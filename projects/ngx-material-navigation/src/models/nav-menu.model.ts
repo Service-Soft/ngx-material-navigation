@@ -1,9 +1,10 @@
-import { BaseNavElement } from './nav.model';
-import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from './nav-title.model';
-import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
 import { NavButton } from './nav-button.model';
-import { NavInternalLink, NavExternalLink } from './nav-link.model';
 import { NavHtml } from './nav-html.model';
+import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
+import { NavExternalLink, NavInternalLink } from './nav-link.model';
+import { NavText } from './nav-text.model';
+import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from './nav-title.model';
+import { BaseNavElement, NavElementTypes } from './nav.model';
 
 /**
  * One of the NavElements for the menu.
@@ -13,14 +14,14 @@ export type NavMenuElement =
     Omit<NavTitle, 'collapse'> | Omit<NavTitleWithInternalLink, 'collapse'> | Omit<NavTitleWithExternalLink, 'collapse'> |
     Omit<NavImage, 'collapse'> | Omit<NavImageWithExternalLink, 'collapse'> | Omit<NavImageWithInternalLink, 'collapse'> |
     Omit<NavButton, 'collapse'> | Omit<NavInternalLink, 'collapse'> | Omit<NavExternalLink, 'collapse'> | Omit<NavMenu, 'collapse'> |
-    Omit<NavHtml, 'collapse'>;
+    Omit<NavHtml, 'collapse'> | Omit<NavText, 'collapse'>;
 
 /**
  * An Menu used to display multiple elements under a single element.
  */
 export interface NavMenu extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'menu',
+    type: NavElementTypes.MENU,
     /**
      * The name to display for the menu.
      */

@@ -1,11 +1,23 @@
+#toolbar {
+    height: auto;
+}
+
 .toolbar-row {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-wrap: wrap;
-}
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-bottom: 5px;
 
-.center {
-    margin-left: auto;
-    margin-right: auto;
+    .toolbar-col {
+        height: 100%;
+        display: flex;
+        gap: 10px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
 }

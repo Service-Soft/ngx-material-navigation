@@ -26,7 +26,7 @@ export interface NavTextElement {
  * One of the NavElements for the footer.
  * As these are always stacked the 'collapse' value is omitted.
  */
-export type NavFooterElement = NavMenuElement | NavTextElement;
+export type NavFooterElement = NavMenuElement;
 
 /**
  * A row with multiple elements.

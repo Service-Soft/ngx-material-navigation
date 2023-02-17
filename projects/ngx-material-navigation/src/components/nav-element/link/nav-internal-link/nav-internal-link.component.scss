@@ -1,0 +1,12 @@
+.sidenavElement {
+    width: 100%;
+    justify-content: left;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-height: 48px;
+}

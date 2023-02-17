@@ -1,0 +1,10 @@
+<a mat-button
+    [routerLink]="route"
+    [target]="elementValue.openInNewTab ? '_blank' : '_self'"
+    [rel]="elementValue.openInNewTab ? 'noreferrer noopener' : undefined"
+    [class.sidenavElement]="isSidenavElement"
+    [class.menuItem]="isMenuItem"
+>
+    <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i> 
+    {{elementValue.name}}
+</a>

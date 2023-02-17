@@ -111,11 +111,8 @@ export class NgxMatNavigationService {
         res = res.filter(e => this.checkCondition(e));
 
         if (position === 'left') {
-            res = res.filter(e => !e.position || e.position === position);
+            return res.filter(e => !e.position || e.position === position);
         }
-        else {
-            res = res.filter(e => e.position === position);
-        }
-        return res;
+        return res.filter(e => e.position === position);
     }
 }

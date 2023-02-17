@@ -1,21 +1,13 @@
-<footer [style.minHeight.px]="minHeight">
-    <div class="container">
-        <div class="footer-row row gy-2" *ngFor="let row of internalFooterRows">
-            <div class="col-md-4 col-sm-6">
-                <div *ngFor="let element of navService.getFooterElementsForRow('left', row)">
-                    <ngx-mat-navigation-footer-element [element]="element"></ngx-mat-navigation-footer-element>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div *ngFor="let element of navService.getFooterElementsForRow('center', row)">
-                    <ngx-mat-navigation-footer-element [element]="element"></ngx-mat-navigation-footer-element>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div *ngFor="let element of navService.getFooterElementsForRow('right', row)">
-                    <ngx-mat-navigation-footer-element [element]="element"></ngx-mat-navigation-footer-element>
-                </div>
-            </div>
+<footer [style.min-height.px]="minHeight">
+    <div class="footer-row" *ngFor="let row of internalFooterRows">
+        <div class="footer-col" id="left">
+            <ngx-mat-navigation-element *ngFor="let element of navService.getFooterElementsForRow('left', row)" [element]="element"></ngx-mat-navigation-element>
+        </div>
+        <div class="footer-col" id="center">
+            <ngx-mat-navigation-element *ngFor="let element of navService.getFooterElementsForRow('center', row)" [element]="element"></ngx-mat-navigation-element>
+        </div>
+        <div class="footer-col" id="right">
+            <ngx-mat-navigation-element *ngFor="let element of navService.getFooterElementsForRow('right', row)" [element]="element"></ngx-mat-navigation-element>
         </div>
     </div>
 </footer>

@@ -62,8 +62,7 @@
                             "projects/ngx-material-navigation-showcase/src/assets"
                         ],
                         "styles": [
-                            "projects/ngx-material-navigation-showcase/src/styles.scss",
-                            "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+                            "projects/ngx-material-navigation-showcase/src/styles.scss"
                         ],
                         "scripts": []
                     },

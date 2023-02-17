@@ -17,8 +17,6 @@ Supports nested menus and brings functionality which allow you to extract angula
 - [NgxMatNavigationNotFoundComponent](#ngxmatnavigationnotfoundcomponent)
 # Requirements
 This package relies on the [angular material library](https://material.angular.io/guide/getting-started) to render its components.
-<br>
-It also uses [bootstrap](https://getbootstrap.com/) for responsive design.
 
 # Basic Usage
 ## Define your configuration
