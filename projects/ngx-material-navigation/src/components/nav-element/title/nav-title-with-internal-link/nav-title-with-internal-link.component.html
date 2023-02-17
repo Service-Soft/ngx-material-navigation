@@ -1,0 +1,12 @@
+<a id="title-link" disableRipple
+    [routerLink]="route"
+    [target]="elementValue.link.openInNewTab ? '_blank' : '_self'"
+    [rel]="elementValue.link.openInNewTab ? 'noreferrer noopener' : undefined"
+    [class.sidenavElement]="isSidenavElement"
+    [class.menuItem]="isMenuItem"
+>
+    <h1>
+        <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i>
+        {{elementValue.title}}
+    </h1>
+</a>

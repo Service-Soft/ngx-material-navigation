@@ -1,0 +1,9 @@
+<a id="image-link" disableRipple
+    [href]="elementValue.link.url"
+    [target]="elementValue.link.openInNewTab ? '_blank' : '_self'"
+    [rel]="elementValue.link.openInNewTab ? 'noreferrer noopener' : undefined"
+    [class.sidenavElement]="isSidenavElement"
+    [class.menuItem]="isMenuItem"
+>
+    <img [ngStyle]="{ 'height.px': elementValue.height }" [src]="elementValue.url">
+</a>

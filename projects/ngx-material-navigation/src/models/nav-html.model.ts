@@ -1,4 +1,4 @@
-import { BaseNavElement } from './nav.model';
+import { BaseNavElement, NavElementTypes } from './nav.model';
 
 /**
  * Displays a custom html element.
@@ -7,7 +7,7 @@ export interface NavHtml extends BaseNavElement {
     /**
      * The type of the element.
      */
-    type: 'html',
+    type: NavElementTypes.HTML,
 
     /**
      * The custom html-element.

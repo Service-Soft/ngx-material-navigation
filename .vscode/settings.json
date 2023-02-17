@@ -1,5 +1,6 @@
 {
     "yaml.schemas": {
         "https://json.schemastore.org/yamllint.json": "file:///c%3A/Users/tfabian/Documents/Programmierung/Privat/ngx-material-navigation/.github/workflows/deploy.yml"
-    }
+    },
+    "todo-tree.tree.scanMode": "workspace only"
 }

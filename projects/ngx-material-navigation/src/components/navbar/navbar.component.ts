@@ -2,7 +2,7 @@ import { AfterContentChecked, Component, ElementRef, HostListener, Input, OnDest
 import { MatSidenav } from '@angular/material/sidenav';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
-import { NavElement } from '../../models/nav.model';
+import { NavElement, NavElementTypes } from '../../models/nav.model';
 import { NavbarRow } from '../../models/navbar.model';
 import { NgxMatNavigationService } from '../../services/nav.service';
 
@@ -50,7 +50,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
     navbar?: ElementRef<HTMLElement>;
 
     burgerMenu: NavElement = {
-        type: 'buttonFlat',
+        type: NavElementTypes.BUTTON_FLAT,
         name: '',
         icon: 'fas fa-bars',
         action: () => this.sidenav?.toggle(),
@@ -141,10 +141,10 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
      */
     clickSidenavElement(element: NavElement): void {
         switch (element.type) {
-            case 'image':
-            case 'title':
-            case 'menu':
-            case 'html':
+            case NavElementTypes.TITLE:
+            case NavElementTypes.IMAGE:
+            case NavElementTypes.MENU:
+            case NavElementTypes.HTML:
                 return;
             default:
                 void this.sidenav?.close();

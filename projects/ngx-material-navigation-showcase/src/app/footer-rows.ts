@@ -1,10 +1,11 @@
-import { FooterRow } from 'ngx-material-navigation';
+import { FooterRow, NavElementTypes } from 'ngx-material-navigation';
 
 export const footerRows: FooterRow[] = [
     {
         elements: [
             {
-                type: 'imageWithInternalLink',
+                type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
+                height: 100,
                 url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
                 link: {
                     route: 'home'
@@ -15,21 +16,23 @@ export const footerRows: FooterRow[] = [
     {
         elements: [
             {
-                type: 'title',
+                type: NavElementTypes.TITLE,
                 title: 'Test Title'
             },
             {
-                type: 'text',
-                // eslint-disable-next-line max-len
-                text: 'This is an example text for the ngx-mat-navigation-footer. This is an example text for the ngx-mat-navigation-footer. This is an example text for the ngx-mat-navigation-footer.'
+                type: NavElementTypes.TEXT,
+                paragraphs: [
+                    // eslint-disable-next-line max-len
+                    'This is an example text for the ngx-mat-navigation-footer. This is an example text for the ngx-mat-navigation-footer. This is an example text for the ngx-mat-navigation-footer.'
+                ]
             },
             {
-                type: 'html',
+                type: NavElementTypes.HTML,
                 html: '<h1 style="color: red; text-align: center">Custom HTML</h1>',
                 position: 'center'
             },
             {
-                type: 'title',
+                type: NavElementTypes.TITLE,
                 title: 'Test Title Right',
                 position: 'right'
             }
@@ -38,7 +41,7 @@ export const footerRows: FooterRow[] = [
     {
         elements: [
             {
-                type: 'title',
+                type: NavElementTypes.TITLE,
                 title: 'Copyright',
                 position: 'center'
             }

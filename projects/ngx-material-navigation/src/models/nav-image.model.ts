@@ -1,18 +1,22 @@
 import { Route } from '@angular/router';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
 import { NavRoute } from './nav-route.model';
-import { BaseNavElement } from './nav.model';
+import { BaseNavElement, NavElementTypes } from './nav.model';
 
 /**
  * The definition for an image.
  */
 export interface NavImage extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'image',
+    type: NavElementTypes.IMAGE,
     /**
      * The url of the image file.
      */
-    url: string
+    url: string,
+    /**
+     * The height of the image in pixels.
+     */
+    height: number
 }
 
 /**
@@ -20,11 +24,15 @@ export interface NavImage extends BaseNavElement {
  */
 export interface NavImageWithInternalLink<RouteType extends Route = NavRoute> extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'imageWithInternalLink',
+    type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
     /**
      * The url of the image file.
      */
     url: string,
+    /**
+     * The height of the image in pixels.
+     */
+    height: number,
     /**
      * The link object. Contains the route and whether or not it should be opened in a new tab.
      */
@@ -36,11 +44,15 @@ export interface NavImageWithInternalLink<RouteType extends Route = NavRoute> ex
  */
 export interface NavImageWithExternalLink extends BaseNavElement {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    type: 'imageWithExternalLink',
+    type: NavElementTypes.IMAGE_WITH_EXTERNAL_LINK,
     /**
      * The url of the image file.
      */
     url: string,
+    /**
+     * The height of the image in pixels.
+     */
+    height: number,
     /**
      * The link object. Contains the href link and whether or not it should be opened in a new tab.
      */
