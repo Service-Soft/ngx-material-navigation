@@ -1,4 +1,4 @@
-<mat-toolbar id="toolbar" #navbar *ngIf="navService.getNavbarRows(navbarRows, screenWidthName).length>1" class="mat-elevation-z8">
+<mat-toolbar [style.min-height.px]="minHeight ? minHeight : 0" id="toolbar" #navbar *ngIf="navService.getNavbarRows(navbarRows, screenWidthName).length>1" class="mat-elevation-z8">
     <mat-toolbar-row class="toolbar-row" *ngFor="let row of navService.getNavbarRows(navbarRows, screenWidthName)">
         <div class="toolbar-col">
             <ngx-mat-navigation-element *ngFor="let element of navService.getNavbarElementsForRow('left', screenWidthName, row)" [element]="element"></ngx-mat-navigation-element>
@@ -17,7 +17,7 @@
     </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-toolbar id="toolbar" #navbar *ngIf="!(navService.getNavbarRows(navbarRows, screenWidthName).length>1)" class="mat-elevation-z8">
+<mat-toolbar [style.min-height.px]="minHeight ? minHeight : 0" id="toolbar" #navbar *ngIf="!(navService.getNavbarRows(navbarRows, screenWidthName).length>1)" class="mat-elevation-z8">
     <div class="toolbar-row">
         <div class="toolbar-col">
             <ngx-mat-navigation-element *ngFor="let element of navService.getNavbarElementsForRow('left', screenWidthName, navbarRows[0])" [element]="element"></ngx-mat-navigation-element>
