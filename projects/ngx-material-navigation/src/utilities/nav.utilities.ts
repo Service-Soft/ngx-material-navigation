@@ -3,8 +3,10 @@ import { FooterRow, NavFooterElement } from '../models/footer.model';
 import { NavInternalLink } from '../models/nav-link.model';
 import { NavMenu, NavMenuElement } from '../models/nav-menu.model';
 import { NavRoute } from '../models/nav-route.model';
-import { NavElement } from '../models/nav.model';
+import { NavElement, NavElementTypes } from '../models/nav.model';
 import { NavbarRow } from '../models/navbar.model';
+import { NavTitleWithInternalLink } from '../models/nav-title.model';
+import { NavImageWithInternalLink } from '../public-api';
 
 /**
  * Contains HelperMethods around handling Navigation.
@@ -16,18 +18,13 @@ export abstract class NavUtilities {
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static isInternalLink(element: NavElement | NavFooterElement): element is NavInternalLink {
-        return Object.keys(element).includes('route');
-    }
-
-    // eslint-disable-next-line jsdoc/require-jsdoc
     static isMenu(element: NavElement | NavFooterElement): element is NavMenu {
         return Object.keys(element).includes('elements');
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    static isAngularRoute(route: Route | string): route is Route {
-        return Object.keys(route).includes('path');
+    private static isAngularRoute(route: Route | string): route is Route {
+        return typeof route !== 'string';
     }
 
     /**
@@ -77,13 +74,32 @@ export abstract class NavUtilities {
 
     private static getRoutesFromElements<RouteType extends Route>(elements: NavElement[] | NavFooterElement[]): RouteType[] {
         let res: RouteType[] = [];
-        const internalLinks: NavInternalLink[] = elements.filter(e => NavUtilities.isInternalLink(e)) as NavInternalLink[];
-        const angularRoutes: RouteType[] = internalLinks.filter(l => NavUtilities.isAngularRoute(l.route)).map(l => l.route) as RouteType[];
-        res = res.concat(angularRoutes);
-        const menus: NavMenu[] = elements.filter(e => NavUtilities.isMenu(e)) as NavMenu[];
+
+        const linksRoutes: (string | NavRoute)[] = NavUtilities.findInternalLinksFromElements(elements).map(l => l.route);
+        res = res.concat(linksRoutes.filter(r => NavUtilities.isAngularRoute(r)) as RouteType[]);
+
+        const titleLinksRoutes: (string | NavRoute)[] = NavUtilities.findTitleLinksFromElements(elements).map(l => l.link.route);
+        res = res.concat(titleLinksRoutes.filter(r => NavUtilities.isAngularRoute(r)) as RouteType[]);
+
+        const imageLinksRoutes: (string | NavRoute)[] = NavUtilities.findImageLinksFromElements(elements).map(l => l.link.route);
+        res = res.concat(imageLinksRoutes.filter(r => NavUtilities.isAngularRoute(r)) as RouteType[]);
+
+        const menus: NavMenu[] = elements.filter(e => e.type === NavElementTypes.MENU) as NavMenu[];
         for (const menu of menus) {
             res = res.concat(NavUtilities.getRoutesFromElements<RouteType>(menu.elements));
         }
         return res;
+    }
+
+    private static findImageLinksFromElements(elements: NavElement[] | NavMenuElement[]): NavImageWithInternalLink[] {
+        return elements.filter(e => e.type === NavElementTypes.IMAGE_WITH_INTERNAL_LINK) as NavImageWithInternalLink[];
+    }
+
+    private static findTitleLinksFromElements(elements: NavElement[] | NavMenuElement[]): NavTitleWithInternalLink[] {
+        return elements.filter(e => e.type === NavElementTypes.TITLE_WITH_INTERNAL_LINK) as NavTitleWithInternalLink[];
+    }
+
+    private static findInternalLinksFromElements(elements: NavElement[]): NavInternalLink[] {
+        return elements.filter(e => e.type === NavElementTypes.INTERNAL_LINK) as NavInternalLink[];
     }
 }
