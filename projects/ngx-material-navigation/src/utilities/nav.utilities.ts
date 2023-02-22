@@ -1,12 +1,12 @@
 import { Route } from '@angular/router';
 import { FooterRow, NavFooterElement } from '../models/footer.model';
+import { NavImageWithInternalLink } from '../models/nav-image.model';
 import { NavInternalLink } from '../models/nav-link.model';
 import { NavMenu, NavMenuElement } from '../models/nav-menu.model';
 import { NavRoute } from '../models/nav-route.model';
+import { NavTitleWithInternalLink } from '../models/nav-title.model';
 import { NavElement, NavElementTypes } from '../models/nav.model';
 import { NavbarRow } from '../models/navbar.model';
-import { NavTitleWithInternalLink } from '../models/nav-title.model';
-import { NavImageWithInternalLink } from '../public-api';
 
 /**
  * Contains HelperMethods around handling Navigation.
