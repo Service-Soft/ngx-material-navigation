@@ -1,10 +1,26 @@
-import { AfterContentChecked, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, Component, ElementRef, HostListener, Inject, InjectionToken, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
 import { NavElement, NavElementTypes } from '../../models/nav.model';
 import { NavbarRow } from '../../models/navbar.model';
 import { NgxMatNavigationService } from '../../services/nav.service';
+
+export const NGX_BURGER_MENU_ARIA_LABEL: InjectionToken<string> = new InjectionToken<string>(
+    'Provider for the burger menu aria label. Default: "Open Sidenav"',
+    {
+        providedIn: 'root',
+        factory: () => 'Open Sidenav'
+    }
+);
+
+export const NGX_BURGER_MENU_ICON: InjectionToken<string> = new InjectionToken<string>(
+    'Provider for the burger menu icon. Default: "fas fa-bars"',
+    {
+        providedIn: 'root',
+        factory: () => 'fas fa-bars'
+    }
+);
 
 /**
  * The navbar component.
@@ -49,33 +65,43 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
     @ViewChild('navbar', { read: ElementRef })
     navbar?: ElementRef<HTMLElement>;
 
-    burgerMenu: NavElement = {
-        type: NavElementTypes.BUTTON_FLAT,
-        name: '',
-        icon: 'fas fa-bars',
-        action: () => this.sidenav?.toggle(),
-        collapse: 'never'
-    };
+    burgerMenu!: NavElement;
 
     sanitizedMinHeight!: SafeStyle;
 
     screenWidthName: 'lg' | 'md' | 'sm' = this.getCurrentScreenWidthName();
 
-    internalNavbarRows: NavbarRow[] = [];
-
     internalSidenavElements: NavElement[] = [];
 
-    constructor(private readonly sanitizer: DomSanitizer, public navService: NgxMatNavigationService) {}
+    constructor(
+        private readonly sanitizer: DomSanitizer,
+        public navService: NgxMatNavigationService,
+        @Inject(NGX_BURGER_MENU_ICON)
+        private readonly burgerMenuIcon: string,
+        @Inject(NGX_BURGER_MENU_ARIA_LABEL)
+        private readonly burgerMenuAriaLabel: string
+    ) {
+        this.burgerMenu = {
+            type: NavElementTypes.BUTTON_FLAT,
+            name: '',
+            icon: this.burgerMenuIcon,
+            action: () => this.sidenav?.toggle(),
+            collapse: 'never',
+            ariaLabel: this.burgerMenuAriaLabel
+        };
+    }
 
     ngOnInit(): void {
         this.navService.navbarRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(navbarRows => {
-            this.internalNavbarRows = navbarRows;
             this.internalSidenavElements = this.navService.getSidenavElements(navbarRows, this.screenWidthName);
             if (!this.internalSidenavElements.length && this.sidenav && this.sidenav.opened) {
                 void this.sidenav.close();
             }
         });
         this.navService.navbarRowsSubject.next(this.navbarRows);
+        this.navService.anchorsSubject.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+            this.navService.navbarRowsSubject.next(this.navService.navbarRowsSubject.value);
+        });
     }
 
     ngOnDestroy(): void {

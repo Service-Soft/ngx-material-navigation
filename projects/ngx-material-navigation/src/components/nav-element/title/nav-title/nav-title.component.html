@@ -1,4 +1,4 @@
-<h1 [class.sidenavElement]="isSidenavElement" [class.menuItem]="isMenuItem">
+<h1 [class.sidenavElement]="isSidenavElement" [class.menuItem]="isMenuItem" [attr.aria-label]="elementValue.ariaLabel">
     <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i>
     {{elementValue.title}}
 </h1>

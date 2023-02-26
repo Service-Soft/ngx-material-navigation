@@ -67,6 +67,7 @@
             mat-menu-item
             [matMenuTriggerFor]="menu"
             [class.sidenavElement]="isSidenavElement"
+            [attr.aria-label]="element.ariaLabel"
         >
             <i *ngIf="NavUtilities.asMenu(element).icon" [ngClass]="NavUtilities.asMenu(element).icon"></i>
             {{NavUtilities.asMenu(element).name}}
@@ -76,6 +77,7 @@
             mat-button
             [matMenuTriggerFor]="menu"
             [class.sidenavElement]="isSidenavElement"
+            [attr.aria-label]="element.ariaLabel"
         >
             <i *ngIf="NavUtilities.asMenu(element).icon" [ngClass]="NavUtilities.asMenu(element).icon"></i>
             {{NavUtilities.asMenu(element).name}}

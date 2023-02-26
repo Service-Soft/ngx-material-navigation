@@ -29,7 +29,11 @@ export interface NavInternalLink<RouteType extends Route = NavRoute> extends Nav
     /**
      * The route of the Link. Can be either an angular route or a simple string.
      */
-    route: RouteType | string
+    route: RouteType | string,
+    /**
+     * The fragment of the route used for anchor scrolling.
+     */
+    fragment?: string
 }
 
 /**

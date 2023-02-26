@@ -45,7 +45,7 @@
         "@types/node": "^18.11.13",
         "@types/dompurify": "^2.4.0",
         "concurrently": "^7.6.0",
-        "eslint-config-service-soft": "^1.0.8",
+        "eslint-config-service-soft": "^1.0.9",
         "jasmine-core": "~4.5.0",
         "karma": "~6.4.1",
         "karma-chrome-launcher": "~3.1.1",

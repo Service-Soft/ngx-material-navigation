@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxMatNavigationNavbarModule, NgxMatNavigationFooterModule } from 'ngx-material-navigation';
+import { NgxMatNavigationFooterModule, NgxMatNavigationNavbarModule, NGX_BURGER_MENU_ARIA_LABEL, NGX_BURGER_MENU_ICON } from 'ngx-material-navigation';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +17,16 @@ import { AppComponent } from './app.component';
         NgxMatNavigationNavbarModule,
         NgxMatNavigationFooterModule
     ],
-    providers: [],
+    providers: [
+        {
+            provide: NGX_BURGER_MENU_ICON,
+            useValue: 'fas fa-home'
+        },
+        {
+            provide: NGX_BURGER_MENU_ARIA_LABEL,
+            useValue: 'Custom Aria Label'
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

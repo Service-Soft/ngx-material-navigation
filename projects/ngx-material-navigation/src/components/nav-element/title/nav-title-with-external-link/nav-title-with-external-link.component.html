@@ -4,6 +4,7 @@
     [rel]="elementValue.link.openInNewTab ? 'noreferrer noopener' : undefined"
     [class.sidenavElement]="isSidenavElement"
     [class.menuItem]="isMenuItem"
+    [attr.aria-label]="elementValue.ariaLabel"
 >
     <h1>
         <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i>
