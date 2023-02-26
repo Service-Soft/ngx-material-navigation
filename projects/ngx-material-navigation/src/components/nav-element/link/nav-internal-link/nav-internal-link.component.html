@@ -5,6 +5,7 @@
     [rel]="elementValue.openInNewTab ? 'noreferrer noopener' : undefined"
     [class.sidenavElement]="isSidenavElement"
     [class.menuItem]="isMenuItem"
+    [attr.aria-label]="elementValue.ariaLabel"
 >
     <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i> 
     {{elementValue.name}}

@@ -47,6 +47,10 @@ export abstract class BaseNavElement {
      * A condition that must be met for the element to be displayed.
      */
     condition?: () => boolean;
+    /**
+     * The aria label of the element.
+     */
+    ariaLabel?: string;
 }
 
 /**
