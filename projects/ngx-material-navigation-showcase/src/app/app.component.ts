@@ -1,4 +1,6 @@
+/* eslint-disable jsdoc/require-jsdoc */
 import { AfterContentChecked, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { FooterRow, NavbarRow } from 'ngx-material-navigation';
 import { footerRows } from './footer-rows';
 import { navbarRows } from './routes';
 
@@ -7,10 +9,9 @@ import { navbarRows } from './routes';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-// eslint-disable-next-line jsdoc/require-jsdoc
 export class AppComponent implements AfterContentChecked {
-    navbarRows = navbarRows;
-    footerRows = footerRows;
+    navbarRows: NavbarRow[] = navbarRows;
+    footerRows: FooterRow[] = footerRows;
 
     @ViewChild('footer', { read: ElementRef })
     footer?: ElementRef<HTMLElement>;

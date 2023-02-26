@@ -14,8 +14,8 @@ import { NavUtilities } from '../../utilities/nav.utilities';
 })
 export class NavElementComponent implements AfterContentChecked, OnInit {
 
-    NavUtilities = NavUtilities;
-    NavElementTypes = NavElementTypes;
+    NavUtilities: NavUtilities = NavUtilities;
+    NavElementTypes: typeof NavElementTypes = NavElementTypes;
 
     /**
      * The element to display.
