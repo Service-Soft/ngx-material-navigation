@@ -39,6 +39,29 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'md'
             },
             {
+                type: NavElementTypes.INTERNAL_LINK,
+                name: 'Scrolling',
+                route: {
+                    title: 'Scrolling',
+                    path: 'scrolling',
+                    loadComponent: () => import('./components/scrolling/scrolling.component').then(m => m.ScrollingComponent),
+                    data: {
+                        anchors: [
+                            {
+                                name: 'Bottom',
+                                fragment: 'bottom',
+                                icon: 'fas fa-home'
+                            },
+                            {
+                                name: 'Middle',
+                                fragment: 'middle'
+                            }
+                        ]
+                    }
+                },
+                collapse: 'md'
+            },
+            {
                 type: NavElementTypes.MENU,
                 name: 'Menu',
                 elements: [

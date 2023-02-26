@@ -61,21 +61,21 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
 
     screenWidthName: 'lg' | 'md' | 'sm' = this.getCurrentScreenWidthName();
 
-    internalNavbarRows: NavbarRow[] = [];
-
     internalSidenavElements: NavElement[] = [];
 
     constructor(private readonly sanitizer: DomSanitizer, public navService: NgxMatNavigationService) {}
 
     ngOnInit(): void {
         this.navService.navbarRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(navbarRows => {
-            this.internalNavbarRows = navbarRows;
             this.internalSidenavElements = this.navService.getSidenavElements(navbarRows, this.screenWidthName);
             if (!this.internalSidenavElements.length && this.sidenav && this.sidenav.opened) {
                 void this.sidenav.close();
             }
         });
         this.navService.navbarRowsSubject.next(this.navbarRows);
+        this.navService.anchorsSubject.pipe(takeUntil(this.onDestroy)).subscribe(() => {
+            this.navService.navbarRowsSubject.next(this.navService.navbarRowsSubject.value);
+        });
     }
 
     ngOnDestroy(): void {

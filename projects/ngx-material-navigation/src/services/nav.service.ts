@@ -1,7 +1,10 @@
 import { EnvironmentInjector, Injectable } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { FooterRow, NavFooterElement } from '../models/footer.model';
-import { NavElement } from '../models/nav.model';
+import { NavInternalLink } from '../models/nav-link.model';
+import { DefaultNavRouteDataType, NavAnchor } from '../models/nav-route.model';
+import { NavElement, NavElementTypes } from '../models/nav.model';
 import { NavbarRow } from '../models/navbar.model';
 
 /**
@@ -15,11 +18,50 @@ export class NgxMatNavigationService {
     readonly navbarRowsSubject: BehaviorSubject<NavbarRow[]> = new BehaviorSubject<NavbarRow[]>([]);
 
     /**
+     * The subject of the anchors of the current page.
+     */
+    readonly anchorsSubject: BehaviorSubject<NavAnchor[]> = new BehaviorSubject<NavAnchor[]>([]);
+
+    /**
      * The subject of the currently visible sidenav elements.
      */
     readonly footerRowsSubject: BehaviorSubject<FooterRow[]> = new BehaviorSubject<FooterRow[]>([]);
 
-    constructor(private readonly injector: EnvironmentInjector) { }
+    private get currentRoute(): string {
+        return this.router.url.split('#')[0];
+    }
+
+    // eslint-disable-next-line jsdoc/require-returns
+    /**
+     * The anchor row, dynamically generated from the current route.
+     */
+    get anchorRow(): NavbarRow {
+        const elements: NavInternalLink[] = this.anchorsSubject.value.map(a => {
+            return {
+                type: NavElementTypes.INTERNAL_LINK,
+                route: this.currentRoute,
+                collapse: 'never',
+                ...a
+            };
+        });
+        return {
+            elements: elements
+        };
+    }
+
+    constructor(private readonly injector: EnvironmentInjector, private readonly router: Router) {
+        this.router.events.subscribe(e => {
+            if (e instanceof NavigationEnd) {
+                // eslint-disable-next-line max-len
+                let route: ActivatedRoute | null = this.router.routerState.root.firstChild;
+                while (route?.firstChild) {
+                    route = route.firstChild;
+                }
+                const data: DefaultNavRouteDataType | undefined = route?.snapshot.data;
+                this.anchorsSubject.next(data?.anchors ?? []);
+            }
+        });
+    }
 
     /**
      * Gets the rows that are really displayed in the navbar and not collapsed to the sidenav.
@@ -34,7 +76,7 @@ export class NgxMatNavigationService {
             && !this.getNavbarElementsForRow('center', screenWidthName, r).length
             && !this.getNavbarElementsForRow('right', screenWidthName, r).length
         );
-        return navbarRows.filter(r => !emptyRows.includes(r));
+        return navbarRows.concat(this.anchorRow).filter(r => !emptyRows.includes(r));
     }
 
     /**

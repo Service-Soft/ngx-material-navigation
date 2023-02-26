@@ -13,6 +13,7 @@ Supports nested menus and brings functionality which allow you to extract angula
   - [Extract the angular routes](#extract-the-angular-routes)
   - [Use the elements](#use-the-elements)
   - [Actions and conditions](#actions-and-conditions)
+  - [Dynamic Anchors](#dynamic-anchors)
 - [NavRoute](#navroute)
 - [NgxMatNavigationNotFoundComponent](#ngxmatnavigationnotfoundcomponent)
 # Requirements
@@ -37,7 +38,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
     {
         elements: [
             {
-                type: 'imageWithInternalLink',
+                type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 url: 'https://www.my-great-website.de/my-great-picture.png',
                 link: {
                     route: 'home',
@@ -45,7 +46,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'never'
             },
             {
-                type: 'titleWithInternalLink',
+                type: NavElementTypes.TITLE_WITH_INTERNAL_LINK,
                 title: 'Showcase Project',
                 link: {
                     route: 'home'
@@ -53,7 +54,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'sm'
             },
             {
-                type: 'internalLink',
+                type: NavElementTypes.INTERNAL_LINK,
                 name: 'Home',
                 route: { // This can also just be a string.
                     title: 'Home',
@@ -63,16 +64,16 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'md'
             },
             {
-                type: 'menu',
+                type: NavElementTypes.MENU,
                 name: 'Menu',
                 elements: [
                     {
-                        type: 'internalLink',
+                        type: NavElementTypes.INTERNAL_LINK,
                         name: 'menu item #1',
                         route: 'menu-item/1'
                     },
                     {
-                        type: 'internalLink',
+                        type: NavElementTypes.INTERNAL_LINK,
                         name: 'menu item #2',
                         route: 'menu-item/2'
                     }
@@ -81,7 +82,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'md'
             },
             {
-                type: 'button',
+                type: NavElementTypes.BUTTON,
                 name: 'Reload the page',
                 action: () => location.reload(),
                 position: 'right',
@@ -173,6 +174,76 @@ function conditionWithInjection(): boolean {
 }
 ...
 ```
+## Dynamic Anchors
+This library supports adding anchors (different sections the user can scroll to) dynamically to the navbar.
+
+First, define anchor elements in your routes configuration:
+
+```typescript
+{
+    type: NavElementTypes.INTERNAL_LINK,
+    name: 'Scrolling',
+    route: {
+        title: 'Scrolling',
+        path: 'scrolling',
+        loadComponent: () => import('./components/scrolling/scrolling.component').then(m => m.ScrollingComponent),
+        data: {
+            anchors: [
+                {
+                    name: 'Bottom',
+                    fragment: 'bottom',
+                    icon: 'fas fa-home'
+                },
+                {
+                    name: 'Middle',
+                    fragment: 'middle'
+                }
+            ]
+        }
+    },
+    collapse: 'md'
+}
+```
+On the scrolling component there need to be elements with the ids "bottom" and "middle".
+
+Then configure your routing options:
+
+```typescript
+const routerOptions: ExtraOptions = {
+    scrollPositionRestoration: 'enabled',
+    onSameUrlNavigation: 'reload',
+    anchorScrolling: 'enabled'
+};
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes, routerOptions)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+```
+
+If you want to enable smooth scrolling you can add
+`html { scroll-behavior: smooth; }` to your styles.scss.
+
+> :warning: No anchor toolbar is shown:
+
+ The NgxMatNavigationService handles getting the anchor toolbar from the route configuration by subscribing to `router.events`.
+ 
+ Usually the navbar is used in your app.component.html, which means the service gets initialized and everything should work out of the box. But it could be possible that route navigation happens without the service being initialized.
+ 
+ In that case you need to add the following to your app.module.ts provider array:
+
+ ```typescript
+ {
+    provide: APP_INITIALIZER,
+    useFactory: () => {
+        return () => {};
+    },
+    deps: [NgxMatNavigationService],
+    multi: true
+}
+ ```
+
 # NavRoute
 ```typescript
 /**
