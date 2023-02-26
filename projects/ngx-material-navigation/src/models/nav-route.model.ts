@@ -24,5 +24,27 @@ export interface DefaultNavRouteDataType extends Data {
     /**
      * The configuration for the 404 page not found component.
      */
-    pageNotFoundConfig?: PageNotFoundConfig
+    pageNotFoundConfig?: PageNotFoundConfig,
+    /**
+     * Any anchors that might be on this specific route.
+     */
+    anchors?: NavAnchor[]
+}
+
+/**
+ * The data for an nav anchor element.
+ */
+export interface NavAnchor {
+    /**
+     * The name to display inside the navbar.
+     */
+    name: string,
+    /**
+     * The fragment anchor id.
+     */
+    fragment: string,
+    /**
+     * An optional icon for the anchor.
+     */
+    icon?: string
 }
