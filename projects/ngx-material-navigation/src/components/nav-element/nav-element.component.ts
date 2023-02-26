@@ -14,7 +14,8 @@ import { NavUtilities } from '../../utilities/nav.utilities';
 })
 export class NavElementComponent implements AfterContentChecked, OnInit {
 
-    NavUtilities: NavUtilities = NavUtilities;
+    // eslint-disable-next-line @typescript-eslint/typedef
+    NavUtilities = NavUtilities;
     NavElementTypes: typeof NavElementTypes = NavElementTypes;
 
     /**
