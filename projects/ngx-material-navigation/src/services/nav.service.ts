@@ -71,12 +71,13 @@ export class NgxMatNavigationService {
      * @returns All rows that are displayed inside the navbar.
      */
     getNavbarRows(navbarRows: NavbarRow[], screenWidthName: 'lg' | 'md' | 'sm'): NavbarRow[] {
+        navbarRows = navbarRows.concat(this.anchorRow);
         const emptyRows: NavbarRow[] = navbarRows.filter(r =>
             !this.getNavbarElementsForRow('left', screenWidthName, r).length
             && !this.getNavbarElementsForRow('center', screenWidthName, r).length
             && !this.getNavbarElementsForRow('right', screenWidthName, r).length
         );
-        return navbarRows.concat(this.anchorRow).filter(r => !emptyRows.includes(r));
+        return navbarRows.filter(r => !emptyRows.includes(r));
     }
 
     /**
