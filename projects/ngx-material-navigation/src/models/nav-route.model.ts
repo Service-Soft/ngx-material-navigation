@@ -46,5 +46,9 @@ export interface NavAnchor {
     /**
      * An optional icon for the anchor.
      */
-    icon?: string
+    icon?: string,
+    /**
+     * The aria label of the element.
+     */
+    ariaLabel?: string
 }
