@@ -1,4 +1,4 @@
-import { sanitize } from 'dompurify';
+import { sanitize } from 'isomorphic-dompurify';
 
 /**
  * Contains HelperMethods around handling the purification of html strings.
