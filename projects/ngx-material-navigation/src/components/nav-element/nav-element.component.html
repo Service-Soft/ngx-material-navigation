@@ -46,10 +46,10 @@
     </div>
 
     <!-------------------------------------------->
-    <!--------------------HTML-------------------->
+    <!-------------------CUSTOM------------------->
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.HTML">
-        <nav-html [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-html>
+    <div *ngSwitchCase="NavElementTypes.CUSTOM">
+        <nav-custom [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-custom>
     </div>
 
     <!-------------------------------------------->

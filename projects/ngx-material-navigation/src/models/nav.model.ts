@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { NavButton } from './nav-button.model';
-import { NavHtml } from './nav-html.model';
+import { NavCustom } from './nav-custom.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
 import { NavMenu } from './nav-menu.model';
@@ -23,7 +23,7 @@ export enum NavElementTypes {
     BUTTON_FLAT = 'buttonFlat',
     EXTERNAL_LINK = 'externalLink',
     MENU = 'menu',
-    HTML = 'html',
+    CUSTOM = 'custom',
     TEXT = 'text'
 }
 
@@ -59,4 +59,5 @@ export abstract class BaseNavElement {
 export type NavElement<RouteType extends Route = NavRoute> =
     NavTitle | NavTitleWithInternalLink<RouteType> | NavTitleWithExternalLink
     | NavImage | NavImageWithExternalLink | NavImageWithInternalLink<RouteType>
-    | NavButton | NavInternalLink<RouteType> | NavExternalLink | NavMenu | NavHtml | NavText;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | NavButton | NavInternalLink<RouteType> | NavExternalLink | NavMenu | NavCustom<any> | NavText;
