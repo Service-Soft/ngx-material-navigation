@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NavButton } from '../../models/nav-button.model';
-import { NavHtml } from '../../models/nav-html.model';
+import { NavCustom } from '../../models/nav-custom.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from '../../models/nav-image.model';
 import { NavExternalLink, NavInternalLink } from '../../models/nav-link.model';
 import { NavMenu } from '../../models/nav-menu.model';
@@ -60,6 +60,7 @@ export type NavElementType<T> =
     : T extends NavElementTypes.BUTTON ? NavButton
     : T extends NavElementTypes.BUTTON_FLAT ? NavButton
     : T extends NavElementTypes.MENU ? NavMenu
-    : T extends NavElementTypes.HTML ? NavHtml
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    : T extends NavElementTypes.CUSTOM ? NavCustom<any>
     : T extends NavElementTypes.TEXT ? NavText
     : never;

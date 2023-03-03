@@ -170,7 +170,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
             case NavElementTypes.TITLE:
             case NavElementTypes.IMAGE:
             case NavElementTypes.MENU:
-            case NavElementTypes.HTML:
+            case NavElementTypes.CUSTOM:
                 return;
             default:
                 void this.sidenav?.close();

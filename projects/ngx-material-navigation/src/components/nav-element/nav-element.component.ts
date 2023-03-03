@@ -86,7 +86,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
             case NavElementTypes.TITLE:
             case NavElementTypes.IMAGE:
             case NavElementTypes.MENU:
-            case NavElementTypes.HTML:
+            case NavElementTypes.CUSTOM:
                 return;
             default:
                 void this.sidenav?.close();
