@@ -14,6 +14,9 @@ Supports nested menus and brings functionality which allow you to extract angula
   - [Use the elements](#use-the-elements)
   - [Actions and conditions](#actions-and-conditions)
   - [Dynamic Anchors](#dynamic-anchors)
+- [Custom Components](#custom-components)
+  - [Create the custom component](#create-the-custom-component)
+  - [Use it in your routes](#use-it-in-your-routes)
 - [NavRoute](#navroute)
 - [NgxMatNavigationNotFoundComponent](#ngxmatnavigationnotfoundcomponent)
 # Requirements
@@ -244,6 +247,34 @@ If you want to enable smooth scrolling you can add
 }
  ```
 
+# Custom Components
+You have the option to easily add custom components if the provided components don't fully cover your requirements.
+
+## Create the custom component
+The only restriction for the component is that it needs to extends `NgxMatNavigationBaseNavElementComponent`:
+```typescript
+import { NavElementTypes, NgxMatNavigationBaseNavElementComponent } from 'ngx-material-navigation';
+
+@Component({
+    selector: 'app-custom',
+    templateUrl: './custom.component.html',
+    styleUrls: ['./custom.component.scss']
+})
+export class CustomComponent extends NgxMatNavigationBaseNavElementComponent<NavElementTypes.CUSTOM> {}
+```
+
+## Use it in your routes
+```typescript
+import { NavElementTypes } from 'ngx-material-navigation';
+
+...
+{
+    type: NavElementTypes.CUSTOM,
+    component: CustomComponent
+},
+...
+```
+
 # NavRoute
 ```typescript
 /**
@@ -252,11 +283,8 @@ If you want to enable smooth scrolling you can add
  * It also adds the option to use a generic for the route data.
  */
 export interface NavRoute<DataType extends Data = DefaultNavRouteDataType> extends Route {
-    // eslint-disable-next-line jsdoc/require-jsdoc
     title: string | Type<Resolve<string>> | ResolveFn<string>,
-    // eslint-disable-next-line jsdoc/require-jsdoc
     path: string,
-    // eslint-disable-next-line jsdoc/require-jsdoc
     data?: DataType
 }
 

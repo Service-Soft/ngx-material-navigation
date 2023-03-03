@@ -1,4 +1,5 @@
 import { FooterRow, NavElementTypes } from 'ngx-material-navigation';
+import { CustomComponent } from './components/custom/custom.component';
 
 export const footerRows: FooterRow[] = [
     {
@@ -27,8 +28,8 @@ export const footerRows: FooterRow[] = [
                 ]
             },
             {
-                type: NavElementTypes.HTML,
-                html: '<h1 style="color: red; text-align: center">Custom HTML</h1>',
+                type: NavElementTypes.CUSTOM,
+                component: CustomComponent,
                 position: 'center'
             },
             {

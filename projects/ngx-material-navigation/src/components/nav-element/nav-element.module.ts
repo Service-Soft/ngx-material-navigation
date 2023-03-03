@@ -5,7 +5,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NavButtonFlatComponent } from './button/nav-button-flat/nav-button-flat.component';
 import { NavButtonComponent } from './button/nav-button/nav-button.component';
-import { NavHtmlComponent } from './html/nav-html/nav-html.component';
+import { NavCustomComponent } from './custom/nav-custom/nav-custom.component';
 import { NavImageWithExternalLinkComponent } from './image/nav-image-with-external-link/nav-image-with-external-link.component';
 import { NavImageWithInternalLinkComponent } from './image/nav-image-with-internal-link/nav-image-with-internal-link.component';
 import { NavImageComponent } from './image/nav-image/nav-image.component';
@@ -33,7 +33,7 @@ import { NavTitleComponent } from './title/nav-title/nav-title.component';
         NavButtonFlatComponent,
         NavInternalLinkComponent,
         NavExternalLinkComponent,
-        NavHtmlComponent,
+        NavCustomComponent,
         NavTextComponent
     ],
     declarations: [

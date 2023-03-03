@@ -2,8 +2,8 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavbarRow, NavElementTypes, NavUtilities, NgxMatNavigationNotFoundComponent } from 'ngx-material-navigation';
-import { NavRoute } from 'projects/ngx-material-navigation/src/models/nav-route.model';
+import { NavbarRow, NavElementTypes, NavUtilities, NgxMatNavigationNotFoundComponent, NavRoute } from 'ngx-material-navigation';
+import { CustomComponent } from './components/custom/custom.component';
 import { footerRows } from './footer-rows';
 
 export const navbarRows: NavbarRow<NavRoute>[] = [
@@ -98,16 +98,16 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                         position: 'right'
                     },
                     {
-                        type: NavElementTypes.HTML,
-                        html: '<h1 class="sanitizedClass">Test</h1>'
+                        type: NavElementTypes.CUSTOM,
+                        component: CustomComponent
                     },
                     {
                         type: NavElementTypes.MENU,
                         name: 'Menu',
                         elements: [
                             {
-                                type: NavElementTypes.HTML,
-                                html: '<h1 class="sanitizedClass">Test</h1>'
+                                type: NavElementTypes.CUSTOM,
+                                component: CustomComponent
                             }
                         ]
                     }
@@ -128,8 +128,8 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
     {
         elements: [
             {
-                type: NavElementTypes.HTML,
-                html: '<h1 class="sanitizedClass">Test</h1>',
+                type: NavElementTypes.CUSTOM,
+                component: CustomComponent,
                 collapse: 'md'
             }
         ]

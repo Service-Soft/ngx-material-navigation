@@ -1,5 +1,5 @@
 import { NavButton } from './nav-button.model';
-import { NavHtml } from './nav-html.model';
+import { NavCustom } from './nav-custom.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
 import { NavText } from './nav-text.model';
@@ -14,7 +14,8 @@ export type NavMenuElement =
     Omit<NavTitle, 'collapse'> | Omit<NavTitleWithInternalLink, 'collapse'> | Omit<NavTitleWithExternalLink, 'collapse'> |
     Omit<NavImage, 'collapse'> | Omit<NavImageWithExternalLink, 'collapse'> | Omit<NavImageWithInternalLink, 'collapse'> |
     Omit<NavButton, 'collapse'> | Omit<NavInternalLink, 'collapse'> | Omit<NavExternalLink, 'collapse'> | Omit<NavMenu, 'collapse'> |
-    Omit<NavHtml, 'collapse'> | Omit<NavText, 'collapse'>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Omit<NavCustom<any>, 'collapse'> | Omit<NavText, 'collapse'>;
 
 /**
  * An Menu used to display multiple elements under a single element.
