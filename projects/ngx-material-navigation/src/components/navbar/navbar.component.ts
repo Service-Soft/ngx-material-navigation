@@ -1,4 +1,5 @@
-import { AfterContentChecked, Component, ElementRef, HostListener, Inject, InjectionToken, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterContentChecked, Component, ElementRef, HostListener, Inject, InjectionToken, Input, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
@@ -79,7 +80,9 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
         @Inject(NGX_BURGER_MENU_ICON)
         private readonly burgerMenuIcon: string,
         @Inject(NGX_BURGER_MENU_ARIA_LABEL)
-        private readonly burgerMenuAriaLabel: string
+        private readonly burgerMenuAriaLabel: string,
+        @Inject(PLATFORM_ID)
+        private readonly platformId: Object
     ) {
         this.burgerMenu = {
             type: NavElementTypes.BUTTON_FLAT,
@@ -149,6 +152,9 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
     }
 
     private getCurrentScreenWidthName(): 'lg' | 'md' | 'sm' {
+        if (!isPlatformBrowser(this.platformId)) {
+            return 'lg';
+        }
         if (window.innerWidth < 768) {
             return 'sm';
         }
