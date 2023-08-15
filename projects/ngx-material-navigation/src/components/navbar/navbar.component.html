@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/no-call-expression -->
 <mat-toolbar [style.min-height.px]="minHeight ? minHeight : 0" id="toolbar" #navbar *ngIf="navService.getNavbarRows(navbarRows, screenWidthName).length>1" class="mat-elevation-z8">
     <mat-toolbar-row class="toolbar-row" *ngFor="let row of navService.getNavbarRows(navbarRows, screenWidthName)">
         <div class="toolbar-col">

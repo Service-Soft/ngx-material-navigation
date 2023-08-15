@@ -1,6 +1,7 @@
 import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatSidenav } from '@angular/material/sidenav';
+import { NavMenu } from '../../models/nav-menu.model';
 import { NavElement, NavElementTypes } from '../../models/nav.model';
 import { NavUtilities } from '../../utilities/nav.utilities';
 
@@ -14,8 +15,6 @@ import { NavUtilities } from '../../utilities/nav.utilities';
 })
 export class NavElementComponent implements AfterContentChecked, OnInit {
 
-    // eslint-disable-next-line @typescript-eslint/typedef
-    NavUtilities = NavUtilities;
     NavElementTypes: typeof NavElementTypes = NavElementTypes;
 
     /**
@@ -23,6 +22,8 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
      */
     @Input()
     element!: NavElement;
+
+    elementMenu!: NavMenu;
 
     /**
      * A reference to the sidenav. Is needed for the menu to close the sidenav.
@@ -54,6 +55,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     ngOnInit(): void {
         this.internalIsSidenavElement = this.isSidenavElement ?? false;
         this.internalIsMenuItem = this.isMenuItem ?? false;
+        this.elementMenu = NavUtilities.asMenu(this.element);
     }
 
     ngAfterContentChecked(): void {

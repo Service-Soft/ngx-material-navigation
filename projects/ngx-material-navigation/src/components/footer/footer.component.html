@@ -1,12 +1,15 @@
 <footer [style.min-height.px]="minHeight">
     <div class="footer-row" *ngFor="let row of internalFooterRows">
         <div class="footer-col" id="left">
+            <!-- eslint-disable-next-line @angular-eslint/template/no-call-expression -->
             <ngx-mat-navigation-element *ngFor="let element of navService.getFooterElementsForRow('left', row)" [element]="element"></ngx-mat-navigation-element>
         </div>
         <div class="footer-col" id="center">
+            <!-- eslint-disable-next-line @angular-eslint/template/no-call-expression -->
             <ngx-mat-navigation-element *ngFor="let element of navService.getFooterElementsForRow('center', row)" [element]="element"></ngx-mat-navigation-element>
         </div>
         <div class="footer-col" id="right">
+            <!-- eslint-disable-next-line @angular-eslint/template/no-call-expression -->
             <ngx-mat-navigation-element *ngFor="let element of navService.getFooterElementsForRow('right', row)" [element]="element"></ngx-mat-navigation-element>
         </div>
     </div>
