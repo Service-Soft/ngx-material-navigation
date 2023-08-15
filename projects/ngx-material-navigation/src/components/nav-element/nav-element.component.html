@@ -64,28 +64,30 @@
     <!-------------------------------------------->
     <div *ngSwitchCase="NavElementTypes.MENU">
         <button #menuButton *ngIf="internalIsMenuItem"
+            type="button"
             mat-menu-item
             [matMenuTriggerFor]="menu"
             [class.sidenavElement]="isSidenavElement"
             [attr.aria-label]="element.ariaLabel"
         >
-            <i *ngIf="NavUtilities.asMenu(element).icon" [ngClass]="NavUtilities.asMenu(element).icon"></i>
-            {{NavUtilities.asMenu(element).name}}
+            <i *ngIf="elementMenu.icon" [ngClass]="elementMenu.icon"></i>
+            {{elementMenu.name}}
         </button>
 
         <button #menuButton *ngIf="!internalIsMenuItem"
+            type="button"
             mat-button
             [matMenuTriggerFor]="menu"
             [class.sidenavElement]="isSidenavElement"
             [attr.aria-label]="element.ariaLabel"
         >
-            <i *ngIf="NavUtilities.asMenu(element).icon" [ngClass]="NavUtilities.asMenu(element).icon"></i>
-            {{NavUtilities.asMenu(element).name}}
+            <i *ngIf="elementMenu.icon" [ngClass]="elementMenu.icon"></i>
+            {{elementMenu.name}}
         </button>
     </div>
 
     <mat-menu #menu="matMenu" [overlapTrigger]="false" [style.min-width.px]="menuWidth">
-        <div *ngFor="let menuElement of NavUtilities.asMenu(element).elements" [style.min-width.px]="menuWidth">
+        <div *ngFor="let menuElement of elementMenu.elements" [style.min-width.px]="menuWidth">
             <ngx-mat-navigation-element (click)="clickSidenavElement(menuElement)" [isSidenavElement]="internalIsSidenavElement" [sidenav]="sidenav" [isMenuItem]="true" [element]="menuElement">
             </ngx-mat-navigation-element>
         </div>
