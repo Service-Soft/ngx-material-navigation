@@ -2,7 +2,7 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavbarRow, NavElementTypes, NavUtilities, NgxMatNavigationNotFoundComponent, NavRoute } from 'ngx-material-navigation';
+import { NavElementTypes, NavRoute, NavUtilities, NavbarRow, NgxMatNavigationNotFoundComponent } from 'ngx-material-navigation';
 import { CustomComponent } from './components/custom/custom.component';
 import { footerRows } from './footer-rows';
 
@@ -55,6 +55,10 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                             {
                                 name: 'Middle',
                                 fragment: 'middle'
+                            },
+                            {
+                                name: 'Test for responsiveness',
+                                fragment: 'test'
                             }
                         ]
                     }

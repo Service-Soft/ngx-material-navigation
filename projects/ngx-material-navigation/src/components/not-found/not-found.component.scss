@@ -1,5 +1,9 @@
+div {
+    padding: 24px 6px 24px 6px;
+    text-align: center;
+}
+
 h1 {
-    margin-top: 24px;
     text-align: center;
     font-size: 130px;
     line-height: 130px;
@@ -21,10 +25,7 @@ p {
     margin-bottom: 24px;
 }
 
-button {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+a {
     font-size: 25px;
-    margin-bottom: 24px;
+    line-height: 25px;
 }
