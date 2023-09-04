@@ -70,7 +70,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
 
     sanitizedMinHeight!: SafeStyle;
 
-    screenWidthName: 'lg' | 'md' | 'sm' = this.getCurrentScreenWidthName();
+    screenWidthName!: 'lg' | 'md' | 'sm';
 
     internalSidenavElements: NavElement[] = [];
 
@@ -95,6 +95,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
     }
 
     ngOnInit(): void {
+        this.screenWidthName = this.getCurrentScreenWidthName();
         this.navService.navbarRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(navbarRows => {
             this.internalSidenavElements = this.navService.getSidenavElements(navbarRows, this.screenWidthName);
             if (!this.internalSidenavElements.length && this.sidenav && this.sidenav.opened) {
