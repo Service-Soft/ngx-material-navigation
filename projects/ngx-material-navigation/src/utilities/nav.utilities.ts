@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+
 import { FooterRow, NavFooterElement } from '../models/footer.model';
 import { NavImageWithInternalLink } from '../models/nav-image.model';
 import { NavInternalLink } from '../models/nav-link.model';
@@ -22,7 +23,6 @@ export abstract class NavUtilities {
         return Object.keys(element).includes('elements');
     }
 
-    // eslint-disable-next-line jsdoc/require-jsdoc
     private static isAngularRoute(route: Route | string): route is Route {
         return typeof route !== 'string';
     }
@@ -30,7 +30,6 @@ export abstract class NavUtilities {
     /**
      * Gets the angular routes.
      * Extracts them from the navbar and footer rows and adds any additional routes provided in additionalRoutes.
-     *
      * @param navbarRows - The NavbarRows used as a configuration for the navbar element.
      * @param footerRows - The FooterRows used as a configuration for the footer element.
      * @param additionalRoutes - Any additional routes that aren't included in the navbar or footer rows.
@@ -49,6 +48,7 @@ export abstract class NavUtilities {
         const uniquePaths: string[] = [];
         const res: RouteType[] = [];
         for (const route of allRoutes) {
+            // eslint-disable-next-line sonar/no-empty-collection
             if (!uniquePaths.find(r => r === route.path)) {
                 res.push(route);
             }

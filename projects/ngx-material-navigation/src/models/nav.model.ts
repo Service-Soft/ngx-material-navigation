@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+
 import { NavButton } from './nav-button.model';
 import { NavCustom } from './nav-custom.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
@@ -59,5 +60,5 @@ export abstract class BaseNavElement {
 export type NavElement<RouteType extends Route = NavRoute> =
     NavTitle | NavTitleWithInternalLink<RouteType> | NavTitleWithExternalLink
     | NavImage | NavImageWithExternalLink | NavImageWithInternalLink<RouteType>
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line typescript/no-explicit-any
     | NavButton | NavInternalLink<RouteType> | NavExternalLink | NavMenu | NavCustom<any> | NavText;

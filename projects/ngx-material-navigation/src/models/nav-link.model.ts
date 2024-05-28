@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+
 import { NavRoute } from './nav-route.model';
 import { BaseNavElement, NavElementTypes } from './nav.model';
 

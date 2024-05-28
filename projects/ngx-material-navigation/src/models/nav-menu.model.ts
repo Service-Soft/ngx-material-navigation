@@ -14,7 +14,7 @@ export type NavMenuElement =
     Omit<NavTitle, 'collapse'> | Omit<NavTitleWithInternalLink, 'collapse'> | Omit<NavTitleWithExternalLink, 'collapse'> |
     Omit<NavImage, 'collapse'> | Omit<NavImageWithExternalLink, 'collapse'> | Omit<NavImageWithInternalLink, 'collapse'> |
     Omit<NavButton, 'collapse'> | Omit<NavInternalLink, 'collapse'> | Omit<NavExternalLink, 'collapse'> | Omit<NavMenu, 'collapse'> |
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line typescript/no-explicit-any
     Omit<NavCustom<any>, 'collapse'> | Omit<NavText, 'collapse'>;
 
 /**

@@ -1,5 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+
 import { PageNotFoundConfig } from '../../models/page-not-found-config.model';
 
 /**
@@ -8,7 +11,13 @@ import { PageNotFoundConfig } from '../../models/page-not-found-config.model';
 @Component({
     selector: 'ngx-mat-navigation-not-found',
     templateUrl: './not-found.component.html',
-    styleUrls: ['./not-found.component.scss']
+    styleUrls: ['./not-found.component.scss'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        RouterModule
+    ]
 })
 export class NgxMatNavigationNotFoundComponent implements OnInit {
     /**
@@ -18,9 +27,13 @@ export class NgxMatNavigationNotFoundComponent implements OnInit {
     @Input()
     config?: PageNotFoundConfig;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     title!: string;
+    // eslint-disable-next-line jsdoc/require-jsdoc
     message!: string;
+    // eslint-disable-next-line jsdoc/require-jsdoc
     buttonLabel!: string;
+    // eslint-disable-next-line jsdoc/require-jsdoc
     homeRoute!: string;
 
     constructor(private readonly route: ActivatedRoute) {}
@@ -28,8 +41,9 @@ export class NgxMatNavigationNotFoundComponent implements OnInit {
     ngOnInit(): void {
         const routeData: PageNotFoundConfig | undefined = this.route.snapshot.data['pageNotFoundConfig'] as PageNotFoundConfig | undefined;
         this.title = this.config?.title ?? routeData?.title ?? 'Page not found';
-        // eslint-disable-next-line max-len
-        this.message = this.config?.message ?? routeData?.message ?? 'The page you are looking for might have been removed, had its name changed or is temporarily unavailable.';
+        this.message = this.config?.message
+        ?? routeData?.message
+        ?? 'The page you are looking for might have been removed, had its name changed or is temporarily unavailable.';
         this.buttonLabel = this.config?.buttonLabel ?? routeData?.buttonLabel ?? 'Homepage';
         this.homeRoute = this.config?.homeRoute ?? routeData?.homeRoute ?? '/';
     }

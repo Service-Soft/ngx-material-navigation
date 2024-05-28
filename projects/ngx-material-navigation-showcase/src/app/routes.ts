@@ -1,8 +1,9 @@
+/* eslint-disable promise/prefer-await-to-then */
 /* eslint-disable no-console */
-/* eslint-disable jsdoc/require-jsdoc */
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavElementTypes, NavRoute, NavUtilities, NavbarRow, NgxMatNavigationNotFoundComponent } from 'ngx-material-navigation';
+
 import { CustomComponent } from './components/custom/custom.component';
 import { footerRows } from './footer-rows';
 
@@ -28,13 +29,18 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'sm'
             },
             {
+                type: NavElementTypes.TITLE,
+                title: 'Title'
+            },
+            {
                 type: NavElementTypes.INTERNAL_LINK,
                 name: 'Home',
+                // eslint-disable-next-line sonar/no-duplicate-string
                 icon: 'fas fa-home',
                 route: {
                     title: 'Home',
                     path: 'home',
-                    loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
+                    loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent)
                 },
                 collapse: 'md'
             },
@@ -76,7 +82,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                         route: {
                             title: 'Home',
                             path: 'home',
-                            loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
+                            loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent)
                         }
                     },
                     {
@@ -112,6 +118,11 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                             {
                                 type: NavElementTypes.CUSTOM,
                                 component: CustomComponent
+                            },
+                            {
+                                type: NavElementTypes.INTERNAL_LINK,
+                                name: 'Link',
+                                route: 'home'
                             }
                         ]
                     }
@@ -156,6 +167,6 @@ export const routes: NavRoute[] = NavUtilities.getAngularRoutes(navbarRows, foot
 
 function conditionWithInjection(): boolean {
     const router: Router = inject(Router);
-    console.log(router.url);
+    console.log('(This is used to test injections in conditions) Current Injected Route:', router.url);
     return true;
 }

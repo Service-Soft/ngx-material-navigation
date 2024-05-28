@@ -1,4 +1,6 @@
+/* eslint-disable stylistic/indent */
 import { Component, Input } from '@angular/core';
+
 import { NavButton } from '../../models/nav-button.model';
 import { NavCustom } from '../../models/nav-custom.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from '../../models/nav-image.model';
@@ -13,6 +15,7 @@ import { NavElement, NavElementTypes } from '../../models/nav.model';
  *
  * It already provides the elementValue: Just the typed version of the element.
  */
+// eslint-disable-next-line angular/prefer-standalone
 @Component({
     selector: 'ngx-mat-navigation-base-nav-element',
     template: ''
@@ -60,7 +63,7 @@ export type NavElementType<T> =
     : T extends NavElementTypes.BUTTON ? NavButton
     : T extends NavElementTypes.BUTTON_FLAT ? NavButton
     : T extends NavElementTypes.MENU ? NavMenu
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line typescript/no-explicit-any
     : T extends NavElementTypes.CUSTOM ? NavCustom<any>
     : T extends NavElementTypes.TEXT ? NavText
     : never;

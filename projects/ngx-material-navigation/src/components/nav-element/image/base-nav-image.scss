@@ -1,8 +1,8 @@
-#image-link:hover {
-    background: transparent;
+.image-link {
+    display: inline-flex;
 
-    img {
-        width: auto;
+    &:hover {
+        background: transparent;
     }
 }
 
@@ -10,6 +10,11 @@
     display: inline-block;
     width: 100%;
     text-align: left;
+
+    img {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
 }
 
 .menuItem {
@@ -18,4 +23,9 @@
     justify-content: flex-start;
     width: 100%;
     min-height: 48px;
+
+    img {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
 }

@@ -1,1 +1,4 @@
-<img [ngStyle]="{ 'height.px': elementValue.height }" [class.sidenavElement]="isSidenavElement" [class.menuItem]="isMenuItem" [src]="elementValue.url">
+<div [class.sidenavElement]="isSidenavElement" [class.menuItem]="isMenuItem">
+    <!-- eslint-disable-next-line angular/prefer-ngsrc -->
+    <img width="auto" [alt]="elementValue.alt" [height]="elementValue.height" [src]="elementValue.url">
+</div>

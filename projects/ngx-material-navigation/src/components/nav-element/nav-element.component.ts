@@ -1,6 +1,22 @@
+
+import { CommonModule } from '@angular/common';
 import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+
+import { NavButtonComponent } from './button/nav-button/nav-button.component';
+import { NavButtonFlatComponent } from './button/nav-button-flat/nav-button-flat.component';
+import { NavCustomComponent } from './custom/nav-custom/nav-custom.component';
+import { NavImageComponent } from './image/nav-image/nav-image.component';
+import { NavImageWithExternalLinkComponent } from './image/nav-image-with-external-link/nav-image-with-external-link.component';
+import { NavImageWithInternalLinkComponent } from './image/nav-image-with-internal-link/nav-image-with-internal-link.component';
+import { NavExternalLinkComponent } from './link/nav-external-link/nav-external-link.component';
+import { NavInternalLinkComponent } from './link/nav-internal-link/nav-internal-link.component';
+import { NavTextComponent } from './text/nav-text/nav-text.component';
+import { NavTitleComponent } from './title/nav-title/nav-title.component';
+import { NavTitleWithExternalLinkComponent } from './title/nav-title-with-external-link/nav-title-with-external-link.component';
+import { NavTitleWithInternalLinkComponent } from './title/nav-title-with-internal-link/nav-title-with-internal-link.component';
 import { NavMenu } from '../../models/nav-menu.model';
 import { NavElement, NavElementTypes } from '../../models/nav.model';
 import { NavUtilities } from '../../utilities/nav.utilities';
@@ -9,12 +25,32 @@ import { NavUtilities } from '../../utilities/nav.utilities';
  * Displays a single Navigation Element.
  */
 @Component({
+    standalone: true,
     selector: 'ngx-mat-navigation-element',
     templateUrl: './nav-element.component.html',
-    styleUrls: ['./nav-element.component.scss']
+    styleUrls: ['./nav-element.component.scss'],
+    imports: [
+        CommonModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatSidenavModule,
+        NavTitleComponent,
+        NavTitleWithInternalLinkComponent,
+        NavTitleWithExternalLinkComponent,
+        NavImageComponent,
+        NavImageWithInternalLinkComponent,
+        NavImageWithExternalLinkComponent,
+        NavButtonComponent,
+        NavButtonFlatComponent,
+        NavInternalLinkComponent,
+        NavExternalLinkComponent,
+        NavCustomComponent,
+        NavTextComponent
+    ]
 })
 export class NavElementComponent implements AfterContentChecked, OnInit {
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     NavElementTypes: typeof NavElementTypes = NavElementTypes;
 
     /**
@@ -23,6 +59,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     @Input()
     element!: NavElement;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     elementMenu!: NavMenu;
 
     /**
@@ -37,6 +74,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
      */
     @Input()
     isSidenavElement?: boolean;
+    // eslint-disable-next-line jsdoc/require-jsdoc
     protected internalIsSidenavElement!: boolean;
 
     /**
@@ -45,11 +83,14 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
      */
     @Input()
     isMenuItem?: boolean;
+    // eslint-disable-next-line jsdoc/require-jsdoc
     protected internalIsMenuItem!: boolean;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     @ViewChild('menuButton')
     menuButton?: MatButton;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     menuWidth!: number;
 
     ngOnInit(): void {
@@ -59,9 +100,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     }
 
     ngAfterContentChecked(): void {
-        if (this.menuButton) {
-            this.menuWidth = this.getMenuWidth();
-        }
+        this.onResize();
     }
 
     /**
@@ -80,7 +119,6 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
 
     /**
      * Defines if the sidenav should be closed when the given element is clicked.
-     *
      * @param element - The element that has been clicked.
      */
     clickSidenavElement(element: NavElement): void {

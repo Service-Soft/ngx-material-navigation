@@ -1,5 +1,5 @@
-import { Type } from '@angular/core';
-import { Data, Resolve, ResolveFn, Route } from '@angular/router';
+import { Data, ResolveFn, Route } from '@angular/router';
+
 import { PageNotFoundConfig } from './page-not-found-config.model';
 
 /**
@@ -9,7 +9,7 @@ import { PageNotFoundConfig } from './page-not-found-config.model';
  */
 export interface NavRoute<DataType extends Data = DefaultNavRouteDataType> extends Route {
     // eslint-disable-next-line jsdoc/require-jsdoc
-    title: string | Type<Resolve<string>> | ResolveFn<string>,
+    title: string | ResolveFn<string>,
     // eslint-disable-next-line jsdoc/require-jsdoc
     path: string,
     // eslint-disable-next-line jsdoc/require-jsdoc
