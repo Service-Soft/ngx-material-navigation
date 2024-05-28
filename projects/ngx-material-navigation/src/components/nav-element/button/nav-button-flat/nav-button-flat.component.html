@@ -1,10 +1,12 @@
 <button mat-button
     type="button"
-    (click)="runAction()"
     [class.sidenavElement]="isSidenavElement"
     [class.menuItem]="isMenuItem"
     [attr.aria-label]="elementValue.ariaLabel"
+    (click)="runAction()"
 >
-    <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i>
+    @if (elementValue.icon) {
+        <i [ngClass]="elementValue.icon"></i>
+    }
     {{elementValue.name}}
 </button>

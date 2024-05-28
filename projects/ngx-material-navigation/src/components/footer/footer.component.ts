@@ -1,7 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Subject, takeUntil } from 'rxjs';
+
 import { FooterRow } from '../../models/footer.model';
 import { NgxMatNavigationService } from '../../services/nav.service';
+import { NavElementComponent } from '../nav-element/nav-element.component';
 
 /**
  * Displays a footer based on the provided input data.
@@ -9,7 +13,13 @@ import { NgxMatNavigationService } from '../../services/nav.service';
 @Component({
     selector: 'ngx-mat-navigation-footer',
     templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss']
+    styleUrls: ['./footer.component.scss'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        NavElementComponent
+    ]
 })
 export class NgxMatNavigationFooterComponent implements OnInit, OnDestroy {
     private readonly onDestroy: Subject<void> = new Subject();
@@ -25,7 +35,7 @@ export class NgxMatNavigationFooterComponent implements OnInit, OnDestroy {
      */
     @Input()
     footerRows!: FooterRow[];
-
+    // eslint-disable-next-line jsdoc/require-jsdoc
     internalFooterRows: FooterRow[] = [];
 
     constructor(public navService: NgxMatNavigationService) { }

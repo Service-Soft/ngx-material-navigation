@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
 import { NavRoute } from './nav-route.model';
 import { BaseNavElement, NavElementTypes } from './nav.model';
@@ -16,7 +17,11 @@ export interface NavImage extends BaseNavElement {
     /**
      * The height of the image in pixels.
      */
-    height: number
+    height: number,
+    /**
+     * The img alt tag value.
+     */
+    alt?: string
 }
 
 /**
@@ -36,7 +41,11 @@ export interface NavImageWithInternalLink<RouteType extends Route = NavRoute> ex
     /**
      * The link object. Contains the route and whether or not it should be opened in a new tab.
      */
-    link: Omit<NavInternalLink<RouteType>, 'name' | 'icon' | 'type' | 'collapse' | 'position'>
+    link: Omit<NavInternalLink<RouteType>, 'name' | 'icon' | 'type' | 'collapse' | 'position'>,
+    /**
+     * The img alt tag value.
+     */
+    alt?: string
 }
 
 /**
@@ -56,5 +65,9 @@ export interface NavImageWithExternalLink extends BaseNavElement {
     /**
      * The link object. Contains the href link and whether or not it should be opened in a new tab.
      */
-    link: Omit<NavExternalLink, 'name' | 'icon' | 'type' | 'collapse' | 'position'>
+    link: Omit<NavExternalLink, 'name' | 'icon' | 'type' | 'collapse' | 'position'>,
+    /**
+     * The img alt tag value.
+     */
+    alt?: string
 }

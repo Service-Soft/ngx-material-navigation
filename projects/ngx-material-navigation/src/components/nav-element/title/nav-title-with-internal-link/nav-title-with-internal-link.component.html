@@ -7,7 +7,9 @@
     [attr.aria-label]="elementValue.ariaLabel"
 >
     <h1>
-        <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i>
+        @if (elementValue.icon) {
+            <i [ngClass]="elementValue.icon"></i>
+        }
         {{elementValue.title}}
     </h1>
 </a>

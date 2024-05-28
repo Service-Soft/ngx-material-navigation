@@ -1,6 +1,7 @@
-import { EnvironmentInjector, Injectable } from '@angular/core';
+import { EnvironmentInjector, Injectable, runInInjectionContext } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+
 import { FooterRow, NavFooterElement } from '../models/footer.model';
 import { NavInternalLink } from '../models/nav-link.model';
 import { DefaultNavRouteDataType, NavAnchor } from '../models/nav-route.model';
@@ -52,7 +53,7 @@ export class NgxMatNavigationService {
     constructor(private readonly injector: EnvironmentInjector, private readonly router: Router) {
         this.router.events.subscribe(e => {
             if (e instanceof NavigationEnd) {
-                // eslint-disable-next-line max-len
+
                 let route: ActivatedRoute | null = this.router.routerState.root.firstChild;
                 while (route?.firstChild) {
                     route = route.firstChild;
@@ -65,24 +66,20 @@ export class NgxMatNavigationService {
 
     /**
      * Gets the rows that are really displayed in the navbar and not collapsed to the sidenav.
-     *
      * @param navbarRows - All navbar rows, including the ones collapsed to the sidenav.
      * @param screenWidthName - Name of the current width of the screen.
      * @returns All rows that are displayed inside the navbar.
      */
     getNavbarRows(navbarRows: NavbarRow[], screenWidthName: 'lg' | 'md' | 'sm'): NavbarRow[] {
         navbarRows = navbarRows.concat(this.anchorRow);
-        const emptyRows: NavbarRow[] = navbarRows.filter(r =>
-            !this.getNavbarElementsForRow('left', screenWidthName, r).length
+        const emptyRows: NavbarRow[] = navbarRows.filter(r => !this.getNavbarElementsForRow('left', screenWidthName, r).length
             && !this.getNavbarElementsForRow('center', screenWidthName, r).length
-            && !this.getNavbarElementsForRow('right', screenWidthName, r).length
-        );
+            && !this.getNavbarElementsForRow('right', screenWidthName, r).length);
         return navbarRows.filter(r => !emptyRows.includes(r));
     }
 
     /**
      * Get all elements at the provided position with the provided screenWidth from the given elements.
-     *
      * @param position - The position for which to get the elements.
      * @param screenWidthName - Name of the current width of the screen.
      * @param row - The row to get the elements from.
@@ -93,12 +90,7 @@ export class NgxMatNavigationService {
         res = res.concat(row.elements);
         res = res.filter(e => this.checkCondition(e));
 
-        if (position === 'left') {
-            res = res.filter(e => !e.position || e.position === position);
-        }
-        else {
-            res = res.filter(e => e.position === position);
-        }
+        res = position === 'left' ? res.filter(e => !e.position || e.position === position) : res.filter(e => e.position === position);
         switch (screenWidthName) {
             case 'lg':
                 return res.filter(e => e.collapse !== 'always' && e.collapse !== 'lg');
@@ -113,13 +105,12 @@ export class NgxMatNavigationService {
         if (!element.condition) {
             return true;
         }
-        // runInContext(...) is needed to enable the user to use injections in his condition functions.
-        return this.injector.runInContext(() => element.condition ? element.condition() : true);
+        // runInInjectionContext(...) is needed to enable the user to use injections in his condition functions.
+        return runInInjectionContext(this.injector, () => element.condition ? element.condition() : true);
     }
 
     /**
      * Gets all the elements to display in the sidenav.
-     *
      * @param rows - The rows to get the elements from.
      * @param screenWidthName - Name of the current width of the screen.
      * @returns The NavElements to display in the sidenav.
@@ -136,14 +127,13 @@ export class NgxMatNavigationService {
             case 'md':
                 return res.filter(e => e.collapse === 'always' || e.collapse === 'lg' || e.collapse === 'md');
             case 'sm':
-                // eslint-disable-next-line max-len
+                // eslint-disable-next-line stylistic/max-len
                 return res.filter(e => !e.collapse || e.collapse === 'always' || e.collapse === 'lg' || e.collapse === 'md' || e.collapse === 'sm');
         }
     }
 
     /**
      * Get all elements at the provided position from the given elements.
-     *
      * @param position - The position for which to get the elements.
      * @param row - The row to get the elements from.
      * @returns All Elements for the provided input.

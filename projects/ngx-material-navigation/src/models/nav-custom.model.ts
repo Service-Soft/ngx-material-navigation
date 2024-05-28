@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
-import { NgxMatNavigationBaseNavElementComponent } from '../components/nav-element/base-nav-element.component';
+
 import { BaseNavElement, NavElementTypes } from './nav.model';
+import { NgxMatNavigationBaseNavElementComponent } from '../components/nav-element/base-nav-element.component';
 
 /**
  * Displays a custom element.

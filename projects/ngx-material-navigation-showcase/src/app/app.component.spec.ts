@@ -1,16 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
+
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule
-            ],
-            declarations: [
-                AppComponent
-            ]
+            imports: [RouterModule],
+            declarations: [AppComponent]
         }).compileComponents();
     });
 
