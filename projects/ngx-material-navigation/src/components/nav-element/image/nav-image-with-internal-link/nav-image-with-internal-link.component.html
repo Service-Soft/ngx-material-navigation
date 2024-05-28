@@ -1,9 +1,10 @@
-<a id="image-link" disableRipple
+<a class="image-link" disableRipple
     [routerLink]="route"
     [target]="elementValue.link.openInNewTab ? '_blank' : '_self'"
     [rel]="elementValue.link.openInNewTab ? 'noreferrer noopener' : undefined"
     [class.sidenavElement]="isSidenavElement"
     [class.menuItem]="isMenuItem"
 >
-    <img [ngStyle]="{ 'height.px': elementValue.height }" [src]="elementValue.url">
+    <!-- eslint-disable-next-line angular/prefer-ngsrc -->
+    <img width="auto" [alt]="elementValue.alt" [height]="elementValue.height" [src]="elementValue.url">
 </a>

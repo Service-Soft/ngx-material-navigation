@@ -1,10 +1,11 @@
-<button mat-raised-button
-    type="button"
-    (click)="runAction()"
-    [class.sidenavElement]="isSidenavElement"
+<div [class.sidenavElement]="isSidenavElement"
     [class.menuItem]="isMenuItem"
     [attr.aria-label]="elementValue.ariaLabel"
 >
-    <i *ngIf="elementValue.icon" [ngClass]="elementValue.icon"></i>
-    {{elementValue.name}}
-</button>
+    <button mat-raised-button type="button" (click)="runAction()">
+        @if (elementValue.icon) {
+            <i [ngClass]="elementValue.icon"></i>
+        }
+        {{elementValue.name}}
+    </button>
+</div>

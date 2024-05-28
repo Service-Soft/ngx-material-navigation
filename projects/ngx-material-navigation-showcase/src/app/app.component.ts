@@ -1,13 +1,20 @@
-/* eslint-disable jsdoc/require-jsdoc */
 import { AfterContentChecked, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { FooterRow, NavbarRow } from 'ngx-material-navigation';
+import { RouterModule } from '@angular/router';
+import { FooterRow, NavbarRow, NgxMatNavigationFooterComponent, NgxMatNavigationNavbarComponent } from 'ngx-material-navigation';
+
 import { footerRows } from './footer-rows';
 import { navbarRows } from './routes';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss'],
+    standalone: true,
+    imports: [
+        RouterModule,
+        NgxMatNavigationNavbarComponent,
+        NgxMatNavigationFooterComponent
+    ]
 })
 export class AppComponent implements AfterContentChecked {
     navbarRows: NavbarRow[] = navbarRows;
@@ -19,12 +26,9 @@ export class AppComponent implements AfterContentChecked {
     footerHeight!: number;
 
     ngAfterContentChecked(): void {
-        if (this.footer) {
-            this.footerHeight = this.footer.nativeElement.offsetHeight;
-        }
+        this.onResize();
     }
 
-    // eslint-disable-next-line jsdoc/require-jsdoc
     @HostListener('window:resize', ['$event'])
     onResize(): void {
         if (this.footer) {

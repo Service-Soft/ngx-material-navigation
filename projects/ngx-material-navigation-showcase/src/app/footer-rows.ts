@@ -1,4 +1,5 @@
 import { FooterRow, NavElementTypes } from 'ngx-material-navigation';
+
 import { CustomComponent } from './components/custom/custom.component';
 
 export const footerRows: FooterRow[] = [
@@ -23,7 +24,7 @@ export const footerRows: FooterRow[] = [
             {
                 type: NavElementTypes.TEXT,
                 paragraphs: [
-                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line stylistic/max-len
                     'This is an example text for the ngx-mat-navigation-footer. This is an example text for the ngx-mat-navigation-footer. This is an example text for the ngx-mat-navigation-footer.'
                 ]
             },

@@ -2,11 +2,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { NavElementTypes } from '../../../../models/nav.model';
 import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.component';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
+    // eslint-disable-next-line angular/component-selector
     selector: 'nav-title-with-internal-link',
     templateUrl: './nav-title-with-internal-link.component.html',
     styleUrls: ['./nav-title-with-internal-link.component.scss', '../base-nav-title.scss'],

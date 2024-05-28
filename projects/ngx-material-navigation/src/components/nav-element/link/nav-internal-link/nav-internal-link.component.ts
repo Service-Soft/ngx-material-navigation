@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+
 import { NavElementTypes } from '../../../../models/nav.model';
 import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.component';
 
 @Component({
-    // eslint-disable-next-line @angular-eslint/component-selector
+    // eslint-disable-next-line angular/component-selector
     selector: 'nav-internal-link',
     templateUrl: './nav-internal-link.component.html',
     styleUrls: ['./nav-internal-link.component.scss'],

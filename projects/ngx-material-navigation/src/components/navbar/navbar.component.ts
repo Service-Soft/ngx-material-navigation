@@ -1,12 +1,16 @@
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { AfterContentChecked, Component, ElementRef, HostListener, Inject, InjectionToken, Input, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { Subject, takeUntil } from 'rxjs';
+
 import { NavElement, NavElementTypes } from '../../models/nav.model';
 import { NavbarRow } from '../../models/navbar.model';
 import { NgxMatNavigationService } from '../../services/nav.service';
+import { NavElementComponent } from '../nav-element/nav-element.component';
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export const NGX_BURGER_MENU_ARIA_LABEL: InjectionToken<string> = new InjectionToken<string>(
     'Provider for the burger menu aria label. Default: "Open Sidenav"',
     {
@@ -15,6 +19,7 @@ export const NGX_BURGER_MENU_ARIA_LABEL: InjectionToken<string> = new InjectionT
     }
 );
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export const NGX_BURGER_MENU_ICON: InjectionToken<string> = new InjectionToken<string>(
     'Provider for the burger menu icon. Default: "fas fa-bars"',
     {
@@ -31,7 +36,14 @@ export const NGX_BURGER_MENU_ICON: InjectionToken<string> = new InjectionToken<s
 @Component({
     selector: 'ngx-mat-navigation-navbar',
     templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.scss']
+    styleUrls: ['./navbar.component.scss'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        NavElementComponent,
+        MatSidenavModule
+    ]
 })
 export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, AfterContentChecked {
     private readonly onDestroy: Subject<void> = new Subject();
@@ -60,18 +72,26 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
     @Input()
     minSidenavWidth?: string;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     @ViewChild('sidenav')
     sidenav?: MatSidenav;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     @ViewChild('navbar', { read: ElementRef })
     navbar?: ElementRef<HTMLElement>;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     burgerMenu!: NavElement;
 
+    /**
+     * The minimum height of the navbar in sanitized.
+     */
     sanitizedMinHeight!: SafeStyle;
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     screenWidthName!: 'lg' | 'md' | 'sm';
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     internalSidenavElements: NavElement[] = [];
 
     constructor(
@@ -98,7 +118,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
         this.screenWidthName = this.getCurrentScreenWidthName();
         this.navService.navbarRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(navbarRows => {
             this.internalSidenavElements = this.navService.getSidenavElements(navbarRows, this.screenWidthName);
-            if (!this.internalSidenavElements.length && this.sidenav && this.sidenav.opened) {
+            if (!this.internalSidenavElements.length && (this.sidenav?.opened === true)) {
                 void this.sidenav.close();
             }
         });
@@ -108,13 +128,13 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
         });
     }
 
+    ngAfterContentChecked(): void {
+        this.updateHeights();
+    }
+
     ngOnDestroy(): void {
         this.onDestroy.next(undefined);
         this.onDestroy.complete();
-    }
-
-    ngAfterContentChecked(): void {
-        this.updateHeights();
     }
 
     private updateHeights(): void {
@@ -124,25 +144,22 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
         if (this.minHeightOtherElements && typeof this.minHeightOtherElements !== 'number') {
             throw new Error('Incorrect input data');
         }
-        if (this.navbar) {
-            if (!this.minHeight || this.navbar.nativeElement.offsetHeight > this.minHeight) {
-                this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
-                    // eslint-disable-next-line max-len
-                    `calc(100vh - ${this.navbar.nativeElement.offsetHeight + (this.minHeightOtherElements ? this.minHeightOtherElements : 0)}px)`
-                );
-            }
-            else {
-                this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
-                    // eslint-disable-next-line max-len
-                    `calc(100vh - ${(this.minHeight ? this.minHeight : 0) + (this.minHeightOtherElements ? this.minHeightOtherElements : 0)}px)`
-                );
-            }
+        if (!this.navbar) {
+            return;
         }
+        if (!this.minHeight || (this.navbar.nativeElement.offsetHeight > this.minHeight)) {
+            this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
+                `calc(100vh - ${this.navbar.nativeElement.offsetHeight + (this.minHeightOtherElements ?? 0)}px)`
+            );
+            return;
+        }
+        this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
+            `calc(100vh - ${(this.minHeight ?? 0) + (this.minHeightOtherElements ?? 0)}px)`
+        );
     }
 
     /**
      * Updates the current screen width and filters the sidenav elements accordingly.
-     *
      * @throws When no height data is provided or the data is invalid.
      */
     @HostListener('window:resize', ['$event'])
@@ -169,7 +186,6 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
 
     /**
      * Defines if the sidenav should be closed when the given element is clicked.
-     *
      * @param element - The element that has been clicked.
      */
     clickSidenavElement(element: NavElement): void {

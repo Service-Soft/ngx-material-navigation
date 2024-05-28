@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/typedef
+// eslint-disable-next-line typescript/typedef
 export const environment = {
     production: true
 };

@@ -1,96 +1,99 @@
-<div [ngSwitch]="element.type">
+@switch (element.type) {
     <!-------------------------------------------->
     <!------------------Titles-------------------->
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.TITLE">
+    @case (NavElementTypes.TITLE) {
         <nav-title [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-title>
-    </div>
-    <div *ngSwitchCase="NavElementTypes.TITLE_WITH_INTERNAL_LINK">
+    }
+    @case (NavElementTypes.TITLE_WITH_INTERNAL_LINK) {
         <nav-title-with-internal-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-title-with-internal-link>
-    </div>
-    <div *ngSwitchCase="NavElementTypes.TITLE_WITH_EXTERNAL_LINK">
+    }
+    @case (NavElementTypes.TITLE_WITH_EXTERNAL_LINK) {
         <nav-title-with-external-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-title-with-external-link>
-    </div>
-
+    }
     <!-------------------------------------------->
-    <!-------------------Image-------------------->
+    <!-------------------Images------------------->
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.IMAGE">
+    @case (NavElementTypes.IMAGE) {
         <nav-image [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-image>
-    </div>
-    <div *ngSwitchCase="NavElementTypes.IMAGE_WITH_EXTERNAL_LINK">
+    }
+    @case (NavElementTypes.IMAGE_WITH_INTERNAL_LINK) {
         <nav-image-with-internal-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-image-with-internal-link>
-    </div>
-    <div *ngSwitchCase="NavElementTypes.IMAGE_WITH_INTERNAL_LINK">
+    }
+    @case (NavElementTypes.IMAGE_WITH_EXTERNAL_LINK) {
         <nav-image-with-external-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-image-with-external-link>
-    </div>
-    
+    }
     <!-------------------------------------------->
-    <!-------------------Button------------------->
+    <!-------------------Buttons------------------>
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.BUTTON">
+    @case (NavElementTypes.BUTTON) {
         <nav-button [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-button>
-    </div>
-    <div *ngSwitchCase="NavElementTypes.BUTTON_FLAT">
+    }
+    @case (NavElementTypes.BUTTON_FLAT) {
         <nav-button-flat [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-button-flat>
-    </div>
-
+    }
     <!-------------------------------------------->
     <!--------------------Link-------------------->
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.INTERNAL_LINK">
+    @case (NavElementTypes.INTERNAL_LINK) {
         <nav-internal-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-internal-link>
-    </div>
-    <div *ngSwitchCase="NavElementTypes.EXTERNAL_LINK">
+    }
+    @case (NavElementTypes.EXTERNAL_LINK) {
         <nav-external-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-external-link>
-    </div>
-
+    }
     <!-------------------------------------------->
     <!-------------------CUSTOM------------------->
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.CUSTOM">
+    @case (NavElementTypes.CUSTOM) {
         <nav-custom [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-custom>
-    </div>
-
+    }
     <!-------------------------------------------->
     <!--------------------TEXT-------------------->
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.TEXT">
+    @case (NavElementTypes.TEXT) {
         <nav-text [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-text>
-    </div>
-
+    }
     <!-------------------------------------------->
     <!--------------------Menu-------------------->
     <!-------------------------------------------->
-    <div *ngSwitchCase="NavElementTypes.MENU">
-        <button #menuButton *ngIf="internalIsMenuItem"
-            type="button"
-            mat-menu-item
-            [matMenuTriggerFor]="menu"
-            [class.sidenavElement]="isSidenavElement"
-            [attr.aria-label]="element.ariaLabel"
-        >
-            <i *ngIf="elementMenu.icon" [ngClass]="elementMenu.icon"></i>
-            {{elementMenu.name}}
-        </button>
+    @case (NavElementTypes.MENU) {
+        @if (internalIsMenuItem) {
+            <button #menuButton
+                type="button"
+                mat-menu-item
+                style="padding-left: 12px; padding-right: 12px;"
+                [matMenuTriggerFor]="menu"
+                [class.sidenavElement]="isSidenavElement"
+                [attr.aria-label]="element.ariaLabel"
+            >
+                @if (elementMenu.icon) {
+                    <i [ngClass]="elementMenu.icon"></i>
+                }
+                {{elementMenu.name}}
+            </button>
+        }
+        @else {
+            <button #menuButton
+                type="button"
+                mat-button
+                [matMenuTriggerFor]="menu"
+                [class.sidenavElement]="isSidenavElement"
+                [attr.aria-label]="element.ariaLabel"
+            >
+                @if (elementMenu.icon) {
+                    <i [ngClass]="elementMenu.icon"></i>
+                }
+                {{elementMenu.name}}
+            </button>
+        }
+    }
+}
 
-        <button #menuButton *ngIf="!internalIsMenuItem"
-            type="button"
-            mat-button
-            [matMenuTriggerFor]="menu"
-            [class.sidenavElement]="isSidenavElement"
-            [attr.aria-label]="element.ariaLabel"
-        >
-            <i *ngIf="elementMenu.icon" [ngClass]="elementMenu.icon"></i>
-            {{elementMenu.name}}
-        </button>
-    </div>
-
-    <mat-menu #menu="matMenu" [overlapTrigger]="false" [style.min-width.px]="menuWidth">
-        <div *ngFor="let menuElement of elementMenu.elements" [style.min-width.px]="menuWidth">
-            <ngx-mat-navigation-element (click)="clickSidenavElement(menuElement)" [isSidenavElement]="internalIsSidenavElement" [sidenav]="sidenav" [isMenuItem]="true" [element]="menuElement">
+<mat-menu #menu="matMenu" [overlapTrigger]="false" [style.min-width.px]="menuWidth">
+    @for (menuElement of elementMenu.elements; track $index) {
+        <div>
+            <ngx-mat-navigation-element [isSidenavElement]="internalIsSidenavElement" [sidenav]="sidenav" [isMenuItem]="true" [element]="menuElement" (click)="clickSidenavElement(menuElement)">
             </ngx-mat-navigation-element>
         </div>
-    </mat-menu>
-    
-</div>
+    }
+</mat-menu>

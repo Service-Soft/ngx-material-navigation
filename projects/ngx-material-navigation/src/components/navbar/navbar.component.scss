@@ -19,5 +19,9 @@
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
+
+        ngx-mat-navigation-element {
+            display: inline-flex;
+        }
     }
 }
