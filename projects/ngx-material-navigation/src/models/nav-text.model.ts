@@ -1,4 +1,4 @@
-import { BaseNavElement, NavElementTypes } from './nav.model';
+import { BaseNavElement, NavElementTypes } from './nav-element.model';
 
 /**
  * The definition for a simple text to display eg. Inside the footer.

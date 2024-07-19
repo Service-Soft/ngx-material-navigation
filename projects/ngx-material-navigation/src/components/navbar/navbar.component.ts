@@ -1,11 +1,10 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AfterContentChecked, Component, ElementRef, HostListener, Inject, InjectionToken, Input, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AfterContentChecked, Component, ElementRef, EnvironmentInjector, HostListener, Inject, InjectionToken, Input, runInInjectionContext, ViewChild } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
-import { Subject, takeUntil } from 'rxjs';
 
-import { NavElement, NavElementTypes } from '../../models/nav.model';
+import { NavElement, NavElementPosition, NavElementTypes } from '../../models/nav-element.model';
 import { NavbarRow } from '../../models/navbar.model';
 import { NgxMatNavigationService } from '../../services/nav.service';
 import { NavElementComponent } from '../nav-element/nav-element.component';
@@ -45,9 +44,7 @@ export const NGX_BURGER_MENU_ICON: InjectionToken<string> = new InjectionToken<s
         MatSidenavModule
     ]
 })
-export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, AfterContentChecked {
-    private readonly onDestroy: Subject<void> = new Subject();
-
+export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
     /**
      * The navbar rows to build the navbar from.
      */
@@ -88,11 +85,29 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
      */
     sanitizedMinHeight!: SafeStyle;
 
-    // eslint-disable-next-line jsdoc/require-jsdoc
-    screenWidthName!: 'lg' | 'md' | 'sm';
+    // eslint-disable-next-line jsdoc/require-returns
+    /**
+     * All navbar rows, including the anchor row from the nav service.
+     */
+    get allNavbarRows(): NavbarRow[] {
+        return [
+            ...this.navbarRows,
+            this.navService.anchorRow
+        ];
+    }
 
-    // eslint-disable-next-line jsdoc/require-jsdoc
-    internalSidenavElements: NavElement[] = [];
+    // eslint-disable-next-line jsdoc/require-returns
+    /**
+     * All sidenav elements which conditions are fulfilled.
+     */
+    get sidenavElements(): NavElement[] {
+        const res: NavElement[] = [];
+        // anchorRow is excluded from sidenav
+        for (const row of this.navbarRows) {
+            res.push(...row.elements.filter(e => this.checkCondition(e)));
+        }
+        return res;
+    }
 
     constructor(
         private readonly sanitizer: DomSanitizer,
@@ -101,8 +116,7 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
         private readonly burgerMenuIcon: string,
         @Inject(NGX_BURGER_MENU_ARIA_LABEL)
         private readonly burgerMenuAriaLabel: string,
-        @Inject(PLATFORM_ID)
-        private readonly platformId: Object
+        private readonly injector: EnvironmentInjector
     ) {
         this.burgerMenu = {
             type: NavElementTypes.BUTTON_FLAT,
@@ -114,27 +128,51 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
         };
     }
 
-    ngOnInit(): void {
-        this.screenWidthName = this.getCurrentScreenWidthName();
-        this.navService.navbarRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(navbarRows => {
-            this.internalSidenavElements = this.navService.getSidenavElements(navbarRows, this.screenWidthName);
-            if (!this.internalSidenavElements.length && (this.sidenav?.opened === true)) {
-                void this.sidenav.close();
-            }
+    /**
+     * Gets thee navbar elements for the row with the given index at the given position.
+     * @param row - The index of the row to get the elements for.
+     * @param position - Where in the row the elements are positioned.
+     * @returns An array of the resolved navbar elements.
+     */
+    getNavbarElements(row: NavbarRow, position: NavElementPosition): NavElement[] {
+        return row.elements.filter(e => {
+            return ((e.position === position) || (e.position == undefined && position === 'left'))
+                && this.checkCondition(e);
         });
-        this.navService.navbarRowsSubject.next(this.navbarRows);
-        this.navService.anchorsSubject.pipe(takeUntil(this.onDestroy)).subscribe(() => {
-            this.navService.navbarRowsSubject.next(this.navService.navbarRowsSubject.value);
-        });
+    }
+
+    private checkCondition(element: NavElement): boolean {
+        if (!element.condition) {
+            return true;
+        }
+        // runInInjectionContext(...) is needed to enable the user to use injections in his condition functions.
+        return runInInjectionContext(this.injector, () => element.condition ? element.condition() : true);
+    }
+
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    getElementClass(element: NavElement): string {
+        return `collapse-${element.collapse ?? 'sm'}`;
+    }
+
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    getBurgerMenuClass(): string {
+        if (this.sidenavElements.find(e => e.collapse === 'always')) {
+            return 'burger-always';
+        }
+        if (this.sidenavElements.find(e => e.collapse === 'lg')) {
+            return 'burger-lg';
+        }
+        if (this.sidenavElements.find(e => e.collapse === 'md')) {
+            return 'burger-md';
+        }
+        if (this.sidenavElements.find(e => e.collapse === 'sm')) {
+            return 'burger-sm';
+        }
+        return 'burger-never';
     }
 
     ngAfterContentChecked(): void {
         this.updateHeights();
-    }
-
-    ngOnDestroy(): void {
-        this.onDestroy.next(undefined);
-        this.onDestroy.complete();
     }
 
     private updateHeights(): void {
@@ -165,22 +203,8 @@ export class NgxMatNavigationNavbarComponent implements OnInit, OnDestroy, After
     @HostListener('window:resize', ['$event'])
     onResize(): void {
         this.updateHeights();
-        this.screenWidthName = this.getCurrentScreenWidthName();
-        this.navService.navbarRowsSubject.next(this.navService.navbarRowsSubject.value);
-    }
-
-    private getCurrentScreenWidthName(): 'lg' | 'md' | 'sm' {
-        if (!isPlatformBrowser(this.platformId)) {
-            return 'lg';
-        }
-        if (window.innerWidth < 768) {
-            return 'sm';
-        }
-        else if (window.innerWidth < 992) {
-            return 'md';
-        }
-        else {
-            return 'lg';
+        if (this.sidenav?.opened === true) {
+            void this.sidenav.close();
         }
     }
 

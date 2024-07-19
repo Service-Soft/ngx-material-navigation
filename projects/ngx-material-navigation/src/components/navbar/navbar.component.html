@@ -1,27 +1,34 @@
 <!-- eslint-disable angular/no-call-expression -->
 
-@if (navService.getNavbarRows(navbarRows, screenWidthName).length>1) {
+@if (allNavbarRows.length > 1) {
     <mat-toolbar #navbar id="toolbar" class="mat-elevation-z8" [style.min-height.px]="minHeight ?? 0">
-        @for (row of navService.getNavbarRows(navbarRows, screenWidthName); track $index) {
+        @for (row of navbarRows; track $index) {
             <mat-toolbar-row class="toolbar-row">
                 <div class="toolbar-col">
-                    @for (element of navService.getNavbarElementsForRow('left', screenWidthName, row); track $index) {
-                        <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                    @for (element of getNavbarElements(row, 'left'); track $index) {
+                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
-                    @for (element of navService.getNavbarElementsForRow('center', screenWidthName, row); track $index) {
-                        <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                    @for (element of getNavbarElements(row, 'center'); track $index) {
+                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
-                    @for (element of navService.getNavbarElementsForRow('right', screenWidthName, row); track $index) {
-                        <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                    @for (element of getNavbarElements(row, 'right'); track $index) {
+                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
                     }
-                    @if (internalSidenavElements.length && (navbarRows.indexOf(row) === 0)) {
-                        <ngx-mat-navigation-element [element]="burgerMenu"></ngx-mat-navigation-element>
+                    @if ($index === 0) {
+                        <ngx-mat-navigation-element [class]="getBurgerMenuClass()" [element]="burgerMenu"></ngx-mat-navigation-element>
                     }
                 </div>
+            </mat-toolbar-row>
+        }
+        @if (navService.anchorRow.elements.length) {
+            <mat-toolbar-row class="anchor-row">
+                @for (element of navService.anchorRow.elements; track $index) {
+                    <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                }
             </mat-toolbar-row>
         }
     </mat-toolbar>
@@ -30,32 +37,30 @@
     <mat-toolbar #navbar id="toolbar" class="mat-elevation-z8" [style.min-height.px]="minHeight ?? 0">
         <div class="toolbar-row">
             <div class="toolbar-col">
-                @for (element of navService.getNavbarElementsForRow('left', screenWidthName, navbarRows[0]); track $index) {
-                    <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                @for (element of getNavbarElements(navbarRows[0], 'left'); track $index) {
+                    <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
                 }
             </div>
             <div class="toolbar-col">
-                @for (element of navService.getNavbarElementsForRow('center', screenWidthName, navbarRows[0]); track $index) {
-                    <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                @for (element of getNavbarElements(navbarRows[0], 'center'); track $index) {
+                    <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
                 }
             </div>
             <div class="toolbar-col">
-                @for (element of navService.getNavbarElementsForRow('right', screenWidthName, navbarRows[0]); track $index) {
-                    <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                @for (element of getNavbarElements(navbarRows[0], 'right'); track $index) {
+                    <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
                 }
-                @if (internalSidenavElements.length) {
-                    <ngx-mat-navigation-element [element]="burgerMenu"></ngx-mat-navigation-element>
-                }
+                <ngx-mat-navigation-element [class]="getBurgerMenuClass()" [element]="burgerMenu"></ngx-mat-navigation-element>
             </div>
         </div>
     </mat-toolbar>
 }
 
-<mat-sidenav-container style="background-color: transparent;" [style.min-height]="sanitizedMinHeight">
-    <mat-sidenav #sidenav style="padding-top: 12px; padding-bottom: 12px;" position="end" [style.min-width]="minSidenavWidth" [autoFocus]="false">
-        @for (element of internalSidenavElements; track $index) {
-            <div style="margin-left: 12px; margin-right: 12px;">
-                <ngx-mat-navigation-element [sidenav]="sidenav" [isSidenavElement]="true" [element]="element" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
+<mat-sidenav-container [style.min-height]="sanitizedMinHeight">
+    <mat-sidenav #sidenav position="end" [style.min-width]="minSidenavWidth" [autoFocus]="false">
+        @for (element of sidenavElements; track $index) {
+            <div class="sidenav-row">
+                <ngx-mat-navigation-element [class]="getElementClass(element)" [sidenav]="sidenav" [isSidenavElement]="true" [element]="element" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
             </div>
         }
     </mat-sidenav>

@@ -17,8 +17,8 @@ import { NavTextComponent } from './text/nav-text/nav-text.component';
 import { NavTitleComponent } from './title/nav-title/nav-title.component';
 import { NavTitleWithExternalLinkComponent } from './title/nav-title-with-external-link/nav-title-with-external-link.component';
 import { NavTitleWithInternalLinkComponent } from './title/nav-title-with-internal-link/nav-title-with-internal-link.component';
+import { NavElement, NavElementTypes } from '../../models/nav-element.model';
 import { NavMenu } from '../../models/nav-menu.model';
-import { NavElement, NavElementTypes } from '../../models/nav.model';
 import { NavUtilities } from '../../utilities/nav.utilities';
 
 /**

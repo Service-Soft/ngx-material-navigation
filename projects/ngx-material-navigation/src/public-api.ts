@@ -13,7 +13,7 @@ export * from './models/nav-link.model';
 export * from './models/nav-menu.model';
 export * from './models/nav-route.model';
 export * from './models/nav-title.model';
-export * from './models/nav.model';
+export * from './models/nav-element.model';
 export * from './models/navbar.model';
 export * from './models/page-not-found-config.model';
 export * from './utilities/nav.utilities';

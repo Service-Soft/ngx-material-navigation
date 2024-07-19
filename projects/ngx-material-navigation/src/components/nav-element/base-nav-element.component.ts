@@ -3,12 +3,12 @@ import { Component, Input } from '@angular/core';
 
 import { NavButton } from '../../models/nav-button.model';
 import { NavCustom } from '../../models/nav-custom.model';
+import { NavElement, NavElementTypes } from '../../models/nav-element.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from '../../models/nav-image.model';
 import { NavExternalLink, NavInternalLink } from '../../models/nav-link.model';
 import { NavMenu } from '../../models/nav-menu.model';
 import { NavText } from '../../models/nav-text.model';
 import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from '../../models/nav-title.model';
-import { NavElement, NavElementTypes } from '../../models/nav.model';
 
 /**
  * The abstract base class of any ngx-mat-navigation nav element.

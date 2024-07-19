@@ -1,8 +1,8 @@
 import { Route } from '@angular/router';
 
+import { BaseNavElement, NavElementTypes } from './nav-element.model';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
 import { NavRoute } from './nav-route.model';
-import { BaseNavElement, NavElementTypes } from './nav.model';
 
 /**
  * A h1 Title.

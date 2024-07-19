@@ -1,5 +1,5 @@
+import { NavElementTypes } from './nav-element.model';
 import { NavLink } from './nav-link.model';
-import { NavElementTypes } from './nav.model';
 
 /**
  * The definition for a nav button.

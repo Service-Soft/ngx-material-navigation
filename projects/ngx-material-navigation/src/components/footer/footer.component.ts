@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EnvironmentInjector, Input, runInInjectionContext } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { Subject, takeUntil } from 'rxjs';
 
-import { FooterRow } from '../../models/footer.model';
-import { NgxMatNavigationService } from '../../services/nav.service';
+import { FooterRow, NavFooterElement } from '../../models/footer.model';
+import { NavElement, NavElementPosition } from '../../models/nav-element.model';
 import { NavElementComponent } from '../nav-element/nav-element.component';
 
 /**
@@ -21,8 +20,7 @@ import { NavElementComponent } from '../nav-element/nav-element.component';
         NavElementComponent
     ]
 })
-export class NgxMatNavigationFooterComponent implements OnInit, OnDestroy {
-    private readonly onDestroy: Subject<void> = new Subject();
+export class NgxMatNavigationFooterComponent {
 
     /**
      * The minimum height of the footer.
@@ -35,20 +33,31 @@ export class NgxMatNavigationFooterComponent implements OnInit, OnDestroy {
      */
     @Input()
     footerRows!: FooterRow[];
-    // eslint-disable-next-line jsdoc/require-jsdoc
-    internalFooterRows: FooterRow[] = [];
 
-    constructor(public navService: NgxMatNavigationService) { }
+    constructor(private readonly injector: EnvironmentInjector) {}
 
-    ngOnInit(): void {
-        this.navService.footerRowsSubject.pipe(takeUntil(this.onDestroy)).subscribe(footerRows => {
-            this.internalFooterRows = footerRows;
-        });
-        this.navService.footerRowsSubject.next(this.footerRows);
+    /**
+     * Gets the footer elements for the given row at the provided position.
+     * @param row - The row to get the elements for.
+     * @param position - Where in the footer the elements are positioned.
+     * @returns An array of the resolved footer elements.
+     */
+    getFooterElements(row: FooterRow, position: NavElementPosition): NavFooterElement[] {
+        let res: NavFooterElement[] = [];
+        res = res.concat(row.elements);
+        res = res.filter(e => this.checkCondition(e));
+
+        if (position === 'left') {
+            return res.filter(e => e.position == undefined || e.position === position);
+        }
+        return res.filter(e => e.position === position);
     }
 
-    ngOnDestroy(): void {
-        this.onDestroy.next(undefined);
-        this.onDestroy.complete();
+    private checkCondition(element: NavElement): boolean {
+        if (element.condition == undefined) {
+            return true;
+        }
+        // runInInjectionContext(...) is needed to enable the user to use injections in his condition functions.
+        return runInInjectionContext(this.injector, () => element.condition ? element.condition() : true);
     }
 }
