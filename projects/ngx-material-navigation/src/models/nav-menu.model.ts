@@ -1,10 +1,10 @@
 import { NavButton } from './nav-button.model';
 import { NavCustom } from './nav-custom.model';
+import { BaseNavElement, NavElementTypes } from './nav-element.model';
 import { NavImage, NavImageWithExternalLink, NavImageWithInternalLink } from './nav-image.model';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
 import { NavText } from './nav-text.model';
 import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from './nav-title.model';
-import { BaseNavElement, NavElementTypes } from './nav.model';
 
 /**
  * One of the NavElements for the menu.

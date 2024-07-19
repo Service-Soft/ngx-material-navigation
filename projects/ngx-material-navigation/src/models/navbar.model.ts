@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
+import { NavElement } from './nav-element.model';
 import { NavRoute } from './nav-route.model';
-import { NavElement } from './nav.model';
 
 /**
  * A row with multiple elements.

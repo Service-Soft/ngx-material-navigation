@@ -1,12 +1,12 @@
 import { Route } from '@angular/router';
 
 import { FooterRow, NavFooterElement } from '../models/footer.model';
+import { NavElement, NavElementTypes } from '../models/nav-element.model';
 import { NavImageWithInternalLink } from '../models/nav-image.model';
 import { NavInternalLink } from '../models/nav-link.model';
 import { NavMenu, NavMenuElement } from '../models/nav-menu.model';
 import { NavRoute } from '../models/nav-route.model';
 import { NavTitleWithInternalLink } from '../models/nav-title.model';
-import { NavElement, NavElementTypes } from '../models/nav.model';
 import { NavbarRow } from '../models/navbar.model';
 
 /**
@@ -100,6 +100,6 @@ export abstract class NavUtilities {
     }
 
     private static findInternalLinksFromElements(elements: NavElement[]): NavInternalLink[] {
-        return elements.filter(e => e.type === NavElementTypes.INTERNAL_LINK) as NavInternalLink[];
+        return elements.filter(e => e.type === NavElementTypes.INTERNAL_LINK);
     }
 }

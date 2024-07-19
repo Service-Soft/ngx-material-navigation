@@ -1,4 +1,3 @@
-/* eslint-disable promise/prefer-await-to-then */
 /* eslint-disable no-console */
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -35,7 +34,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
             {
                 type: NavElementTypes.INTERNAL_LINK,
                 name: 'Home',
-                // eslint-disable-next-line sonar/no-duplicate-string
+
                 icon: 'fas fa-home',
                 route: {
                     title: 'Home',

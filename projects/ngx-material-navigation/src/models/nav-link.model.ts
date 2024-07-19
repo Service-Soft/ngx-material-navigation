@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 
+import { BaseNavElement, NavElementTypes } from './nav-element.model';
 import { NavRoute } from './nav-route.model';
-import { BaseNavElement, NavElementTypes } from './nav.model';
 
 /**
  * The base abstract definition for internal and external links.
