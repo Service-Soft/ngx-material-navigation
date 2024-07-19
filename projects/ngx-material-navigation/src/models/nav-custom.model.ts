@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 
-import { BaseNavElement, NavElementTypes } from './nav.model';
+import { BaseNavElement, NavElementTypes } from './nav-element.model';
 import { NgxMatNavigationBaseNavElementComponent } from '../components/nav-element/base-nav-element.component';
 
 /**

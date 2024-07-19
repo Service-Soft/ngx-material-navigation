@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
-import { NavElementTypes } from '../../../../models/nav.model';
+import { NavElementTypes } from '../../../../models/nav-element.model';
 import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.component';
 
 @Component({

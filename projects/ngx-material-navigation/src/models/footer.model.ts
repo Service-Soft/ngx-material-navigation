@@ -1,3 +1,4 @@
+import { NavElementPosition } from './nav-element.model';
 import { NavMenuElement } from './nav-menu.model';
 
 /**
@@ -11,7 +12,7 @@ export interface NavTextElement {
     /**
      * The position of the element.
      */
-    position?: 'left' | 'center' | 'right',
+    position?: NavElementPosition,
     /**
      * A condition that must be met for the element to be displayed.
      */

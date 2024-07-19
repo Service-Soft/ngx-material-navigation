@@ -10,6 +10,17 @@ import { NavText } from './nav-text.model';
 import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from './nav-title.model';
 
 /**
+ * The three currently supported breakpoints.
+ * These are the same as in bootstrap.
+ */
+export type ScreenWidthName = 'lg' | 'md' | 'sm';
+
+/**
+ * Type for the position of a nav element inside the navbar or footer.
+ */
+export type NavElementPosition = 'left' | 'center' | 'right';
+
+/**
  * The type of the nav element. Eg. Title or button.
  */
 export enum NavElementTypes {
@@ -43,7 +54,7 @@ export abstract class BaseNavElement {
     /**
      * At which breakpoint the element should be moved inside the sidenav.
      */
-    collapse?: 'lg' | 'md' | 'sm' | 'never' | 'always';
+    collapse?: ScreenWidthName | 'never' | 'always';
     /**
      * A condition that must be met for the element to be displayed.
      */

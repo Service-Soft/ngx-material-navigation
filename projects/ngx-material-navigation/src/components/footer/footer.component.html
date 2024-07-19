@@ -1,19 +1,19 @@
 <!-- eslint-disable angular/no-call-expression -->
 <footer [style.min-height.px]="minHeight">
-    @for (row of internalFooterRows; track $index) {
+    @for (row of footerRows; track $index) {
         <div class="footer-row">
             <div class="footer-col" id="left">
-                @for (element of navService.getFooterElementsForRow('left', row); track $index) {
+                @for (element of getFooterElements(row, 'left'); track $index) {
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 }
             </div>
             <div class="footer-col" id="center">
-                @for (element of navService.getFooterElementsForRow('center', row); track $index) {
+                @for (element of getFooterElements(row, 'center'); track $index) {
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 }
             </div>
             <div class="footer-col" id="right">
-                @for (element of navService.getFooterElementsForRow('right', row); track $index) {
+                @for (element of getFooterElements(row, 'right'); track $index) {
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 }
             </div>

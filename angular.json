@@ -1,83 +1,63 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "version": 1,
+    "cli": {
+        "analytics": false
+    },
     "newProjectRoot": "projects",
     "projects": {
         "ngx-material-navigation": {
-            "projectType": "library",
-            "root": "projects/ngx-material-navigation",
-            "sourceRoot": "projects/ngx-material-navigation/src",
-            "prefix": "lib",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:ng-packagr",
-                    "options": {
-                        "project": "projects/ngx-material-navigation/ng-package.json"
-                    },
                     "configurations": {
-                        "production": {
-                            "tsConfig": "projects/ngx-material-navigation/tsconfig.lib.prod.json"
-                        },
                         "development": {
                             "tsConfig": "projects/ngx-material-navigation/tsconfig.lib.json"
+                        },
+                        "production": {
+                            "tsConfig": "projects/ngx-material-navigation/tsconfig.lib.prod.json"
                         }
                     },
-                    "defaultConfiguration": "production"
+                    "defaultConfiguration": "production",
+                    "options": {
+                        "project": "projects/ngx-material-navigation/ng-package.json"
+                    }
                 },
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
+                        "karmaConfig": "projects/ngx-material-navigation/karma.conf.js",
                         "main": "projects/ngx-material-navigation/src/test.ts",
-                        "tsConfig": "projects/ngx-material-navigation/tsconfig.spec.json",
-                        "karmaConfig": "projects/ngx-material-navigation/karma.conf.js"
+                        "tsConfig": "projects/ngx-material-navigation/tsconfig.spec.json"
                     }
                 }
-            }
+            },
+            "prefix": "lib",
+            "projectType": "library",
+            "root": "projects/ngx-material-navigation",
+            "sourceRoot": "projects/ngx-material-navigation/src"
         },
         "ngx-material-navigation-showcase": {
-            "projectType": "application",
-            "schematics": {
-                "@schematics/angular:component": {
-                    "style": "scss"
-                },
-                "@schematics/angular:application": {
-                    "strict": true
-                }
-            },
-            "root": "projects/ngx-material-navigation-showcase",
-            "sourceRoot": "projects/ngx-material-navigation-showcase/src",
-            "prefix": "app",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
-                    "options": {
-                        "outputPath": "dist/ngx-material-navigation-showcase",
-                        "index": "projects/ngx-material-navigation-showcase/src/index.html",
-                        "main": "projects/ngx-material-navigation-showcase/src/main.ts",
-                        "polyfills": "projects/ngx-material-navigation-showcase/src/polyfills.ts",
-                        "tsConfig": "projects/ngx-material-navigation-showcase/tsconfig.app.json",
-                        "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "projects/ngx-material-navigation-showcase/src/favicon.ico",
-                            "projects/ngx-material-navigation-showcase/src/assets"
-                        ],
-                        "styles": [
-                            "projects/ngx-material-navigation-showcase/src/styles.scss"
-                        ],
-                        "scripts": []
-                    },
+                    "builder": "@angular-devkit/build-angular:application",
                     "configurations": {
+                        "development": {
+                            "extractLicenses": false,
+                            "namedChunks": true,
+                            "optimization": false,
+                            "sourceMap": true
+                        },
                         "production": {
                             "budgets": [
                                 {
-                                    "type": "initial",
+                                    "maximumError": "1mb",
                                     "maximumWarning": "500kb",
-                                    "maximumError": "1mb"
+                                    "type": "initial"
                                 },
                                 {
-                                    "type": "anyComponentStyle",
+                                    "maximumError": "4kb",
                                     "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
+                                    "type": "anyComponentStyle"
                                 }
                             ],
                             "fileReplacements": [
@@ -87,59 +67,72 @@
                                 }
                             ],
                             "outputHashing": "all"
-                        },
-                        "development": {
-                            "buildOptimizer": false,
-                            "optimization": false,
-                            "vendorChunk": true,
-                            "extractLicenses": false,
-                            "sourceMap": true,
-                            "namedChunks": true
                         }
                     },
-                    "defaultConfiguration": "production"
-                },
-                "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "configurations": {
-                        "production": {
-                            "browserTarget": "ngx-material-navigation-showcase:build:production"
-                        },
-                        "development": {
-                            "browserTarget": "ngx-material-navigation-showcase:build:development"
-                        }
-                    },
-                    "defaultConfiguration": "development"
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "defaultConfiguration": "production",
                     "options": {
-                        "browserTarget": "ngx-material-navigation-showcase:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "projects/ngx-material-navigation-showcase/src/test.ts",
-                        "polyfills": "projects/ngx-material-navigation-showcase/src/polyfills.ts",
-                        "tsConfig": "projects/ngx-material-navigation-showcase/tsconfig.spec.json",
-                        "karmaConfig": "projects/ngx-material-navigation-showcase/karma.conf.js",
-                        "inlineStyleLanguage": "scss",
                         "assets": [
                             "projects/ngx-material-navigation-showcase/src/favicon.ico",
                             "projects/ngx-material-navigation-showcase/src/assets"
                         ],
-                        "styles": [
-                            "projects/ngx-material-navigation-showcase/src/styles.scss"
+                        "browser": "projects/ngx-material-navigation-showcase/src/main.ts",
+                        "index": "projects/ngx-material-navigation-showcase/src/index.html",
+                        "inlineStyleLanguage": "scss",
+                        "outputPath": "dist/ngx-material-navigation-showcase",
+                        "polyfills": ["zone.js"],
+                        "scripts": [],
+                        "styles": ["projects/ngx-material-navigation-showcase/src/styles.scss"],
+                        "tsConfig": "projects/ngx-material-navigation-showcase/tsconfig.app.json"
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "buildTarget": "ngx-material-navigation-showcase:build"
+                    }
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "configurations": {
+                        "development": {
+                            "buildTarget": "ngx-material-navigation-showcase:build:development"
+                        },
+                        "production": {
+                            "buildTarget": "ngx-material-navigation-showcase:build:production"
+                        }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "assets": [
+                            "projects/ngx-material-navigation-showcase/src/favicon.ico",
+                            "projects/ngx-material-navigation-showcase/src/assets"
                         ],
-                        "scripts": []
+                        "inlineStyleLanguage": "scss",
+                        "karmaConfig": "projects/ngx-material-navigation-showcase/karma.conf.js",
+                        "main": "projects/ngx-material-navigation-showcase/src/test.ts",
+                        "polyfills": "projects/ngx-material-navigation-showcase/src/polyfills.ts",
+                        "scripts": [],
+                        "styles": ["projects/ngx-material-navigation-showcase/src/styles.scss"],
+                        "tsConfig": "projects/ngx-material-navigation-showcase/tsconfig.spec.json"
                     }
                 }
-            }
+            },
+            "prefix": "app",
+            "projectType": "application",
+            "root": "projects/ngx-material-navigation-showcase",
+            "schematics": {
+                "@schematics/angular:application": {
+                    "strict": true
+                },
+                "@schematics/angular:component": {
+                    "style": "scss"
+                }
+            },
+            "sourceRoot": "projects/ngx-material-navigation-showcase/src"
         }
     },
-    "defaultProject": "ngx-material-navigation",
-    "cli": {
-      "analytics": false
-    }
+    "version": 1
 }
