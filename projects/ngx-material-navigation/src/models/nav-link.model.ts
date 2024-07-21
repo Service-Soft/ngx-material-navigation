@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 import { BaseNavElement, NavElementTypes } from './nav-element.model';
 import { NavRoute } from './nav-route.model';
@@ -14,7 +15,7 @@ export abstract class NavLink extends BaseNavElement {
     /**
      * An icon to display left of the link.
      */
-    icon?: string;
+    icon?: IconDefinition;
     /**
      * Whether or not the link should be opened in a new tab.
      */

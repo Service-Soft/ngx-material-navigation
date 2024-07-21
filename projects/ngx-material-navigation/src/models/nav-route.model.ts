@@ -1,4 +1,5 @@
 import { Data, ResolveFn, Route } from '@angular/router';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 import { PageNotFoundConfig } from './page-not-found-config.model';
 
@@ -46,7 +47,7 @@ export interface NavAnchor {
     /**
      * An optional icon for the anchor.
      */
-    icon?: string,
+    icon?: IconDefinition,
     /**
      * The aria label of the element.
      */

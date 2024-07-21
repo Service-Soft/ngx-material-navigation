@@ -3,6 +3,8 @@ import { AfterContentChecked, Component, ElementRef, EnvironmentInjector, HostLi
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 import { NavElement, NavElementPosition, NavElementTypes } from '../../models/nav-element.model';
 import { NavbarRow } from '../../models/navbar.model';
@@ -19,11 +21,11 @@ export const NGX_BURGER_MENU_ARIA_LABEL: InjectionToken<string> = new InjectionT
 );
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export const NGX_BURGER_MENU_ICON: InjectionToken<string> = new InjectionToken<string>(
-    'Provider for the burger menu icon. Default: "fas fa-bars"',
+export const NGX_BURGER_MENU_ICON: InjectionToken<IconDefinition> = new InjectionToken<IconDefinition>(
+    'Provider for the burger menu icon. Default: "faBars"',
     {
         providedIn: 'root',
-        factory: () => 'fas fa-bars'
+        factory: () => faBars
     }
 );
 
@@ -113,7 +115,7 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
         private readonly sanitizer: DomSanitizer,
         public navService: NgxMatNavigationService,
         @Inject(NGX_BURGER_MENU_ICON)
-        private readonly burgerMenuIcon: string,
+        private readonly burgerMenuIcon: IconDefinition,
         @Inject(NGX_BURGER_MENU_ARIA_LABEL)
         private readonly burgerMenuAriaLabel: string,
         private readonly injector: EnvironmentInjector
