@@ -1,4 +1,5 @@
 import { IconDefinition } from '@fortawesome/angular-fontawesome';
+
 import { NavButton } from './nav-button.model';
 import { NavCustom } from './nav-custom.model';
 import { BaseNavElement, NavElementTypes } from './nav-element.model';

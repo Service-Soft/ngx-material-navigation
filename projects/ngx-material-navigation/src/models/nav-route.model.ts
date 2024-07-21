@@ -1,7 +1,7 @@
 import { Data, ResolveFn, Route } from '@angular/router';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 import { PageNotFoundConfig } from './page-not-found-config.model';
-import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 /**
  * An opinionated model of the Angular Route.
