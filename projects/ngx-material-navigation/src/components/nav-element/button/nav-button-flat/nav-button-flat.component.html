@@ -6,7 +6,7 @@
     (click)="runAction()"
 >
     @if (elementValue.icon) {
-        <i [ngClass]="elementValue.icon"></i>
+        <fa-icon [icon]="elementValue.icon"></fa-icon>
     }
     {{elementValue.name}}
 </button>

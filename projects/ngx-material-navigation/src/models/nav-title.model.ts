@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 import { BaseNavElement, NavElementTypes } from './nav-element.model';
 import { NavExternalLink, NavInternalLink } from './nav-link.model';
@@ -17,7 +18,7 @@ export interface NavTitle extends BaseNavElement {
     /**
      * An icon to display left of the title.
      */
-    icon?: string
+    icon?: IconDefinition
 }
 
 /**
@@ -33,7 +34,7 @@ export interface NavTitleWithInternalLink<RouteType extends Route = NavRoute> ex
     /**
      * An icon to display left of the title.
      */
-    icon?: string,
+    icon?: IconDefinition,
     /**
      * The link object. Contains the route and whether or not it should be opened in a new tab.
      */
@@ -53,7 +54,7 @@ export interface NavTitleWithExternalLink extends BaseNavElement {
     /**
      * An icon to display left of the title.
      */
-    icon?: string,
+    icon?: IconDefinition,
     /**
      * The link object. Contains the href link and whether or not it should be opened in a new tab.
      */

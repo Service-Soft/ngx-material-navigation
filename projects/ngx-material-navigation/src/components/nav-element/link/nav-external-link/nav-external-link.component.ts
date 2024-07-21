@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { NavElementTypes } from '../../../../models/nav-element.model';
 import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.component';
@@ -14,7 +15,8 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     standalone: true,
     imports: [
         CommonModule,
-        MatButtonModule
+        MatButtonModule,
+        FaIconComponent
     ]
 })
 export class NavExternalLinkComponent extends NgxMatNavigationBaseNavElementComponent<NavElementTypes.EXTERNAL_LINK> { }

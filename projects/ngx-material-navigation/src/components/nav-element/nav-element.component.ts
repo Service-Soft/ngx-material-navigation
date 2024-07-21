@@ -4,6 +4,7 @@ import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild 
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { NavButtonComponent } from './button/nav-button/nav-button.component';
 import { NavButtonFlatComponent } from './button/nav-button-flat/nav-button-flat.component';
@@ -45,7 +46,8 @@ import { NavUtilities } from '../../utilities/nav.utilities';
         NavInternalLinkComponent,
         NavExternalLinkComponent,
         NavCustomComponent,
-        NavTextComponent
+        NavTextComponent,
+        FaIconComponent
     ]
 })
 export class NavElementComponent implements AfterContentChecked, OnInit {
