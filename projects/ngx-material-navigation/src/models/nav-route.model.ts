@@ -1,6 +1,7 @@
 import { Data, ResolveFn, Route } from '@angular/router';
 
 import { PageNotFoundConfig } from './page-not-found-config.model';
+import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 /**
  * An opinionated model of the Angular Route.
@@ -46,7 +47,7 @@ export interface NavAnchor {
     /**
      * An optional icon for the anchor.
      */
-    icon?: string,
+    icon?: IconDefinition,
     /**
      * The aria label of the element.
      */

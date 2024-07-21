@@ -1,6 +1,7 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { NavElementTypes } from '../../../../models/nav-element.model';
 import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.component';
@@ -11,6 +12,6 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     templateUrl: './nav-title-with-external-link.component.html',
     styleUrls: ['./nav-title-with-external-link.component.scss', '../base-nav-title.scss'],
     standalone: true,
-    imports: [CommonModule]
+    imports: [CommonModule, FaIconComponent]
 })
 export class NavTitleWithExternalLinkComponent extends NgxMatNavigationBaseNavElementComponent<NavElementTypes.TITLE_WITH_EXTERNAL_LINK> { }

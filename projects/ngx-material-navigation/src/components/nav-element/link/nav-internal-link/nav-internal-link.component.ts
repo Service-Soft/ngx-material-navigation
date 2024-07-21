@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { NavElementTypes } from '../../../../models/nav-element.model';
 import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.component';
@@ -16,7 +17,8 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     imports: [
         CommonModule,
         MatButtonModule,
-        RouterModule
+        RouterModule,
+        FaIconComponent
     ]
 })
 export class NavInternalLinkComponent extends NgxMatNavigationBaseNavElementComponent<NavElementTypes.INTERNAL_LINK> {
