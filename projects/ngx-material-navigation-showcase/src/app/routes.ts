@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { faHome, faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { NavElementTypes, NavRoute, NavUtilities, NavbarRow, NgxMatNavigationNotFoundComponent } from 'ngx-material-navigation';
 
 import { CustomComponent } from './components/custom/custom.component';
@@ -11,7 +12,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
         elements: [
             {
                 type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
-                url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
+                url: 'https://placehold.co/400x400',
                 height: 50,
                 link: {
                     route: 'home'
@@ -34,8 +35,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
             {
                 type: NavElementTypes.INTERNAL_LINK,
                 name: 'Home',
-
-                icon: 'fas fa-home',
+                icon: faHome,
                 route: {
                     title: 'Home',
                     path: 'home',
@@ -55,7 +55,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                             {
                                 name: 'Bottom',
                                 fragment: 'bottom',
-                                icon: 'fas fa-home'
+                                icon: faHome
                             },
                             {
                                 name: 'Middle',
@@ -77,7 +77,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                     {
                         type: NavElementTypes.INTERNAL_LINK,
                         name: 'Home',
-                        icon: 'fas fa-home',
+                        icon: faHome,
                         route: {
                             title: 'Home',
                             path: 'home',
@@ -86,7 +86,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                     },
                     {
                         type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
-                        url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
+                        url: 'https://placehold.co/400x400',
                         height: 50,
                         link: {
                             route: 'home'
@@ -102,7 +102,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                     {
                         type: NavElementTypes.BUTTON,
                         name: 'Reload Page',
-                        icon: 'fas fa-rotate-right',
+                        icon: faRotateRight,
                         action: () => location.reload(),
                         position: 'right'
                     },
@@ -132,7 +132,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
             {
                 type: NavElementTypes.BUTTON,
                 name: 'Reload Page',
-                icon: 'fas fa-rotate-right',
+                icon: faRotateRight,
                 action: () => location.reload(),
                 position: 'right',
                 collapse: 'sm'

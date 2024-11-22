@@ -123,15 +123,17 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
      * Defines if the sidenav should be closed when the given element is clicked.
      * @param element - The element that has been clicked.
      */
-    clickSidenavElement(element: NavElement): void {
+    async clickSidenavElement(element: NavElement): Promise<void> {
         switch (element.type) {
             case NavElementTypes.TITLE:
             case NavElementTypes.IMAGE:
             case NavElementTypes.MENU:
-            case NavElementTypes.CUSTOM:
+            case NavElementTypes.CUSTOM: {
                 return;
-            default:
-                void this.sidenav?.close();
+            }
+            default: {
+                await this.sidenav?.close();
+            }
         }
     }
 }
