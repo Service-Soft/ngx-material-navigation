@@ -16,6 +16,12 @@ nav-image-with-internal-link, nav-image-with-external-link {
     min-height: 48px;
 }
 
+.customMenuItem {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: calc(100% - 24px);
+}
+
 ::ng-deep {
     .mat-mdc-menu-content.mdc-list {
         padding: 8px;
