@@ -8,7 +8,7 @@ export const footerRows: FooterRow[] = [
             {
                 type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 height: 100,
-                url: 'https://pbs.twimg.com/profile_images/1498641868397191170/6qW2XkuI_400x400.png',
+                url: 'https://placehold.co/400x400',
                 link: {
                     route: 'home'
                 }

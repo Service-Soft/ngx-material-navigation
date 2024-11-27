@@ -45,7 +45,14 @@
     <!-------------------CUSTOM------------------->
     <!-------------------------------------------->
     @case (NavElementTypes.CUSTOM) {
-        <nav-custom [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-custom>
+        <div [class.menuItem]="internalIsMenuItem" [class.customMenuItem]="internalIsMenuItem">
+            <nav-custom
+                [element]="element" 
+                [isSidenavElement]="internalIsSidenavElement"
+                [isMenuItem]="internalIsMenuItem"
+            >
+            </nav-custom>
+        </div>
     }
     <!-------------------------------------------->
     <!--------------------TEXT-------------------->
