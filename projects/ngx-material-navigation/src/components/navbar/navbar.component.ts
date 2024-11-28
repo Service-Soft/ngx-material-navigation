@@ -167,7 +167,7 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
         if (this.sidenavElements.find(e => e.collapse === 'md')) {
             return 'burger-md';
         }
-        if (this.sidenavElements.find(e => e.collapse === 'sm')) {
+        if (this.sidenavElements.find(e => e.collapse === 'sm' || e.collapse === undefined)) {
             return 'burger-sm';
         }
         return 'burger-never';
