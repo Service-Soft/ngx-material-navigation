@@ -222,7 +222,15 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
             case NavElementTypes.CUSTOM: {
                 return;
             }
-            default: {
+            case NavElementTypes.TITLE_WITH_INTERNAL_LINK:
+            case NavElementTypes.TITLE_WITH_EXTERNAL_LINK:
+            case NavElementTypes.IMAGE_WITH_INTERNAL_LINK:
+            case NavElementTypes.IMAGE_WITH_EXTERNAL_LINK:
+            case NavElementTypes.INTERNAL_LINK:
+            case NavElementTypes.BUTTON:
+            case NavElementTypes.BUTTON_FLAT:
+            case NavElementTypes.EXTERNAL_LINK:
+            case NavElementTypes.TEXT: {
                 await this.sidenav?.close();
             }
         }

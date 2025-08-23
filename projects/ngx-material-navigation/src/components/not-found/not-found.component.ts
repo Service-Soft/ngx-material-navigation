@@ -42,8 +42,8 @@ export class NgxMatNavigationNotFoundComponent implements OnInit {
         const routeData: PageNotFoundConfig | undefined = this.route.snapshot.data['pageNotFoundConfig'] as PageNotFoundConfig | undefined;
         this.title = this.config?.title ?? routeData?.title ?? 'Page not found';
         this.message = this.config?.message
-        ?? routeData?.message
-        ?? 'The page you are looking for might have been removed, had its name changed or is temporarily unavailable.';
+            ?? routeData?.message
+            ?? 'The page you are looking for might have been removed, had its name changed or is temporarily unavailable.';
         this.buttonLabel = this.config?.buttonLabel ?? routeData?.buttonLabel ?? 'Homepage';
         this.homeRoute = this.config?.homeRoute ?? routeData?.homeRoute ?? '/';
     }
