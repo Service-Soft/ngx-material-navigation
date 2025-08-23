@@ -21,14 +21,6 @@
                     "options": {
                         "project": "projects/ngx-material-navigation/ng-package.json"
                     }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "karmaConfig": "projects/ngx-material-navigation/karma.conf.js",
-                        "main": "projects/ngx-material-navigation/src/test.ts",
-                        "tsConfig": "projects/ngx-material-navigation/tsconfig.spec.json"
-                    }
                 }
             },
             "prefix": "lib",
@@ -102,22 +94,6 @@
                         }
                     },
                     "defaultConfiguration": "development"
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "assets": [
-                            "projects/ngx-material-navigation-showcase/src/favicon.ico",
-                            "projects/ngx-material-navigation-showcase/src/assets"
-                        ],
-                        "inlineStyleLanguage": "scss",
-                        "karmaConfig": "projects/ngx-material-navigation-showcase/karma.conf.js",
-                        "main": "projects/ngx-material-navigation-showcase/src/test.ts",
-                        "polyfills": "projects/ngx-material-navigation-showcase/src/polyfills.ts",
-                        "scripts": [],
-                        "styles": ["projects/ngx-material-navigation-showcase/src/styles.scss"],
-                        "tsConfig": "projects/ngx-material-navigation-showcase/tsconfig.spec.json"
-                    }
                 }
             },
             "prefix": "app",

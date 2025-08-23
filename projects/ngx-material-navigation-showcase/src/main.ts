@@ -1,6 +1,5 @@
 import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { InMemoryScrollingOptions, RouterConfigOptions, provideRouter, withInMemoryScrolling, withRouterConfig } from '@angular/router';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { NGX_BURGER_MENU_ARIA_LABEL, NGX_BURGER_MENU_ICON } from 'ngx-material-navigation';
@@ -27,7 +26,6 @@ bootstrapApplication(
     {
         providers: [
             provideRouter(routes, withInMemoryScrolling(scrollConfig), withRouterConfig(routerOptions)),
-            provideAnimations(),
             {
                 provide: NGX_BURGER_MENU_ICON,
                 useValue: faHome
