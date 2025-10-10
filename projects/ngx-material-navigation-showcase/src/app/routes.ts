@@ -14,11 +14,21 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 url: 'https://placehold.co/400x400',
                 height: 50,
+                width: 50,
                 link: {
                     route: 'home'
                 },
                 collapse: 'never',
                 condition: conditionWithInjection
+            },
+            {
+                type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
+                url: 'https://placehold.co/400x400',
+                height: 50,
+                width: 50,
+                link: {
+                    route: 'home'
+                }
             },
             {
                 type: NavElementTypes.TITLE_WITH_INTERNAL_LINK,
@@ -88,6 +98,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                         type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                         url: 'https://placehold.co/400x400',
                         height: 50,
+                        width: 50,
                         link: {
                             route: 'home'
                         }
@@ -112,7 +123,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                     },
                     {
                         type: NavElementTypes.MENU,
-                        name: 'Menu',
+                        name: 'Sub Menu #1',
                         elements: [
                             {
                                 type: NavElementTypes.CUSTOM,

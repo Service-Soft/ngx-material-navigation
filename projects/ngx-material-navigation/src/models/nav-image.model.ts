@@ -19,6 +19,10 @@ export interface NavImage extends BaseNavElement {
      */
     height: number,
     /**
+     * The width of the image in pixels.
+     */
+    width: number,
+    /**
      * The img alt tag value.
      */
     alt?: string
@@ -38,6 +42,10 @@ export interface NavImageWithInternalLink<RouteType extends Route = NavRoute> ex
      * The height of the image in pixels.
      */
     height: number,
+    /**
+     * The height of the image in pixels.
+     */
+    width: number,
     /**
      * The link object. Contains the route and whether or not it should be opened in a new tab.
      */
@@ -62,6 +70,10 @@ export interface NavImageWithExternalLink extends BaseNavElement {
      * The height of the image in pixels.
      */
     height: number,
+    /**
+     * The width of the image in pixels.
+     */
+    width: number,
     /**
      * The link object. Contains the href link and whether or not it should be opened in a new tab.
      */

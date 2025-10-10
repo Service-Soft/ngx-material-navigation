@@ -1,4 +1,3 @@
 <div [class.sidenavElement]="isSidenavElement" [class.menuItem]="isMenuItem">
-    <!-- eslint-disable-next-line angular/prefer-ngsrc -->
-    <img width="auto" [alt]="elementValue.alt" [height]="elementValue.height" [style.height.px]="elementValue.height" [src]="elementValue.url">
+    <img [alt]="elementValue.alt ?? ''" [height]="elementValue.height" [style.height.px]="elementValue.height" [width]="elementValue.width" [style.width.px]="elementValue.width" [ngSrc]="elementValue.url">
 </div>

@@ -5,9 +5,9 @@ import { NavElementTypes, NgxMatNavigationBaseNavElementComponent } from 'ngx-ma
  * A custom navigation component.
  */
 @Component({
-    standalone: true,
     selector: 'app-custom',
     templateUrl: './custom.component.html',
-    styleUrls: ['./custom.component.scss']
+    styleUrls: ['./custom.component.scss'],
+    standalone: true
 })
 export class CustomComponent extends NgxMatNavigationBaseNavElementComponent<NavElementTypes.CUSTOM> {}

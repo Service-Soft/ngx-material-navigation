@@ -1,0 +1,17 @@
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    padding: 0px 16px;
+    justify-content: center;
+    align-items: center;
+    min-height: 42px;
+    // border-radius: 5px;
+    // box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.2),
+    //     0px 0px 8px 5px rgba(0, 0, 0, 0.14),
+    //     0px 0px 14px 8px rgba(0, 0, 0, 0.12);
+}
+
+.first {
+    margin-left: -10px;
+}

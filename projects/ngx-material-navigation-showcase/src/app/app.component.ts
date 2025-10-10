@@ -1,6 +1,6 @@
 import { AfterContentChecked, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FooterRow, NavbarRow, NgxMatNavigationFooterComponent, NgxMatNavigationNavbarComponent } from 'ngx-material-navigation';
+import { FooterRow, NavbarRow, NgxMatNavigationFooterComponent, NgxMatNavigationNavbarComponent, NgxMatNavigationBreadcrumbsComponent } from 'ngx-material-navigation';
 
 import { footerRows } from './footer-rows';
 import { navbarRows } from './routes';
@@ -13,14 +13,15 @@ import { navbarRows } from './routes';
     imports: [
         RouterModule,
         NgxMatNavigationNavbarComponent,
-        NgxMatNavigationFooterComponent
+        NgxMatNavigationFooterComponent,
+        NgxMatNavigationBreadcrumbsComponent
     ]
 })
 export class AppComponent implements AfterContentChecked {
     navbarRows: NavbarRow[] = navbarRows;
     footerRows: FooterRow[] = footerRows;
 
-    @ViewChild('footer', { read: ElementRef })
+    @ViewChild('footer', { read: ElementRef, static: true })
     footer?: ElementRef<HTMLElement>;
 
     footerHeight!: number;

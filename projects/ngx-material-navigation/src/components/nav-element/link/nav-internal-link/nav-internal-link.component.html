@@ -1,14 +1,17 @@
-<a mat-button
+<a
     [routerLink]="route"
     [fragment]="elementValue.fragment"
     [target]="elementValue.openInNewTab ? '_blank' : '_self'"
     [rel]="elementValue.openInNewTab ? 'noreferrer noopener' : undefined"
     [class.sidenavElement]="isSidenavElement"
     [class.menuItem]="isMenuItem"
+    [class.breadcrumb]="isBreadcrumb"
     [attr.aria-label]="elementValue.ariaLabel"
+    [routerLinkActive]="'active'"
+    [routerLinkActiveOptions]="elementValue.fragment ? { matrixParams: 'exact', queryParams: 'exact', paths: 'exact',  fragment: 'exact' }  : { exact: true }"
 >
     @if (elementValue.icon) {
-        <fa-icon [icon]="elementValue.icon"></fa-icon> 
+        <fa-icon [icon]="elementValue.icon"></fa-icon>
     }
     {{elementValue.name}}
 </a>

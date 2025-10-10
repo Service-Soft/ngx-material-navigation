@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 
 import { PageNotFoundConfig } from '../../models/page-not-found-config.model';
@@ -15,7 +14,6 @@ import { PageNotFoundConfig } from '../../models/page-not-found-config.model';
     standalone: true,
     imports: [
         CommonModule,
-        MatButtonModule,
         RouterModule
     ]
 })
