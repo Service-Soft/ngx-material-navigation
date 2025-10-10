@@ -2,7 +2,7 @@
 <!-- eslint-disable angular/no-call-expression -->
 <nav #navbar id="toolbar" [style.min-height.px]="minHeight ?? 0">
     @for (row of navbarRows; track $index) {
-        @if (getNavbarElements(row, 'left').length || getNavbarElements(row, 'center').length || getNavbarElements(row, 'right').length) {
+        @if (getNavbarElements(row, 'left').length || getNavbarElements(row, 'center').length || getNavbarElements(row, 'right').length || $index === 0) {
             <div class="toolbar-row">
                 <div class="toolbar-col">
                     @for (element of getNavbarElements(row, 'left'); track $index) {
