@@ -4,6 +4,7 @@
 export * from './components/footer/footer.component';
 export * from './components/navbar/navbar.component';
 export * from './components/not-found/not-found.component';
+export * from './components/breadcrumbs/breadcrumbs.component';
 export * from './components/nav-element/base-nav-element.component';
 export * from './models/footer.model';
 export * from './models/nav-button.model';

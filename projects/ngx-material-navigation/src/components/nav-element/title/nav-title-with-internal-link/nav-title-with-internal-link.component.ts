@@ -11,7 +11,7 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     // eslint-disable-next-line angular/component-selector
     selector: 'nav-title-with-internal-link',
     templateUrl: './nav-title-with-internal-link.component.html',
-    styleUrls: ['./nav-title-with-internal-link.component.scss', '../base-nav-title.scss'],
+    styleUrls: ['../base-nav-title.scss'],
     standalone: true,
     imports: [
         CommonModule,

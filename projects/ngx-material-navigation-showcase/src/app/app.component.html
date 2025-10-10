@@ -1,5 +1,6 @@
 @if (footerHeight) {
-    <ngx-mat-navigation-navbar [minHeight]="80" [minSidenavWidth]="'40%'" [minHeightOtherElements]="footerHeight" [navbarRows]="navbarRows">
+    <ngx-mat-navigation-navbar [minSidenavWidth]="'40%'" [minHeightOtherElements]="footerHeight" [navbarRows]="navbarRows">
+        <ngx-mat-navigation-breadcrumbs></ngx-mat-navigation-breadcrumbs>
         <router-outlet></router-outlet>
     </ngx-mat-navigation-navbar>
 }

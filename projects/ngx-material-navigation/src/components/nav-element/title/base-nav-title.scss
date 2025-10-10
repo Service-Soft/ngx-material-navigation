@@ -1,25 +1,18 @@
-h1 {
+b {
     margin-bottom: 0px;
+    margin-top: 0px;
+    font-size: x-large;
 }
 
-#title-link {
+.title-link {
     text-decoration: none;
     color: inherit;
-
-    &:hover {
-        background: transparent;
-    }
 }
 
 .sidenavElement {
     display: inline-block;
     width: 100%;
     text-align: left;
-
-    h1 {
-        padding-left: 8px;
-        padding-right: 8px;
-    }
 }
 
 .menuItem {
@@ -27,10 +20,4 @@ h1 {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    min-height: 48px;
-
-    h1 {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
 }

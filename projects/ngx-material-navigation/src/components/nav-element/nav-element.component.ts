@@ -1,10 +1,9 @@
 
+import { CdkMenuModule, CdkMenuTrigger } from '@angular/cdk/menu';
 import { CommonModule } from '@angular/common';
-import { AfterContentChecked, Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
-import { MatButton, MatButtonModule } from '@angular/material/button';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { AfterContentChecked, Component, ElementRef, HostListener, Input, model, ModelSignal, OnInit, ViewChild } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 import { NavButtonComponent } from './button/nav-button/nav-button.component';
 import { NavButtonFlatComponent } from './button/nav-button-flat/nav-button-flat.component';
@@ -18,6 +17,7 @@ import { NavTextComponent } from './text/nav-text/nav-text.component';
 import { NavTitleComponent } from './title/nav-title/nav-title.component';
 import { NavTitleWithExternalLinkComponent } from './title/nav-title-with-external-link/nav-title-with-external-link.component';
 import { NavTitleWithInternalLinkComponent } from './title/nav-title-with-internal-link/nav-title-with-internal-link.component';
+import { DisableHoverDirective } from '../../directives/disable-hover.directive';
 import { NavElement, NavElementTypes } from '../../models/nav-element.model';
 import { NavMenu } from '../../models/nav-menu.model';
 import { NavUtilities } from '../../utilities/nav.utilities';
@@ -26,15 +26,13 @@ import { NavUtilities } from '../../utilities/nav.utilities';
  * Displays a single Navigation Element.
  */
 @Component({
-    standalone: true,
     selector: 'ngx-mat-navigation-element',
     templateUrl: './nav-element.component.html',
     styleUrls: ['./nav-element.component.scss'],
+    standalone: true,
     imports: [
         CommonModule,
-        MatMenuModule,
-        MatButtonModule,
-        MatSidenavModule,
+        CdkMenuModule,
         NavTitleComponent,
         NavTitleWithInternalLinkComponent,
         NavTitleWithExternalLinkComponent,
@@ -47,7 +45,8 @@ import { NavUtilities } from '../../utilities/nav.utilities';
         NavExternalLinkComponent,
         NavCustomComponent,
         NavTextComponent,
-        FaIconComponent
+        FaIconComponent,
+        DisableHoverDirective
     ]
 })
 export class NavElementComponent implements AfterContentChecked, OnInit {
@@ -58,17 +57,26 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     /**
      * The element to display.
      */
-    @Input()
+    @Input({ required: true })
     element!: NavElement;
 
+    /**
+     * A list of all the buttons that .
+     */
+    @Input()
+    parentMenusButtons: CdkMenuTrigger[] = [];
     // eslint-disable-next-line jsdoc/require-jsdoc
-    elementMenu!: NavMenu;
+    protected get internalParentMenusButtons(): CdkMenuTrigger[] {
+        return this.menuButton ? [...this.parentMenusButtons, this.menuButton] : this.parentMenusButtons;
+    }
+
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    elementMenu!: NavMenu & Required<Pick<NavMenu, 'iconState'>>;
 
     /**
      * A reference to the sidenav. Is needed for the menu to close the sidenav.
      */
-    @Input()
-    sidenav?: MatSidenav;
+    sidenavOpened: ModelSignal<boolean | undefined> = model<boolean>();
 
     /**
      * Whether or not this element should be displayed inside the sidenav.
@@ -89,8 +97,11 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     protected internalIsMenuItem!: boolean;
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    @ViewChild('menuButton')
-    menuButton?: MatButton;
+    @ViewChild('menuButton', { read: CdkMenuTrigger, static: false })
+    menuButton?: CdkMenuTrigger;
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    @ViewChild('menuButtonElement', { read: ElementRef, static: false })
+    menuButtonElement?: ElementRef<HTMLButtonElement>;
 
     // eslint-disable-next-line jsdoc/require-jsdoc
     menuWidth!: number;
@@ -98,7 +109,10 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     ngOnInit(): void {
         this.internalIsSidenavElement = this.isSidenavElement ?? false;
         this.internalIsMenuItem = this.isMenuItem ?? false;
-        this.elementMenu = NavUtilities.asMenu(this.element);
+        this.elementMenu = {
+            ...NavUtilities.asMenu(this.element),
+            iconState: NavUtilities.asMenu(this.element).iconState ?? faChevronDown
+        };
     }
 
     ngAfterContentChecked(): void {
@@ -110,24 +124,21 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
      */
     @HostListener('window:resize', ['$event'])
     onResize(): void {
-        if (this.menuButton) {
-            this.menuWidth = this.getMenuWidth();
+        if (this.menuButtonElement) {
+            this.menuWidth = this.menuButtonElement.nativeElement.offsetWidth;
         }
-    }
-
-    private getMenuWidth(): number {
-        return (this.menuButton?._elementRef.nativeElement as HTMLElement).offsetWidth;
     }
 
     /**
      * Defines if the sidenav should be closed when the given element is clicked.
      * @param element - The element that has been clicked.
      */
-    async clickSidenavElement(element: NavElement): Promise<void> {
+    clickSidenavElement(element: NavElement): void {
         switch (element.type) {
             case NavElementTypes.TITLE:
             case NavElementTypes.IMAGE:
             case NavElementTypes.MENU:
+            case NavElementTypes.TEXT:
             case NavElementTypes.CUSTOM: {
                 return;
             }
@@ -138,9 +149,37 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
             case NavElementTypes.INTERNAL_LINK:
             case NavElementTypes.BUTTON:
             case NavElementTypes.BUTTON_FLAT:
-            case NavElementTypes.EXTERNAL_LINK:
-            case NavElementTypes.TEXT: {
-                await this.sidenav?.close();
+            case NavElementTypes.EXTERNAL_LINK: {
+                this.sidenavOpened?.set(false);
+            }
+        }
+    }
+
+    /**
+     * Defines if the menu should be closed when the given item is clicked.
+     * @param item - The item that has been clicked.
+     */
+    clickMenuItem(item: NavElement): void {
+        switch (item.type) {
+            case NavElementTypes.TITLE:
+            case NavElementTypes.IMAGE:
+            case NavElementTypes.MENU:
+            case NavElementTypes.TEXT:
+            case NavElementTypes.CUSTOM: {
+                return;
+            }
+            case NavElementTypes.TITLE_WITH_INTERNAL_LINK:
+            case NavElementTypes.TITLE_WITH_EXTERNAL_LINK:
+            case NavElementTypes.IMAGE_WITH_INTERNAL_LINK:
+            case NavElementTypes.IMAGE_WITH_EXTERNAL_LINK:
+            case NavElementTypes.INTERNAL_LINK:
+            case NavElementTypes.BUTTON:
+            case NavElementTypes.BUTTON_FLAT:
+            case NavElementTypes.EXTERNAL_LINK: {
+                this.menuButton?.close();
+                for (const button of this.parentMenusButtons.reverse()) {
+                    button.close();
+                }
             }
         }
     }

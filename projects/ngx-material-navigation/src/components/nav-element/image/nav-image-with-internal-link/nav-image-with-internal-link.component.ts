@@ -1,5 +1,5 @@
 /* eslint-disable jsdoc/require-jsdoc */
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -10,11 +10,12 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     // eslint-disable-next-line angular/component-selector
     selector: 'nav-image-with-internal-link',
     templateUrl: './nav-image-with-internal-link.component.html',
-    styleUrls: ['./nav-image-with-internal-link.component.scss', '../base-nav-image.scss'],
+    styleUrls: ['../base-nav-image.scss'],
     standalone: true,
     imports: [
         CommonModule,
-        RouterModule
+        RouterModule,
+        NgOptimizedImage
     ]
 })
 export class NavImageWithInternalLinkComponent extends NgxMatNavigationBaseNavElementComponent<NavElementTypes.IMAGE_WITH_INTERNAL_LINK> {

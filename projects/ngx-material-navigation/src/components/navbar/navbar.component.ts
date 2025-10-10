@@ -1,12 +1,12 @@
+import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { AfterContentChecked, Component, ElementRef, EnvironmentInjector, HostListener, Inject, InjectionToken, Input, runInInjectionContext, ViewChild } from '@angular/core';
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { IconDefinition } from '@fortawesome/angular-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-import { NavElement, NavElementPosition, NavElementTypes } from '../../models/nav-element.model';
+import { BaseNavElement, NavElement, NavElementPosition, NavElementTypes } from '../../models/nav-element.model';
 import { NavbarRow } from '../../models/navbar.model';
 import { NgxMatNavigationService } from '../../services/nav.service';
 import { NavElementComponent } from '../nav-element/nav-element.component';
@@ -41,16 +41,14 @@ export const NGX_BURGER_MENU_ICON: InjectionToken<IconDefinition> = new Injectio
     standalone: true,
     imports: [
         CommonModule,
-        MatToolbarModule,
-        NavElementComponent,
-        MatSidenavModule
+        NavElementComponent
     ]
 })
 export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
     /**
      * The navbar rows to build the navbar from.
      */
-    @Input()
+    @Input({ required: true })
     navbarRows!: NavbarRow[];
 
     /**
@@ -72,31 +70,30 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
     minSidenavWidth?: string;
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    @ViewChild('sidenav')
-    sidenav?: MatSidenav;
+    @ViewChild('navbar', { read: ElementRef, static: true })
+    navbar?: ElementRef<HTMLElement>;
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    @ViewChild('navbar', { read: ElementRef })
-    navbar?: ElementRef<HTMLElement>;
+    @ViewChild('content', { read: ElementRef, static: true })
+    content?: ElementRef<HTMLElement>;
 
     // eslint-disable-next-line jsdoc/require-jsdoc
     burgerMenu!: NavElement;
 
     /**
+     * What screen size to collapse.
+     */
+    collapse!: 'xl' | 'lg' | 'md' | 'sm';
+
+    /**
      * The minimum height of the navbar in sanitized.
      */
-    sanitizedMinHeight!: SafeStyle;
+    sanitizedContentMinHeight!: SafeStyle;
 
-    // eslint-disable-next-line jsdoc/require-returns
     /**
-     * All navbar rows, including the anchor row from the nav service.
+     * Whether or not the sidenav is currently opened.
      */
-    get allNavbarRows(): NavbarRow[] {
-        return [
-            ...this.navbarRows,
-            this.navService.anchorRow
-        ];
-    }
+    sidenavOpened: boolean = false;
 
     // eslint-disable-next-line jsdoc/require-returns
     /**
@@ -106,28 +103,46 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
         const res: NavElement[] = [];
         // anchorRow is excluded from sidenav
         for (const row of this.navbarRows) {
-            res.push(...row.elements.filter(e => this.checkCondition(e)));
+            res.push(...row.elements.filter(e => this.checkCondition(e) && !this.checkVisible(e)));
         }
         return res;
     }
 
     constructor(
         private readonly sanitizer: DomSanitizer,
-        public navService: NgxMatNavigationService,
+        readonly navService: NgxMatNavigationService,
         @Inject(NGX_BURGER_MENU_ICON)
-        private readonly burgerMenuIcon: IconDefinition,
+        burgerMenuIcon: IconDefinition,
         @Inject(NGX_BURGER_MENU_ARIA_LABEL)
-        private readonly burgerMenuAriaLabel: string,
-        private readonly injector: EnvironmentInjector
+        burgerMenuAriaLabel: string,
+        private readonly injector: EnvironmentInjector,
+        private readonly breakpointObserver: BreakpointObserver
     ) {
         this.burgerMenu = {
             type: NavElementTypes.BUTTON_FLAT,
             name: '',
-            icon: this.burgerMenuIcon,
-            action: () => this.sidenav?.toggle(),
+            icon: burgerMenuIcon,
+            action: () => this.sidenavOpened = !this.sidenavOpened,
             collapse: 'never',
-            ariaLabel: this.burgerMenuAriaLabel
+            ariaLabel: burgerMenuAriaLabel
         };
+
+        this.breakpointObserver.observe(['(max-width: 767px)', '(max-width: 991px)', '(max-width: 1199px)'])
+            .pipe(takeUntilDestroyed())
+            .subscribe(result => {
+                if (result.breakpoints['(max-width: 767px)']) {
+                    this.collapse = 'sm';
+                }
+                else if (result.breakpoints['(max-width: 991px)']) {
+                    this.collapse = 'md';
+                }
+                else if (result.breakpoints['(max-width: 1199px)']) {
+                    this.collapse = 'lg';
+                }
+                else {
+                    this.collapse = 'xl';
+                }
+            });
     }
 
     /**
@@ -138,8 +153,12 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
      */
     getNavbarElements(row: NavbarRow, position: NavElementPosition): NavElement[] {
         return row.elements.filter(e => {
-            return ((e.position === position) || (e.position == undefined && position === 'left'))
-                && this.checkCondition(e);
+            return (
+                (e.position === position)
+                || (e.position == undefined && position === 'left')
+            )
+            && this.checkCondition(e)
+            && this.checkVisible(e);
         });
     }
 
@@ -149,6 +168,27 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
         }
         // runInInjectionContext(...) is needed to enable the user to use injections in his condition functions.
         return runInInjectionContext(this.injector, () => element.condition ? element.condition() : true);
+    }
+
+    private checkVisible(element: NavElement): boolean {
+        const collapse: BaseNavElement['collapse'] = element.collapse ?? 'sm';
+        switch (collapse) {
+            case 'always': {
+                return false;
+            }
+            case 'never': {
+                return true;
+            }
+            case 'lg': {
+                return this.collapse === 'xl';
+            }
+            case 'md': {
+                return ['lg', 'xl'].includes(this.collapse);
+            }
+            case 'sm': {
+                return ['md', 'lg', 'xl'].includes(this.collapse);
+            }
+        }
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
@@ -188,13 +228,13 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
             return;
         }
         if (!this.minHeight || (this.navbar.nativeElement.offsetHeight > this.minHeight)) {
-            this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
-                `calc(100vh - ${this.navbar.nativeElement.offsetHeight + (this.minHeightOtherElements ?? 0)}px)`
+            this.sanitizedContentMinHeight = this.sanitizer.bypassSecurityTrustStyle(
+                `calc(100vh - 0px - ${this.navbar.nativeElement.offsetHeight + (this.minHeightOtherElements ?? 0)}px)`
             );
             return;
         }
-        this.sanitizedMinHeight = this.sanitizer.bypassSecurityTrustStyle(
-            `calc(100vh - ${(this.minHeight ?? 0) + (this.minHeightOtherElements ?? 0)}px)`
+        this.sanitizedContentMinHeight = this.sanitizer.bypassSecurityTrustStyle(
+            `calc(100vh - 0px - ${(this.minHeight ?? 0) + (this.minHeightOtherElements ?? 0)}px)`
         );
     }
 
@@ -205,16 +245,14 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
     @HostListener('window:resize', ['$event'])
     onResize(): void {
         this.updateHeights();
-        if (this.sidenav?.opened === true) {
-            void this.sidenav.close();
-        }
+        this.sidenavOpened = false;
     }
 
     /**
      * Defines if the sidenav should be closed when the given element is clicked.
      * @param element - The element that has been clicked.
      */
-    async clickSidenavElement(element: NavElement): Promise<void> {
+    clickSidenavElement(element: NavElement): void {
         switch (element.type) {
             case NavElementTypes.TITLE:
             case NavElementTypes.IMAGE:
@@ -231,7 +269,7 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
             case NavElementTypes.BUTTON_FLAT:
             case NavElementTypes.EXTERNAL_LINK:
             case NavElementTypes.TEXT: {
-                await this.sidenav?.close();
+                this.sidenavOpened = false;
             }
         }
     }

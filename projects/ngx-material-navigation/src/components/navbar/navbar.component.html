@@ -1,70 +1,73 @@
+<!-- eslint-disable angular/cyclomatic-complexity -->
 <!-- eslint-disable angular/no-call-expression -->
-
-@if (allNavbarRows.length > 1) {
-    <mat-toolbar #navbar id="toolbar" class="mat-elevation-z8" [style.min-height.px]="minHeight ?? 0">
-        @for (row of navbarRows; track $index) {
-            <mat-toolbar-row class="toolbar-row">
+<nav #navbar id="toolbar" [style.min-height.px]="minHeight ?? 0">
+    @for (row of navbarRows; track $index) {
+        @if (getNavbarElements(row, 'left').length || getNavbarElements(row, 'center').length || getNavbarElements(row, 'right').length) {
+            <div class="toolbar-row">
                 <div class="toolbar-col">
                     @for (element of getNavbarElements(row, 'left'); track $index) {
-                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
+                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
                     @for (element of getNavbarElements(row, 'center'); track $index) {
-                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
+                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
                     @for (element of getNavbarElements(row, 'right'); track $index) {
-                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
+                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                     }
                     @if ($index === 0) {
                         <ngx-mat-navigation-element [class]="getBurgerMenuClass()" [element]="burgerMenu"></ngx-mat-navigation-element>
                     }
                 </div>
-            </mat-toolbar-row>
+            </div>
         }
-        @if (navService.anchorRow.elements.length) {
-            <mat-toolbar-row class="anchor-row">
+    }
+    @if (navService.anchorRow.elements.length) {
+        <div class="anchor-row">
+            <div class="anchor-row-content">
                 @for (element of navService.anchorRow.elements; track $index) {
-                    <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
+                    <ngx-mat-navigation-element [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                 }
-            </mat-toolbar-row>
-        }
-    </mat-toolbar>
-}
-@else {
-    <mat-toolbar #navbar id="toolbar" class="mat-elevation-z8" [style.min-height.px]="minHeight ?? 0">
-        <div class="toolbar-row">
-            <div class="toolbar-col">
-                @for (element of getNavbarElements(navbarRows[0], 'left'); track $index) {
-                    <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
-                }
-            </div>
-            <div class="toolbar-col">
-                @for (element of getNavbarElements(navbarRows[0], 'center'); track $index) {
-                    <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
-                }
-            </div>
-            <div class="toolbar-col">
-                @for (element of getNavbarElements(navbarRows[0], 'right'); track $index) {
-                    <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element"></ngx-mat-navigation-element>
-                }
-                <ngx-mat-navigation-element [class]="getBurgerMenuClass()" [element]="burgerMenu"></ngx-mat-navigation-element>
             </div>
         </div>
-    </mat-toolbar>
-}
+    }
+</nav>
 
-<mat-sidenav-container [style.min-height]="sanitizedMinHeight">
-    <mat-sidenav #sidenav position="end" [style.min-width]="minSidenavWidth" [autoFocus]="false">
+<div #content class="content" [style.min-height]="sanitizedContentMinHeight">
+    <ng-content></ng-content>
+</div>
+
+@if (this.navbar && this.content) {
+    <div class="sidenav"
+        [class.open]="sidenavOpened"
+        [style.min-width]="sidenavOpened ? minSidenavWidth : undefined"
+        [style.width.px]="sidenavOpened ? undefined : 0"
+        [style.top.px]="this.navbar.nativeElement.offsetHeight"
+        [style.height.px]="this.content.nativeElement.offsetHeight"
+    >
         @for (element of sidenavElements; track $index) {
             <div class="sidenav-row">
-                <ngx-mat-navigation-element [class]="getElementClass(element)" [sidenav]="sidenav" [isSidenavElement]="true" [element]="element" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
+                <ngx-mat-navigation-element
+                    [class]="getElementClass(element)"
+                    [isSidenavElement]="true"
+                    [element]="element"
+                    [(sidenavOpened)]="sidenavOpened"
+                    (click)="clickSidenavElement(element)"
+                >
+                </ngx-mat-navigation-element>
             </div>
         }
-    </mat-sidenav>
-    <mat-sidenav-content>
-        <ng-content></ng-content>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+    </div>
+    @if (sidenavOpened) {
+        <div class="sidenav-backdrop"
+            [class.open]="sidenavOpened"
+            [style.top.px]="this.navbar.nativeElement.offsetHeight"
+            [style.height.px]="this.content.nativeElement.offsetHeight"
+            (click)="sidenavOpened = false"
+        >
+        </div>
+    }
+}

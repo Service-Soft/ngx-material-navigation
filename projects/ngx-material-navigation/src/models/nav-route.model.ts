@@ -29,7 +29,24 @@ export interface DefaultNavRouteDataType extends Data {
     /**
      * Any anchors that might be on this specific route.
      */
-    anchors?: NavAnchor[]
+    anchors?: NavAnchor[],
+    /**
+     * Configuration for the breadcrumb.
+     */
+    breadcrumbConfig?: {
+        /**
+         * The name of the breadcrumb.
+         */
+        name?: string,
+        /**
+         * An optional icon used in the breadcrumb.
+         */
+        icon?: IconDefinition,
+        /**
+         * An optional aria label used in the breadcrumb.
+         */
+        ariaLabel?: string
+    }
 }
 
 /**

@@ -1,4 +1,4 @@
-<a class="title-link" disableRipple
+<a class="title-link"
     [href]="elementValue.link.url"
     [target]="elementValue.link.openInNewTab ? '_blank' : '_self'"
     [rel]="elementValue.link.openInNewTab ? 'noreferrer noopener' : undefined"
@@ -6,10 +6,10 @@
     [class.menuItem]="isMenuItem"
     [attr.aria-label]="elementValue.ariaLabel"
 >
-    <h1>
+    <b>
         @if (elementValue.icon) {
             <fa-icon [icon]="elementValue.icon"></fa-icon>
         }
         {{elementValue.title}}
-    </h1>
+    </b>
 </a>

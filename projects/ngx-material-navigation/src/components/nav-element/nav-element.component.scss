@@ -1,9 +1,45 @@
-nav-image-with-internal-link, nav-image-with-external-link {
-    display: inline-flex;
+button {
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px 0px;
+    border-radius: 5px;
+    background-color: white;
+    transition: all 200ms;
+    color: black;
+    font-weight: bold;
+}
+button:hover {
+    color: gray;
+}
+
+fa-icon {
+    transition: transform 200ms;
+    display: inline-block;
+}
+.open {
+    transform: rotate(180deg);
+}
+
+.menu {
+    padding: 16px;
+    box-sizing: border-box;
+    background-color: white;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: #00000033 0px 3px 1px -2px, rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 1px 5px 0px;
+    border-radius: 5px;
+
+    position: relative;
+}
+
+.subMenu {
+    margin: 16px;
 }
 
 .sidenavElement {
-    display: inline-block;
     width: 100%;
     text-align: left;
 }
@@ -13,21 +49,4 @@ nav-image-with-internal-link, nav-image-with-external-link {
     align-items: center;
     justify-content: flex-start;
     width: 100%;
-    min-height: 48px;
-}
-
-.customMenuItem {
-    padding-left: 12px;
-    padding-right: 12px;
-    width: calc(100% - 24px);
-}
-
-::ng-deep {
-    .mat-mdc-menu-content.mdc-list {
-        padding: 8px;
-    }
-
-    .mat-mdc-menu-panel.mat-mdc-menu-panel.mdc-menu-surface {
-        max-width: none;
-    }
 }

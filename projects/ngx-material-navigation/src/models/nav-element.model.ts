@@ -68,8 +68,8 @@ export abstract class BaseNavElement {
 /**
  * One of the many NavElements.
  */
-export type NavElement<RouteType extends Route = NavRoute> =
-    NavTitle | NavTitleWithInternalLink<RouteType> | NavTitleWithExternalLink
+export type NavElement<RouteType extends Route = NavRoute> = NavTitle
+    | NavTitleWithInternalLink<RouteType> | NavTitleWithExternalLink
     | NavImage | NavImageWithExternalLink | NavImageWithInternalLink<RouteType>
     // eslint-disable-next-line typescript/no-explicit-any
     | NavButton | NavInternalLink<RouteType> | NavExternalLink | NavMenu | NavCustom<any> | NavText;

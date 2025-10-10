@@ -7,7 +7,6 @@ Supports nested menus and brings functionality which allow you to extract angula
 # Table of Contents
 - [NgxMaterialNavigation](#ngxmaterialnavigation)
 - [Table of Contents](#table-of-contents)
-- [Requirements](#requirements)
 - [Basic Usage](#basic-usage)
   - [Define your configuration](#define-your-configuration)
   - [Extract the angular routes](#extract-the-angular-routes)
@@ -19,8 +18,6 @@ Supports nested menus and brings functionality which allow you to extract angula
   - [Use it in your routes](#use-it-in-your-routes)
 - [NavRoute](#navroute)
 - [NgxMatNavigationNotFoundComponent](#ngxmatnavigationnotfoundcomponent)
-# Requirements
-This package relies on the [angular material library](https://material.angular.io/guide/getting-started) to render its components.
 
 # Basic Usage
 ## Define your configuration

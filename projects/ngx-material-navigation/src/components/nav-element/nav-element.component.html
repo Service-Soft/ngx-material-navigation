@@ -1,3 +1,4 @@
+<!-- eslint-disable angular/cyclomatic-complexity -->
 @switch (element.type) {
     <!-------------------------------------------->
     <!------------------Titles-------------------->
@@ -36,7 +37,7 @@
     <!--------------------Link-------------------->
     <!-------------------------------------------->
     @case (NavElementTypes.INTERNAL_LINK) {
-        <nav-internal-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-internal-link>
+        <nav-internal-link [element]="element" [isBreadcrumb]="false" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-internal-link>
     }
     @case (NavElementTypes.EXTERNAL_LINK) {
         <nav-external-link [element]="element" [isSidenavElement]="internalIsSidenavElement" [isMenuItem]="internalIsMenuItem"></nav-external-link>
@@ -45,7 +46,7 @@
     <!-------------------CUSTOM------------------->
     <!-------------------------------------------->
     @case (NavElementTypes.CUSTOM) {
-        <div [class.menuItem]="internalIsMenuItem" [class.customMenuItem]="internalIsMenuItem">
+        <div [class.menuItem]="internalIsMenuItem">
             <nav-custom
                 [element]="element" 
                 [isSidenavElement]="internalIsSidenavElement"
@@ -64,43 +65,37 @@
     <!--------------------Menu-------------------->
     <!-------------------------------------------->
     @case (NavElementTypes.MENU) {
-        @if (internalIsMenuItem) {
-            <button #menuButton
-                type="button"
-                mat-menu-item
-                style="padding-left: 12px; padding-right: 12px;"
-                [matMenuTriggerFor]="menu"
-                [class.sidenavElement]="isSidenavElement"
-                [attr.aria-label]="element.ariaLabel"
-            >
-                @if (elementMenu.icon) {
-                    <fa-icon [icon]="elementMenu.icon"></fa-icon>
+        <button
+            #menuButton="cdkMenuTriggerFor"
+            #menuButtonElement
+            type="button"
+            disableHover
+            [cdkMenuTriggerFor]="menu"
+            [class.sidenavElement]="internalIsSidenavElement"
+            [class.menuItem]="internalIsMenuItem"
+            [attr.aria-label]="element.ariaLabel"
+        >
+            {{elementMenu.name}}
+            @if (elementMenu.iconState !== 'empty') {
+                <!-- eslint-disable-next-line angular/no-call-expression -->
+                <fa-icon [icon]="elementMenu.iconState" [class.open]="menuButton.isOpen()"></fa-icon>
+            }
+        </button>
+
+        <ng-template #menu>
+            <div class="menu" cdkMenu [class.subMenu]="internalIsMenuItem" [style.min-width.px]="menuWidth">
+                @for (menuElement of elementMenu.elements; track $index) {
+                    <ngx-mat-navigation-element
+                        [isSidenavElement]="internalIsSidenavElement"
+                        [isMenuItem]="true"
+                        [element]="menuElement"
+                        [parentMenusButtons]="internalParentMenusButtons"
+                        [(sidenavOpened)]="sidenavOpened"
+                        (click)="clickSidenavElement(menuElement); clickMenuItem(menuElement);"
+                    >
+                    </ngx-mat-navigation-element>
                 }
-                {{elementMenu.name}}
-            </button>
-        }
-        @else {
-            <button #menuButton
-                type="button"
-                mat-button
-                [matMenuTriggerFor]="menu"
-                [class.sidenavElement]="isSidenavElement"
-                [attr.aria-label]="element.ariaLabel"
-            >
-                @if (elementMenu.icon) {
-                    <fa-icon [icon]="elementMenu.icon"></fa-icon>
-                }
-                {{elementMenu.name}}
-            </button>
-        }
+            </div>
+        </ng-template>
     }
 }
-
-<mat-menu #menu="matMenu" [overlapTrigger]="false" [style.min-width.px]="menuWidth">
-    @for (menuElement of elementMenu.elements; track $index) {
-        <div>
-            <ngx-mat-navigation-element [isSidenavElement]="internalIsSidenavElement" [sidenav]="sidenav" [isMenuItem]="true" [element]="menuElement" (click)="clickSidenavElement(menuElement)">
-            </ngx-mat-navigation-element>
-        </div>
-    }
-</mat-menu>

@@ -1,0 +1,15 @@
+<nav id="breadcrumbs">
+    @for (bc of navService.breadcrumbs; track $index) {
+        <nav-internal-link 
+            [class.first]="$first"
+            [isBreadcrumb]="true"
+            [isSidenavElement]="false"
+            [isMenuItem]="false"
+            [element]="{ type: NavElementTypes.INTERNAL_LINK, route: bc.route, name: bc.name, icon: bc.icon, ariaLabel: bc.ariaLabel }"
+        >
+        </nav-internal-link>
+        @if (!$last) {
+            <fa-icon [icon]="separator"></fa-icon>
+        }
+    }
+</nav>

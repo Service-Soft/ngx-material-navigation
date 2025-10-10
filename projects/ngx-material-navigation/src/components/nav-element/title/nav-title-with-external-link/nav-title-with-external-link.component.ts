@@ -10,7 +10,7 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     // eslint-disable-next-line angular/component-selector
     selector: 'nav-title-with-external-link',
     templateUrl: './nav-title-with-external-link.component.html',
-    styleUrls: ['./nav-title-with-external-link.component.scss', '../base-nav-title.scss'],
+    styleUrls: ['../base-nav-title.scss'],
     standalone: true,
     imports: [CommonModule, FaIconComponent]
 })
