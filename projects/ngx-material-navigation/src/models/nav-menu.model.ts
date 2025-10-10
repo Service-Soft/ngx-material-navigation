@@ -12,12 +12,12 @@ import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from './
  * One of the NavElements for the menu.
  * As these are always stacked the 'collapse' value is omitted.
  */
-export type NavMenuElement =
-    Omit<NavTitle, 'collapse'> | Omit<NavTitleWithInternalLink, 'collapse'> | Omit<NavTitleWithExternalLink, 'collapse'> |
-    Omit<NavImage, 'collapse'> | Omit<NavImageWithExternalLink, 'collapse'> | Omit<NavImageWithInternalLink, 'collapse'> |
-    Omit<NavButton, 'collapse'> | Omit<NavInternalLink, 'collapse'> | Omit<NavExternalLink, 'collapse'> | Omit<NavMenu, 'collapse'> |
+export type NavMenuElement = Omit<NavTitle, 'collapse'>
+    | Omit<NavTitleWithInternalLink, 'collapse'> | Omit<NavTitleWithExternalLink, 'collapse'>
+    | Omit<NavImage, 'collapse'> | Omit<NavImageWithExternalLink, 'collapse'> | Omit<NavImageWithInternalLink, 'collapse'>
+    | Omit<NavButton, 'collapse'> | Omit<NavInternalLink, 'collapse'> | Omit<NavExternalLink, 'collapse'> | Omit<NavMenu, 'collapse'>
     // eslint-disable-next-line typescript/no-explicit-any
-    Omit<NavCustom<any>, 'collapse'> | Omit<NavText, 'collapse'>;
+    | Omit<NavCustom<any>, 'collapse'> | Omit<NavText, 'collapse'>;
 
 /**
  * An Menu used to display multiple elements under a single element.
@@ -34,7 +34,7 @@ export interface NavMenu extends BaseNavElement {
      */
     elements: NavMenuElement[],
     /**
-     * An icon to display left of the menu.
+     * An icon to display the state of the menu, whether it is currently opened or closed.
      */
-    icon?: IconDefinition
+    iconState?: IconDefinition | 'empty'
 }

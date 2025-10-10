@@ -15,7 +15,6 @@ import { NavTitle, NavTitleWithExternalLink, NavTitleWithInternalLink } from '..
  *
  * It already provides the elementValue: Just the typed version of the element.
  */
-// eslint-disable-next-line angular/prefer-standalone
 @Component({
     selector: 'ngx-mat-navigation-base-nav-element',
     template: ''
@@ -24,19 +23,19 @@ export abstract class NgxMatNavigationBaseNavElementComponent<Type extends NavEl
     /**
      * The input nav element to display.
      */
-    @Input()
+    @Input({ required: true })
     element!: NavElement;
 
     /**
      * Whether or not the element is inside a sidenav.
      */
-    @Input()
+    @Input({ required: true })
     isSidenavElement!: boolean;
 
     /**
      * Whether or not the element is inside a menu.
      */
-    @Input()
+    @Input({ required: true })
     isMenuItem!: boolean;
 
     // eslint-disable-next-line jsdoc/require-returns
@@ -51,8 +50,8 @@ export abstract class NgxMatNavigationBaseNavElementComponent<Type extends NavEl
 /**
  * Gives the metadata-config Type based on the DecoratorTypes enum.
  */
-export type NavElementType<T> =
-    T extends NavElementTypes.TITLE ? NavTitle
+export type NavElementType<T>
+    = T extends NavElementTypes.TITLE ? NavTitle
     : T extends NavElementTypes.TITLE_WITH_INTERNAL_LINK ? NavTitleWithInternalLink
     : T extends NavElementTypes.TITLE_WITH_EXTERNAL_LINK ? NavTitleWithExternalLink
     : T extends NavElementTypes.IMAGE ? NavImage

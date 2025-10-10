@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, EnvironmentInjector, Input, runInInjectionContext } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { FooterRow, NavFooterElement } from '../../models/footer.model';
 import { NavElement, NavElementPosition } from '../../models/nav-element.model';
@@ -16,7 +15,6 @@ import { NavElementComponent } from '../nav-element/nav-element.component';
     standalone: true,
     imports: [
         CommonModule,
-        MatToolbarModule,
         NavElementComponent
     ]
 })
@@ -25,13 +23,13 @@ export class NgxMatNavigationFooterComponent {
     /**
      * The minimum height of the footer.
      */
-    @Input()
+    @Input({ required: true })
     minHeight!: number;
 
     /**
      * The footer rows to build the footer from.
      */
-    @Input()
+    @Input({ required: true })
     footerRows!: FooterRow[];
 
     constructor(private readonly injector: EnvironmentInjector) {}

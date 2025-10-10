@@ -1,7 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
@@ -16,12 +15,14 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     standalone: true,
     imports: [
         CommonModule,
-        MatButtonModule,
         RouterModule,
         FaIconComponent
     ]
 })
 export class NavInternalLinkComponent extends NgxMatNavigationBaseNavElementComponent<NavElementTypes.INTERNAL_LINK> {
+    @Input({ required: true })
+    isBreadcrumb!: boolean;
+
     get route(): string {
         if (typeof this.elementValue.route === 'string') {
             return this.elementValue.route;

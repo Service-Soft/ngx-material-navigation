@@ -9,7 +9,6 @@ import { NgxMatNavigationBaseNavElementComponent } from '../../base-nav-element.
     // eslint-disable-next-line angular/component-selector
     selector: 'nav-custom',
     templateUrl: './nav-custom.component.html',
-    styleUrls: ['./nav-custom.component.scss'],
     standalone: true,
     imports: [CommonModule]
 })

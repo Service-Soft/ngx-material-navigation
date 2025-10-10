@@ -1,7 +1,6 @@
 /* eslint-disable jsdoc/require-jsdoc */
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 import { NavButtonComponent } from '../nav-button/nav-button.component';
@@ -14,7 +13,6 @@ import { NavButtonComponent } from '../nav-button/nav-button.component';
     standalone: true,
     imports: [
         CommonModule,
-        MatButtonModule,
         FaIconComponent
     ]
 })

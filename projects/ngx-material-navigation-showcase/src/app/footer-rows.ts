@@ -8,6 +8,7 @@ export const footerRows: FooterRow[] = [
             {
                 type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 height: 100,
+                width: 100,
                 url: 'https://placehold.co/400x400',
                 link: {
                     route: 'home'
