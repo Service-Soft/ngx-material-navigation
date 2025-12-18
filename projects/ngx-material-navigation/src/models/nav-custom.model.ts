@@ -15,5 +15,15 @@ export interface NavCustom<ComponentType extends NgxMatNavigationBaseNavElementC
     /**
      * The custom component.
      */
-    component: Type<ComponentType>
+    component: Type<ComponentType>,
+
+    /**
+     * Whether or not the sidenav should be closed on click.
+     */
+    closeSidenavOnClick?: boolean,
+
+    /**
+     * Whether or not the menu should be closed on click.
+     */
+    closeMenuOnClick?: boolean
 }

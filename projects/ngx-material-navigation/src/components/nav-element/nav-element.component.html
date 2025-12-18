@@ -46,7 +46,7 @@
     <!-------------------CUSTOM------------------->
     <!-------------------------------------------->
     @case (NavElementTypes.CUSTOM) {
-        <div [class.menuItem]="internalIsMenuItem">
+        <div [class.menuItem]="internalIsMenuItem" (click)="clickSidenavElement(element); clickMenuItem(element);">
             <nav-custom
                 [element]="element" 
                 [isSidenavElement]="internalIsSidenavElement"
