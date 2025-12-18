@@ -19,6 +19,9 @@
         "lint": "eslint projects --max-warnings 0",
         "lint:fix": "eslint projects --fix"
     },
+    "repository": {
+        "url": "https://github.com/Service-Soft/ngx-material-navigation"
+    },
     "private": true,
     "dependencies": {
         "@angular/animations": "20",
