@@ -3,30 +3,28 @@ name: Deploy
 on:
     pull_request:
         types: [closed]
-        branches:
-            - release
+        branches: [release]
+
+permissions:
+    id-token: write  # Required for OIDC
+    contents: read
 
 jobs:
-    build:
+    deploy:
         if: github.event.pull_request.merged
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
               with:
-                  # The branch, tag or SHA to checkout. When checking out the repository that
-                  # triggered a workflow, this defaults to the reference or SHA for that event.
-                  # Otherwise, defaults to `master`.
-                  ref: "dev"
-            - name: npm install
-              run: |
-                  cd $GITHUB_WORKSPACE
-                  npm i
-            - name: build package
-              run: |
-                  cd $GITHUB_WORKSPACE
-                  npm run build:prod
-            - name: publish to npm
-              uses: JS-DevTools/npm-publish@v1
+                  ref: release
+            - uses: actions/setup-node@v4
               with:
-                  token: ${{ secrets.NPM_TOKEN }}
-                  package: ./dist/ngx-material-navigation/package.json
+                node-version: '20'
+                registry-url: 'https://registry.npmjs.org'
+            # Ensure npm 11.5.1 or later is installed
+            - run: npm install -g npm@latest
+            - run: npm i
+            - run: npm run build:prod
+            - run: |
+                cd dist/ngx-material-navigation
+                npm publish
