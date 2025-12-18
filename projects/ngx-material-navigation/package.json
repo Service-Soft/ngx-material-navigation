@@ -2,6 +2,9 @@
     "name": "ngx-material-navigation",
     "version": "20.1.2",
     "license": "MIT",
+    "repository": {
+        "url": "https://github.com/Service-Soft/ngx-material-navigation"
+    },
     "keywords": [
         "angular",
         "material",
