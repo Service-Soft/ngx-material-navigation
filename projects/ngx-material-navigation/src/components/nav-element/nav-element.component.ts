@@ -138,8 +138,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
             case NavElementTypes.TITLE:
             case NavElementTypes.IMAGE:
             case NavElementTypes.MENU:
-            case NavElementTypes.TEXT:
-            case NavElementTypes.CUSTOM: {
+            case NavElementTypes.TEXT: {
                 return;
             }
             case NavElementTypes.TITLE_WITH_INTERNAL_LINK:
@@ -150,6 +149,14 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
             case NavElementTypes.BUTTON:
             case NavElementTypes.BUTTON_FLAT:
             case NavElementTypes.EXTERNAL_LINK: {
+                this.sidenavOpened?.set(false);
+                return;
+            }
+            case NavElementTypes.CUSTOM: {
+                const closeSidenavOnClick: boolean = element.closeSidenavOnClick ?? false;
+                if (!closeSidenavOnClick) {
+                    return;
+                }
                 this.sidenavOpened?.set(false);
             }
         }
@@ -164,8 +171,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
             case NavElementTypes.TITLE:
             case NavElementTypes.IMAGE:
             case NavElementTypes.MENU:
-            case NavElementTypes.TEXT:
-            case NavElementTypes.CUSTOM: {
+            case NavElementTypes.TEXT: {
                 return;
             }
             case NavElementTypes.TITLE_WITH_INTERNAL_LINK:
@@ -176,6 +182,17 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
             case NavElementTypes.BUTTON:
             case NavElementTypes.BUTTON_FLAT:
             case NavElementTypes.EXTERNAL_LINK: {
+                this.menuButton?.close();
+                for (const button of this.parentMenusButtons.reverse()) {
+                    button.close();
+                }
+                return;
+            }
+            case NavElementTypes.CUSTOM: {
+                const closeMenuOnClick: boolean = item.closeMenuOnClick ?? false;
+                if (!closeMenuOnClick) {
+                    return;
+                }
                 this.menuButton?.close();
                 for (const button of this.parentMenusButtons.reverse()) {
                     button.close();
