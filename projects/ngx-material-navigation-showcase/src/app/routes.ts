@@ -119,7 +119,9 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                     },
                     {
                         type: NavElementTypes.CUSTOM,
-                        component: CustomComponent
+                        component: CustomComponent,
+                        closeSidenavOnClick: true,
+                        closeMenuOnClick: true
                     },
                     {
                         type: NavElementTypes.MENU,
@@ -155,7 +157,8 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
             {
                 type: NavElementTypes.CUSTOM,
                 component: CustomComponent,
-                collapse: 'md'
+                collapse: 'md',
+                closeSidenavOnClick: true
             }
         ]
     }
