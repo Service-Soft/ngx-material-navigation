@@ -128,7 +128,6 @@ export class NgxMatNavigationService {
             }
 
             const route: ActivatedRoute = inject(ActivatedRoute);
-            console.debug('snapshot', snapshot, 'route.snapshot', route.snapshot);
             return navData.breadcrumbConfig.name(snapshot ?? route.snapshot, this.router.routerState.snapshot);
         });
         if (res) {
