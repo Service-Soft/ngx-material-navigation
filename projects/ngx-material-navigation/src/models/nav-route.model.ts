@@ -1,4 +1,4 @@
-import { Data, ResolveFn, Route } from '@angular/router';
+import { ActivatedRouteSnapshot, Data, ResolveFn, Route, RouterStateSnapshot } from '@angular/router';
 import { IconDefinition } from '@fortawesome/angular-fontawesome';
 
 import { PageNotFoundConfig } from './page-not-found-config.model';
@@ -37,7 +37,7 @@ export interface DefaultNavRouteDataType extends Data {
         /**
          * The name of the breadcrumb.
          */
-        name?: string,
+        name?: string | ((snapshot: ActivatedRouteSnapshot, stateSnapshot: RouterStateSnapshot) => string),
         /**
          * An optional icon used in the breadcrumb.
          */
@@ -45,7 +45,11 @@ export interface DefaultNavRouteDataType extends Data {
         /**
          * An optional aria label used in the breadcrumb.
          */
-        ariaLabel?: string
+        ariaLabel?: string,
+        /**
+         * The route of the parent of this route.
+         */
+        parentRoute?: string
     }
 }
 

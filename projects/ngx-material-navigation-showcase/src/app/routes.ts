@@ -143,6 +143,15 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 position: 'center'
             },
             {
+                type: NavElementTypes.INTERNAL_LINK,
+                name: 'Blog',
+                route: {
+                    title: 'Blog',
+                    path: 'blog',
+                    loadComponent: () => import('./components/blog/blog.component').then(m => m.BlogComponent)
+                }
+            },
+            {
                 type: NavElementTypes.BUTTON,
                 name: 'Reload Page',
                 icon: faRotateRight,
@@ -176,7 +185,20 @@ const extraRoute: NavRoute = {
     }
 };
 // Extract the angular routes from the given configuration. This can be used in the app.routing.module.ts
-export const routes: NavRoute[] = NavUtilities.getAngularRoutes(navbarRows, footerRows, [extraRoute]);
+export const routes: NavRoute[] = NavUtilities.getAngularRoutes(navbarRows, footerRows, [
+    {
+        title: (snapshot) => `Blog Post ${snapshot.params['id']}`,
+        path: 'blog/:id',
+        loadComponent: () => import('./components/blog-post/blog-post.component').then(m => m.BlogPostComponent),
+        data: {
+            breadcrumbConfig: {
+                name: (snapshot) => `Blog Post ${snapshot.params['id']}`,
+                parentRoute: 'blog'
+            }
+        }
+    },
+    extraRoute
+]);
 
 function conditionWithInjection(): boolean {
     const router: Router = inject(Router);
