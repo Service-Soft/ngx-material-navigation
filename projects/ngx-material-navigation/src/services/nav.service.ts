@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Route, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 import { Breadcrumb } from '../models/breadcrumb.model';
@@ -54,7 +54,7 @@ export class NgxMatNavigationService {
         return this.breadcrumbsSubject.value;
     }
 
-    constructor(private readonly router: Router) {
+    constructor(private readonly router: Router, private readonly injector: EnvironmentInjector) {
         this.router.events.subscribe(e => {
             if (e instanceof NavigationEnd) {
                 this.updateAnchors();
@@ -80,26 +80,74 @@ export class NgxMatNavigationService {
         }
 
         const breadcrumbs: Breadcrumb[] = [];
-        for (const r of route.snapshot.pathFromRoot) {
-            const data: DefaultNavRouteDataType = r.data;
-            breadcrumbs.push({
-                name: data.breadcrumbConfig?.name ?? r.title ?? 'Start',
-                route: r.url.map(segment => segment.path).join('/'),
-                icon: data.breadcrumbConfig?.icon,
-                ariaLabel: data.breadcrumbConfig?.ariaLabel
-            });
+        for (const snapshot of route.snapshot.pathFromRoot) {
+            const data: DefaultNavRouteDataType = snapshot.data;
             if (data.pageNotFoundConfig) {
                 this.breadcrumbsSubject.next([]);
                 return;
             }
-        }
 
-        const [first, second] = [...breadcrumbs];
-        if (breadcrumbs.length === 2 && first.route === '' && second.route === '') {
-            this.breadcrumbsSubject.next([]);
-            return;
+            breadcrumbs.push({
+                name: this.resolveBreadcrumbName(data, undefined, snapshot),
+                route: snapshot.url.map(segment => segment.path).join('/'),
+                icon: data.breadcrumbConfig?.icon,
+                ariaLabel: data.breadcrumbConfig?.ariaLabel
+            });
+
+            if (data.breadcrumbConfig?.parentRoute && !breadcrumbs.find(b => b.route === data.breadcrumbConfig?.parentRoute)) {
+                const parentRoute: Route | undefined = this.router.config.find(r => r.path === data.breadcrumbConfig?.parentRoute);
+
+                if (!parentRoute) {
+                    throw new Error('parent route could not be resolved');
+                }
+
+                const parentData: DefaultNavRouteDataType | undefined = parentRoute.data;
+                breadcrumbs.splice(breadcrumbs.length - 1, 0, {
+                    name: this.resolveBreadcrumbName(parentData, parentRoute, undefined),
+                    route: data.breadcrumbConfig?.parentRoute,
+                    icon: parentData?.breadcrumbConfig?.icon,
+                    ariaLabel: parentData?.breadcrumbConfig?.ariaLabel
+                });
+            }
         }
 
         this.breadcrumbsSubject.next(breadcrumbs);
+    }
+
+    private resolveBreadcrumbName(
+        navData: DefaultNavRouteDataType | undefined,
+        route: Route | undefined,
+        snapshot: ActivatedRouteSnapshot | undefined
+    ): string {
+        const res: string | undefined = runInInjectionContext(this.injector, () => {
+            if (navData?.breadcrumbConfig?.name == undefined) {
+                return undefined;
+            }
+            if (typeof navData.breadcrumbConfig.name === 'string') {
+                return navData.breadcrumbConfig.name;
+            }
+
+            const route: ActivatedRoute = inject(ActivatedRoute);
+            console.debug('snapshot', snapshot, 'route.snapshot', route.snapshot);
+            return navData.breadcrumbConfig.name(snapshot ?? route.snapshot, this.router.routerState.snapshot);
+        });
+        if (res) {
+            return res;
+        }
+
+        if (snapshot) {
+            return snapshot.title ?? 'Start';
+        }
+
+        if (route) {
+            if (route.title == undefined) {
+                return 'Start';
+            }
+            if (typeof route.title === 'string') {
+                return route.title;
+            }
+        }
+
+        return 'Start';
     }
 }
