@@ -197,11 +197,6 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc
-    getElementClass(element: NavElement): string {
-        return `collapse-${element.collapse ?? 'sm'}`;
-    }
-
-    // eslint-disable-next-line jsdoc/require-jsdoc
     getBurgerMenuClass(): string {
         if (this.sidenavElements.find(e => e.collapse === 'always')) {
             return 'burger-always';
