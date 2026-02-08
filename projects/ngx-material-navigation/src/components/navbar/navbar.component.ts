@@ -103,7 +103,11 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
         const res: NavElement[] = [];
         // anchorRow is excluded from sidenav
         for (const row of this.navbarRows) {
-            res.push(...row.elements.filter(e => this.checkCondition(e) && !this.checkVisible(e)));
+            res.push(
+                ...row.elements
+                    .filter(e => this.checkCondition(e) && !this.checkVisible(e))
+                    .map(e => ({ ...e, id: `sidenav-${e.id}` }))
+            );
         }
         return res;
     }
