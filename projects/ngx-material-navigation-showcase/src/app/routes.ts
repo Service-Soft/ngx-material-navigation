@@ -11,6 +11,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
     {
         elements: [
             {
+                id: 'nav-logo',
                 type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 url: 'https://placehold.co/400x400',
                 height: 50,
@@ -22,6 +23,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 condition: conditionWithInjection
             },
             {
+                id: 'nav-logo-2',
                 type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 url: 'https://placehold.co/400x400',
                 height: 50,
@@ -31,6 +33,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 }
             },
             {
+                id: 'nav-title-with-link',
                 type: NavElementTypes.TITLE_WITH_INTERNAL_LINK,
                 title: 'Showcase Project',
                 link: {
@@ -39,10 +42,12 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'sm'
             },
             {
+                id: 'nav-title',
                 type: NavElementTypes.TITLE,
                 title: 'Title'
             },
             {
+                id: 'nav-home-link',
                 type: NavElementTypes.INTERNAL_LINK,
                 name: 'Home',
                 icon: faHome,
@@ -54,6 +59,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'md'
             },
             {
+                id: 'nav-scrolling-link',
                 type: NavElementTypes.INTERNAL_LINK,
                 name: 'Scrolling',
                 route: {
@@ -81,10 +87,12 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 collapse: 'md'
             },
             {
+                id: 'nav-menu',
                 type: NavElementTypes.MENU,
                 name: 'Menu',
                 elements: [
                     {
+                        id: 'nav-menu-home-link',
                         type: NavElementTypes.INTERNAL_LINK,
                         name: 'Home',
                         icon: faHome,
@@ -95,6 +103,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                         }
                     },
                     {
+                        id: 'nav-menu-logo',
                         type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                         url: 'https://placehold.co/400x400',
                         height: 50,
@@ -104,6 +113,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                         }
                     },
                     {
+                        id: 'nav-menu-title-link',
                         type: NavElementTypes.TITLE_WITH_INTERNAL_LINK,
                         title: 'Showcase Project',
                         link: {
@@ -111,6 +121,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                         }
                     },
                     {
+                        id: 'nav-menu-reload-page-button',
                         type: NavElementTypes.BUTTON,
                         name: 'Reload Page',
                         icon: faRotateRight,
@@ -118,20 +129,24 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                         position: 'right'
                     },
                     {
+                        id: 'nav-menu-custom',
                         type: NavElementTypes.CUSTOM,
                         component: CustomComponent,
                         closeSidenavOnClick: true,
                         closeMenuOnClick: true
                     },
                     {
+                        id: 'nav-menu-sub-menu-1',
                         type: NavElementTypes.MENU,
                         name: 'Sub Menu #1',
                         elements: [
                             {
+                                id: 'nav-menu-sub-menu-1-custom',
                                 type: NavElementTypes.CUSTOM,
                                 component: CustomComponent
                             },
                             {
+                                id: 'nav-menu-sub-menu-1-internal-link',
                                 type: NavElementTypes.INTERNAL_LINK,
                                 name: 'Link',
                                 route: 'home'
@@ -143,6 +158,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 position: 'center'
             },
             {
+                id: 'nav-blog-link',
                 type: NavElementTypes.INTERNAL_LINK,
                 name: 'Blog',
                 route: {
@@ -152,6 +168,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
                 }
             },
             {
+                id: 'nav-reload-page-button',
                 type: NavElementTypes.BUTTON,
                 name: 'Reload Page',
                 icon: faRotateRight,
@@ -164,6 +181,7 @@ export const navbarRows: NavbarRow<NavRoute>[] = [
     {
         elements: [
             {
+                id: 'nav-row-2-custom',
                 type: NavElementTypes.CUSTOM,
                 component: CustomComponent,
                 collapse: 'md',

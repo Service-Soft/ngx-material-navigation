@@ -44,6 +44,10 @@ export enum NavElementTypes {
  */
 export abstract class BaseNavElement {
     /**
+     * The id of the element.
+     */
+    id!: string;
+    /**
      * The type of the element.
      */
     type!: NavElementTypes;
