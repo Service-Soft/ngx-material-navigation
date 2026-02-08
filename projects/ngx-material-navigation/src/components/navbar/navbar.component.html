@@ -6,17 +6,53 @@
             <div class="toolbar-row">
                 <div class="toolbar-col">
                     @for (element of getNavbarElements(row, 'left'); track element.id) {
-                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
+                        <ngx-mat-navigation-element
+                            [ngClass]="{
+                                'collapse-sm': element.collapse === 'sm' || element.collapse === undefined,
+                                'collapse-md': element.collapse === 'md',
+                                'collapse-lg': element.collapse === 'lg',
+                                'collapse-always': element.collapse === 'always',
+                                'collapse-never': element.collapse === 'never',
+                            }"
+                            [element]="element" 
+                            [(sidenavOpened)]="sidenavOpened" 
+                            (click)="clickSidenavElement(element)"
+                        >
+                        </ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
                     @for (element of getNavbarElements(row, 'center'); track element.id) {
-                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
+                        <ngx-mat-navigation-element 
+                            [ngClass]="{
+                                'collapse-sm': element.collapse === 'sm' || element.collapse === undefined,
+                                'collapse-md': element.collapse === 'md',
+                                'collapse-lg': element.collapse === 'lg',
+                                'collapse-always': element.collapse === 'always',
+                                'collapse-never': element.collapse === 'never',
+                            }"
+                            [element]="element" 
+                            [(sidenavOpened)]="sidenavOpened"
+                            (click)="clickSidenavElement(element)"
+                        >
+                        </ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
                     @for (element of getNavbarElements(row, 'right'); track element.id) {
-                        <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
+                        <ngx-mat-navigation-element
+                            [ngClass]="{
+                                'collapse-sm': element.collapse === 'sm' || element.collapse === undefined,
+                                'collapse-md': element.collapse === 'md',
+                                'collapse-lg': element.collapse === 'lg',
+                                'collapse-always': element.collapse === 'always',
+                                'collapse-never': element.collapse === 'never',
+                            }"
+                            [element]="element" 
+                            [(sidenavOpened)]="sidenavOpened" 
+                            (click)="clickSidenavElement(element)"
+                        >
+                        </ngx-mat-navigation-element>
                     }
                     @if ($index === 0) {
                         <ngx-mat-navigation-element [class]="getBurgerMenuClass()" [element]="burgerMenu"></ngx-mat-navigation-element>
@@ -51,7 +87,13 @@
         @for (element of sidenavElements; track element.id) {
             <div class="sidenav-row">
                 <ngx-mat-navigation-element
-                    [class]="getElementClass(element)"
+                    [ngClass]="{
+                        'collapse-sm': element.collapse === 'sm' || element.collapse === undefined,
+                        'collapse-md': element.collapse === 'md',
+                        'collapse-lg': element.collapse === 'lg',
+                        'collapse-always': element.collapse === 'always',
+                        'collapse-never': element.collapse === 'never',
+                    }"
                     [isSidenavElement]="true"
                     [element]="element"
                     [(sidenavOpened)]="sidenavOpened"
