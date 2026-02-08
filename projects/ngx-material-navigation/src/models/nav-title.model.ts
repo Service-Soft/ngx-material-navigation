@@ -38,7 +38,7 @@ export interface NavTitleWithInternalLink<RouteType extends Route = NavRoute> ex
     /**
      * The link object. Contains the route and whether or not it should be opened in a new tab.
      */
-    link: Omit<NavInternalLink<RouteType>, 'name' | 'icon' | 'type' | 'collapse' | 'position'>
+    link: Omit<NavInternalLink<RouteType>, 'name' | 'icon' | 'type' | 'collapse' | 'position' | 'id'>
 }
 
 /**

@@ -35,6 +35,7 @@ export class NgxMatNavigationService {
     get anchorRow(): NavbarRow {
         const elements: NavInternalLink[] = this.anchorsSubject.value.map(a => {
             return {
+                id: a.name,
                 type: NavElementTypes.INTERNAL_LINK,
                 route: this.currentRoute,
                 collapse: 'never',

@@ -71,7 +71,7 @@ ngx-mat-navigation-element {
     flex-direction: column;
     gap: 10px;
     overflow: scroll;
-    z-index: 2;
+    z-index: 20;
     box-sizing: border-box;
 
     transform: translateX(100%);
@@ -90,7 +90,7 @@ ngx-mat-navigation-element {
     left: 0;
     bottom: 0;
     background-color: rgba(0,0,0,0.45);
-    z-index: 1;
+    z-index: 10;
 
     opacity: 0;
     transition: opacity 300ms;

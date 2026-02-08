@@ -119,6 +119,7 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
         private readonly breakpointObserver: BreakpointObserver
     ) {
         this.burgerMenu = {
+            id: 'burger-menu',
             type: NavElementTypes.BUTTON_FLAT,
             name: '',
             icon: burgerMenuIcon,
@@ -242,7 +243,7 @@ export class NgxMatNavigationNavbarComponent implements AfterContentChecked {
      * Updates the current screen width and filters the sidenav elements accordingly.
      * @throws When no height data is provided or the data is invalid.
      */
-    @HostListener('window:resize', ['$event'])
+    @HostListener('window:resize')
     onResize(): void {
         this.updateHeights();
         this.sidenavOpened = false;

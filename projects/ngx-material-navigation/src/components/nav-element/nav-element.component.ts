@@ -122,7 +122,7 @@ export class NavElementComponent implements AfterContentChecked, OnInit {
     /**
      * Updates the width of the menu to the value of its button.
      */
-    @HostListener('window:resize', ['$event'])
+    @HostListener('window:resize')
     onResize(): void {
         if (this.menuButtonElement) {
             this.menuWidth = this.menuButtonElement.nativeElement.offsetWidth;

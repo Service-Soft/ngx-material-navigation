@@ -84,7 +84,7 @@
 
         <ng-template #menu>
             <div class="menu" cdkMenu [class.subMenu]="internalIsMenuItem" [style.min-width.px]="menuWidth">
-                @for (menuElement of elementMenu.elements; track $index) {
+                @for (menuElement of elementMenu.elements; track menuElement.id) {
                     <ngx-mat-navigation-element
                         [isSidenavElement]="internalIsSidenavElement"
                         [isMenuItem]="true"
