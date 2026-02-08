@@ -6,6 +6,7 @@ export const footerRows: FooterRow[] = [
     {
         elements: [
             {
+                id: 'footer-logo',
                 type: NavElementTypes.IMAGE_WITH_INTERNAL_LINK,
                 height: 100,
                 width: 100,
@@ -19,10 +20,12 @@ export const footerRows: FooterRow[] = [
     {
         elements: [
             {
+                id: 'footer-title',
                 type: NavElementTypes.TITLE,
                 title: 'Test Title'
             },
             {
+                id: 'footer-text',
                 type: NavElementTypes.TEXT,
                 paragraphs: [
                     // eslint-disable-next-line stylistic/max-len
@@ -30,11 +33,13 @@ export const footerRows: FooterRow[] = [
                 ]
             },
             {
+                id: 'footer-custom',
                 type: NavElementTypes.CUSTOM,
                 component: CustomComponent,
                 position: 'center'
             },
             {
+                id: 'footer-title-right',
                 type: NavElementTypes.TITLE,
                 title: 'Test Title Right',
                 position: 'right'
@@ -44,6 +49,7 @@ export const footerRows: FooterRow[] = [
     {
         elements: [
             {
+                id: 'footer-copyright',
                 type: NavElementTypes.TITLE,
                 title: 'Copyright',
                 position: 'center'

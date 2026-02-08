@@ -3,17 +3,17 @@
     @for (row of footerRows; track $index) {
         <div class="footer-row">
             <div class="footer-col" id="left">
-                @for (element of getFooterElements(row, 'left'); track $index) {
+                @for (element of getFooterElements(row, 'left'); track element.id) {
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 }
             </div>
             <div class="footer-col" id="center">
-                @for (element of getFooterElements(row, 'center'); track $index) {
+                @for (element of getFooterElements(row, 'center'); track element.id) {
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 }
             </div>
             <div class="footer-col" id="right">
-                @for (element of getFooterElements(row, 'right'); track $index) {
+                @for (element of getFooterElements(row, 'right'); track element.id) {
                     <ngx-mat-navigation-element [element]="element"></ngx-mat-navigation-element>
                 }
             </div>

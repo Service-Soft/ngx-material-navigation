@@ -30,7 +30,7 @@ export class AppComponent implements AfterContentChecked {
         this.onResize();
     }
 
-    @HostListener('window:resize', ['$event'])
+    @HostListener('window:resize')
     onResize(): void {
         if (this.footer) {
             this.footerHeight = this.footer.nativeElement.offsetHeight;

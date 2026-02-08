@@ -5,17 +5,17 @@
         @if (getNavbarElements(row, 'left').length || getNavbarElements(row, 'center').length || getNavbarElements(row, 'right').length || $index === 0) {
             <div class="toolbar-row">
                 <div class="toolbar-col">
-                    @for (element of getNavbarElements(row, 'left'); track $index) {
+                    @for (element of getNavbarElements(row, 'left'); track element.id) {
                         <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
-                    @for (element of getNavbarElements(row, 'center'); track $index) {
+                    @for (element of getNavbarElements(row, 'center'); track element.id) {
                         <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                     }
                 </div>
                 <div class="toolbar-col">
-                    @for (element of getNavbarElements(row, 'right'); track $index) {
+                    @for (element of getNavbarElements(row, 'right'); track element.id) {
                         <ngx-mat-navigation-element [class]="getElementClass(element)" [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                     }
                     @if ($index === 0) {
@@ -28,7 +28,7 @@
     @if (navService.anchorRow.elements.length) {
         <div class="anchor-row">
             <div class="anchor-row-content">
-                @for (element of navService.anchorRow.elements; track $index) {
+                @for (element of navService.anchorRow.elements; track element.id) {
                     <ngx-mat-navigation-element [element]="element" [(sidenavOpened)]="sidenavOpened" (click)="clickSidenavElement(element)"></ngx-mat-navigation-element>
                 }
             </div>
@@ -48,7 +48,7 @@
         [style.top.px]="this.navbar.nativeElement.offsetHeight"
         [style.height.px]="this.content.nativeElement.offsetHeight"
     >
-        @for (element of sidenavElements; track $index) {
+        @for (element of sidenavElements; track element.id) {
             <div class="sidenav-row">
                 <ngx-mat-navigation-element
                     [class]="getElementClass(element)"
